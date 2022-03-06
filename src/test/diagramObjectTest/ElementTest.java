@@ -5,8 +5,6 @@
  */
 package test.diagramObjectTest;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Assert;
 import org.junit.Test;
 

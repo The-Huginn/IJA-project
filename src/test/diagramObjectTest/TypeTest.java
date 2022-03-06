@@ -6,8 +6,6 @@
 package test.diagramObjectTest;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.junit.Assert;
@@ -60,7 +58,7 @@ public class TypeTest {
 
     @Test
     public void dontAddTypeTest() {
-        Type type = new Type("random");
+        new Type("random");
         Assert.assertNull(Type.getType("random"));
     }
 

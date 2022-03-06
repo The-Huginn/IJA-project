@@ -1,6 +1,5 @@
 package test.diagramObjectTest;
 
-import backend.diagramObject.Element;
 import backend.diagramObject.Type;
 import backend.diagramObject.Attribute;
 import backend.diagramObject.Method;
