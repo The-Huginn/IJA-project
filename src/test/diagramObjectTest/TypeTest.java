@@ -40,41 +40,48 @@ public class TypeTest {
     @Test
     public void setTypesTest() {
         TreeSet<String> set = new TreeSet<String> ();
-        set.addAll(Arrays.asList("int", "random", "remove", "boolean", "should not allow"));
+        set.addAll(Arrays.asList("random", "remove", "should not allow"));
         Assert.assertFalse(Type.initTypes(set));
         Assert.assertNull(Type.getType("random"));
     }
 
     @Test
+    public void setTypesTest2() {
+        Type.clearTypes();
+        TreeSet<String> set = new TreeSet<String> ();
+        set.addAll(Arrays.asList("int", "random", "remove", "boolean", "should not allow"));
+        Assert.assertTrue(Type.initTypes(set));
+        Assert.assertNull(Type.getType("random"));
+    }
+
+    @Test
     public void addTypeTest() {
-        Assert.assertNotNull(Type.addType("random"));
+        Assert.assertFalse(Type.addType("random"));
     }
 
     @Test
     public void addTypeTest2() {
-        Type type = Type.addType("random");
-        Assert.assertTrue(type == Type.getType("random"));
-    }
-
-    @Test
-    public void AddTypeTest3() {
-        Type type = Type.addType("random");
+        Type.addType("random");
+        Type type = Type.getType("random");
         Assert.assertFalse(Type.addType("random"));
         Assert.assertTrue(type == Type.getType("random"));
     }
 
     @Test
     public void RemoveTypeTest() {
-        Type type = Type.addType("random");
+        Type.addType("random");
+        Type type = Type.getType("random");
         Assert.assertTrue(Type.removeType("random"));
         Assert.assertNull(Type.getType("random"));
     }
 
     @Test
-    public void AddTypeTest4() {
-        Type type = Type.addType("random");
+    public void AddTypeTest3() {
+        Type.addType("random");
+        Type type = Type.getType("random");
         Type.removeType("random");
-        type = Type.addType("random")
+        Type.addType("random");
+        type = Type.getType("random");
         Assert.assertTrue(type == Type.getType("random"));
     }
 
@@ -93,13 +100,15 @@ public class TypeTest {
 
     @Test
     public void setNameTest() {
+        Type type = Type.getType("int");
         Assert.assertFalse(Type.getType("int").setName("random"));
-        Assert.assertNotNull(Type.getType("int"));
+        Assert.assertTrue(type == Type.getType("int"));
     }
 
     @Test
     public void setNameTest2() {
-        Type type = Type.addType("random");
+        Type.addType("random");
+        Type type = Type.getType("random");
         Assert.assertTrue(type.setName("another random"));
         Assert.assertNull(Type.getType("random"));
         Assert.assertTrue(type == Type.getType("another random"));
@@ -107,7 +116,8 @@ public class TypeTest {
 
     @Test
     public void setNameTest3() {
-        Type type = Type.addType("random");
+        Type.addType("random");
+        Type type = Type.getType("random");
         Type intType = Type.getType("int");
         Assert.assertFalse(type.setName("int"));
         Assert.assertTrue(intType == Type.getType("int"));
