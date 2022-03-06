@@ -1,0 +1,7 @@
+# IntelliJ source folder
+/.idea
+
+# For latex documentation
+*.aux
+*.log
+*.pdf
