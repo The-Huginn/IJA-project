@@ -33,29 +33,29 @@ public class MethodTest {
 
     @Test
     public void getterTest() {
-        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, params);
-        Assert.assertArrayEquals(params, m.getParameters());
+        Method m = new Method("name", null, Type.getType("void"), Attribute.Visibility.PUBLIC, params);
+        Assert.assertArrayEquals(params, m.getParameters().toArray(new Type[m.getParameters().size()]));
     }
 
     @Test
     public void setParametersTest() {
-        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, params);
+        Method m = new Method("name", null, Type.getType("void"), Attribute.Visibility.PUBLIC, params);
         Assert.assertTrue(m.setParameters(params));
     }
 
     @Test
     public void setParametersTest2() {
-        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, params);
+        Method m = new Method("name", null, Type.getType("void"), Attribute.Visibility.PUBLIC, params);
         String newParams[] = {"long", "boolean", "string"};
         Assert.assertTrue(m.setParameters(newParams));
-        Assert.assertArrayEquals(newParams, m.getParameters());
+        Assert.assertArrayEquals(params, m.getParameters().toArray(new Type[m.getParameters().size()]));
     }
 
     @Test
     public void setParametersTest3() {
-        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, params);
+        Method m = new Method("name", null, Type.getType("void"), Attribute.Visibility.PUBLIC, params);
         String wrongParams[] = {"long", "boolean", "string", "random"};
         Assert.assertFalse(m.setParameters(wrongParams));
-        Assert.assertArrayEquals(params, m.getParameters());
+        Assert.assertArrayEquals(params, m.getParameters().toArray(new Type[m.getParameters().size()]));
     }
 }

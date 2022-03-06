@@ -53,7 +53,7 @@ public class ElementTest {
     public void EqualsAfterRenameTest() {
         Element e1 = new Element("name");
         Element e2 = new Element("name");
-        Assert.assertTrue(e1.setName("new name for element");
+        Assert.assertTrue(e1.setName("new name for element"));
         Assert.assertTrue(e2.setName("new name for element"));
         Assert.assertTrue(e1.equals(e2));
     }

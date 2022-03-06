@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import backend.diagramObject.Element;
 import backend.diagramObject.Type;
 
 import test.diagramObjectTest.helpers.TypeHelper;
@@ -41,7 +40,7 @@ public class TypeTest {
     public void setTypesTest() {
         TreeSet<String> set = new TreeSet<String> ();
         set.addAll(Arrays.asList("random", "remove", "should not allow"));
-        Assert.assertFalse(Type.initTypes(set));
+        Assert.assertFalse(Type.initTypes(set.toArray(new String[set.size()])));
         Assert.assertNull(Type.getType("random"));
     }
 
@@ -50,13 +49,19 @@ public class TypeTest {
         Type.clearTypes();
         TreeSet<String> set = new TreeSet<String> ();
         set.addAll(Arrays.asList("int", "random", "remove", "boolean", "should not allow"));
-        Assert.assertTrue(Type.initTypes(set));
+        Assert.assertTrue(Type.initTypes(set.toArray(new String[set.size()])));
         Assert.assertNull(Type.getType("random"));
     }
 
     @Test
     public void addTypeTest() {
         Assert.assertFalse(Type.addType("random"));
+    }
+
+    @Test
+    public void dontAddTypeTest() {
+        Type type = new Type("random");
+        Assert.assertNull(Type.getType("random"));
     }
 
     @Test
@@ -70,7 +75,6 @@ public class TypeTest {
     @Test
     public void RemoveTypeTest() {
         Type.addType("random");
-        Type type = Type.getType("random");
         Assert.assertTrue(Type.removeType("random"));
         Assert.assertNull(Type.getType("random"));
     }
@@ -94,8 +98,8 @@ public class TypeTest {
     @Test
     public void isUserDefinedTest() {
         Type.addType("random");
-        Assert.assertTrue(Type.isUserDefined("random"));
-        Assert.assertFalse(Type.isUserDefined("int"));
+        Assert.assertTrue(Type.getType("random").isUserDefined());
+        Assert.assertFalse(Type.getType("int").isUserDefined());
     }
 
     @Test
@@ -125,8 +129,10 @@ public class TypeTest {
 
     @Test
     public void setNameTest4() {
-        Type type = Type.addType("random");
-        Type type2 = Type.addType("another random");
+        Type.addType("random");
+        Type.addType("another random");
+        Type type = Type.getType("random");
+        Type type2 = Type.getType("another random");
         Assert.assertFalse(type.setName("another random"));
         Assert.assertFalse(type2.setName("random"));
     }

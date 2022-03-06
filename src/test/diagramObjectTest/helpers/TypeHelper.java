@@ -15,7 +15,7 @@ public class TypeHelper {
     public static void setup() {
         TreeSet<String> set = new TreeSet<String> ();
         set.addAll(Arrays.asList("int", "boolean", "float", "string", "long", "byte", "short", "char", "void"));
-        Type.initTypes(set);
+        Type.initTypes(set.toArray(new String[set.size()]));
     }
 
     public static void tearDown() {
