@@ -9,14 +9,17 @@ public class UMLInterface extends UMLObject{
 
     }
 
+    @Override
     public boolean addVariable(Attribute variable) {
         return false;
     }
 
+    @Override
     public boolean addMethod(Method method) {
         return false;
     }
 
+    @Override
     public boolean checkCorrect() {
         return false;
     }

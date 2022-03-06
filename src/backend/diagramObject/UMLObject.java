@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import backend.diagram.ClassDiagram;
 
 public abstract class UMLObject extends Element{
-    private ClassDiagram parent;
+    protected final ClassDiagram parent;
     private ArrayList<Attribute> variables;
     private ArrayList<Method> methods;
 

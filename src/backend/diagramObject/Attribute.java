@@ -12,7 +12,7 @@ public class Attribute extends Element {
         PACKAGE
     }
 
-    private UMLObject parent;
+    protected final UMLObject parent;
     private Type type;
     private Visibility visibility;
     private boolean isVisibilityChangable;
