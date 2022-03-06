@@ -29,22 +29,22 @@ public class UMLInterfaceTest {
     public void addAttributeTest() {
         Attribute a = new Attribute("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
         UMLInterface inter = new UMLInterface("interface name");
-        Assert.assertTrue(inter.addAttribute(a));
+        Assert.assertTrue(inter.addVariable(a));
     }
 
     @Test
     public void addAttributeTest2() {
         Attribute b = new Attribute("name", Type.getType("int"), Attribute.Visibility.PUBLIC);
         UMLInterface inter = new UMLInterface("interface name");
-        Assert.assertFalse(inter.addAttribute(b));
+        Assert.assertFalse(inter.addVariable(b));
     }
 
     @Test
     public void getAttributeTest() {
         Attribute a = new Attribute("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
         UMLInterface inter = new UMLInterface("interface name");
-        inter.addAttribute(a);
-        Assert.assertTrue(inter.getAttributes().get(0) == a);
+        inter.addVariable(a);
+        Assert.assertTrue(inter.getVariables().get(0) == a);
     }
 
     @Test
@@ -52,9 +52,9 @@ public class UMLInterfaceTest {
         Attribute a = new Attribute("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
         Attribute b = new Attribute("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
         UMLInterface inter = new UMLInterface("interface name");
-        inter.addAttribute(a);
-        Assert.assertFalse(inter.addAttribute(b));
-        Assert.assertTrue(inter.getAttributes().get(0) == a);
+        inter.addVariable(a);
+        Assert.assertFalse(inter.addVariable(b));
+        Assert.assertTrue(inter.getVariables().get(0) == a);
     }
 
     @Test
@@ -62,11 +62,20 @@ public class UMLInterfaceTest {
         Attribute a = new Attribute("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
         Attribute b = new Attribute("another name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
         UMLInterface inter = new UMLInterface("interface name");
-        inter.addAttribute(a);
-        inter.addAttribute(b);
-        Assert.assertTrue(inter.getAttributes().size() == 2);
-        Assert.assertTrue(inter.getAttributes().get(0) == a);
-        Assert.assertTrue(inter.getAttributes().get(1) == b);
+        inter.addVariable(a);
+        inter.addVariable(b);
+        Assert.assertTrue(inter.getVariables().size() == 2);
+        Assert.assertTrue(inter.getVariables().get(0) == a);
+        Assert.assertTrue(inter.getVariables().get(1) == b);
+    }
+
+    @Test
+    public void addAttributeTest5() {
+        Attribute a = new Attribute("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
+        Attribute b = new Attribute("name", Type.getType("long"), Attribute.Visibility.PUBLIC, false);
+        UMLInterface inter = new UMLInterface("interface name");
+        inter.addVariable(a);
+        Assert.assertFalse(inter.addVariable(b));
     }
 
     @Test
@@ -75,24 +84,24 @@ public class UMLInterfaceTest {
         Attribute b = new Attribute("another name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
         Attribute c = new Attribute("another random name", Type.getType("long"), Attribute.Visibility.PUBLIC, false);
         UMLInterface inter = new UMLInterface("interface name");
-        inter.addAttribute(a);
-        inter.addAttribute(b);
-        inter.addAttribute(c);
-        inter.removeAttribute(1);
-        Assert.assertTrue(inter.getAttributes().size() == 2);
-        Assert.assertTrue(inter.getAttributes().get(0) == a);
-        Assert.assertTrue(inter.getAttributes().get(1) == b);
+        inter.addVariable(a);
+        inter.addVariable(b);
+        inter.addVariable(c);
+        inter.removeVariable(1);
+        Assert.assertTrue(inter.getVariables().size() == 2);
+        Assert.assertTrue(inter.getVariables().get(0) == a);
+        Assert.assertTrue(inter.getVariables().get(1) == b);
     }
 
     @Test
     public void removeAttributeTest2() {
         Attribute a = new Attribute("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false);
         UMLInterface inter = new UMLInterface("interface name");
-        inter.addAttribute(a);
-        inter.removeAttribute(0);
-        Assert.assertTrue(inter.getAttributes().size() == 0);
-        inter.addAttribute(a);
-        Assert.assertTrue(inter.getAttributes().get(0) == a);
+        inter.addBariable(a);
+        inter.removeVariable(0);
+        Assert.assertTrue(inter.getVariables().size() == 0);
+        inter.addVariable(a);
+        Assert.assertTrue(inter.getVariables().get(0) == a);
     }
 
     @Test
@@ -101,9 +110,73 @@ public class UMLInterfaceTest {
         String params[] = {"int", "long"};
         Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
         UMLInterface inter = new UMLInterface("interface name");
-        inter.addAttribute(a);
-        inter.addAttribute(m);
-        Assert.assertTrue(inter.getAttributes().get(0) == a);
-        Assert.assertTrue(inter.getAttributes().get(1) == m);
+        inter.addVariable(a);
+        Assert.assertTrue(inter.addVariable(m));
+        Assert.assertTrue(inter.getVariables().get(0) == a);
+        Assert.assertTrue(inter.getVariables().get(1) == m);
+    }
+
+    @Test
+    public void addAttributeTest5() {
+        String params[] = {"int", "long"};
+        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        String params2[] = {"int", "long"};
+        Method m2 = new Method("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false, params2);
+        UMLInterface inter = new UMLInterface("interface name");
+        inter.addVariable(m);
+        Assert.assertTrue(inter.addVariable(m2));
+        Assert.assertTrue(inter.getVariables().get(0) == m);
+        Assert.assertTrue(inter.getVariables().get(1) == m2);
+    }
+    
+    @Test
+    public void addAttributeTest6() {
+        String params[] = {"int", "long"};
+        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        String params2[] = {"int", "int"};
+        Method m2 = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, false, params2);
+        UMLInterface inter = new UMLInterface("interface name");
+        inter.addVariable(m);
+        Assert.assertTrue(inter.addVariable(m2));
+        Assert.assertTrue(inter.getVariables().get(0) == m);
+        Assert.assertTrue(inter.getVariables().get(1) == m2);
+    }
+
+    @Test
+    public void addAttributeTest6() {
+        String params[] = {"int", "long"};
+        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        String params2[] = {"int"};
+        Method m2 = new Method("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false, params2);
+        UMLInterface inter = new UMLInterface("interface name");
+        inter.addVariable(m);
+        Assert.assertTrue(inter.addVariable(m2));
+        Assert.assertTrue(inter.getVariables().get(0) == m);
+        Assert.assertTrue(inter.getVariables().get(1) == m2);
+    }
+
+    @Test
+    public void addAttributeTest7() {
+        String params[] = {"int"};
+        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        String params2[] = {"int", "long"};
+        Method m2 = new Method("name", Type.getType("int"), Attribute.Visibility.PUBLIC, false, params2);
+        UMLInterface inter = new UMLInterface("interface name");
+        inter.addVariable(m);
+        Assert.assertTrue(inter.addVariable(m2));
+        Assert.assertTrue(inter.getVariables().get(0) == m);
+        Assert.assertTrue(inter.getVariables().get(1) == m2);
+    }
+
+    @Test
+    public void addAttributeTest5() {
+        String params[] = {"int", "long"};
+        Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        String params2[] = {"int", "long"};
+        Method m2 = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, false, params2);
+        UMLInterface inter = new UMLInterface("interface name");
+        inter.addVariable(m);
+        Assert.assertFalse(inter.addVariable(m2));
+        Assert.assertTrue(inter.getVariables().get(0) == m);
     }
 }

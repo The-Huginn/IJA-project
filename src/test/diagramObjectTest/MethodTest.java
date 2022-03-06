@@ -34,7 +34,7 @@ public class MethodTest {
     @Test
     public void getterTest() {
         Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, params);
-        Assert.assertArrayEquals(params, m.getParameters);
+        Assert.assertArrayEquals(params, m.getParameters());
     }
 
     @Test
@@ -56,6 +56,6 @@ public class MethodTest {
         Method m = new Method("name", Type.getType("void"), Attribute.Visibility.PUBLIC, params);
         String wrongParams[] = {"long", "boolean", "string", "random"};
         Assert.assertFalse(m.setParameters(wrongParams));
-        Assert.assertArrayEquals(params, m.getParameters);
+        Assert.assertArrayEquals(params, m.getParameters());
     }
 }
