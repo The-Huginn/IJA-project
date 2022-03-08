@@ -3,10 +3,12 @@ package backend.diagram;
 import java.util.ArrayList;
 
 import backend.diagram.Diagram;
-import backend.diagramObject.UMLObject;
+import backend.diagramObject.UMLClass;
+import backend.diagramObject.UMLInterface;
 
 public class ClassDiagram extends Diagram{
-    ArrayList<UMLObject> objects;
+    ArrayList<UMLClass> classes;
+    ArrayList<UMLInterface> interfaces;
     ArrayList<SeqDiagram> seqDiagrams;
 
     /**
@@ -27,24 +29,46 @@ public class ClassDiagram extends Diagram{
     }
 
     /**
-     * @param object
+     * @param umlClass
      * @return
      */
-    public boolean addObject(UMLObject object) {
+    public boolean addClass(UMLClass umlClass) {
         return false;
     }
 
     /**
      * @param index
      */
-    public void removeObject(int index) {
+    public void removeClass(int index) {
 
     }
 
     /**
      * @return
      */
-    public ArrayList<UMLObject> getObjects() {
+    public ArrayList<UMLClass> getClasses() {
+        return null;
+    }
+
+    /**
+     * @param umlInterface
+     * @return
+     */
+    public boolean addInterface(UMLInterface umlInterface) {
+        return false;
+    }
+
+    /**
+     * @param index
+     */
+    public void removeInterface(int index) {
+
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList<UMLInterface> getInterfaces() {
         return null;
     }
 
