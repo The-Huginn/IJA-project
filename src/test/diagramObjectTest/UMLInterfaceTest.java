@@ -181,4 +181,77 @@ public class UMLInterfaceTest {
         inter.removeMethod(1);
         inter.removeVariable(1);
     }
+
+    // This test tests Attribute, but working inter is needed
+    @Test
+    public void setNameTest() {
+        Attribute a = new Attribute("name", inter, Type.getType("int"), Attribute.Visibility.PUBLIC, false);
+        inter.addVariable(a);
+        Attribute b = new Attribute("another name", inter, Type.getType("int"), Attribute.Visibility.PUBLIC, false);
+        inter.addVariable(b);
+        Assert.assertFalse(a.setName("another name"));
+        Assert.assertTrue(a.getName().equals("name"));
+    }
+
+    // This test tests Attribute, but working inter is needed
+    @Test
+    public void setNameTest2() {
+        Attribute a = new Attribute("name", inter, Type.getType("int"), Attribute.Visibility.PUBLIC, false);
+        Attribute b = new Attribute("another name", inter, Type.getType("long"), Attribute.Visibility.PUBLIC, false);
+        Attribute c = new Attribute("another random name", inter, Type.getType("string"), Attribute.Visibility.PUBLIC, false);
+        inter.addVariable(a);
+        inter.addVariable(b);
+        inter.addVariable(c);
+        Assert.assertFalse(a.setName("another name"));
+        a.setType(Type.getType("long"));
+        Assert.assertTrue(a.getType() == Type.getType("long"));
+        Assert.assertFalse(a.setName("another name"));
+        Assert.assertTrue(a.getName().equals("name"));
+    }
+
+    // This test tests Method, but working inter is needed
+    @Test
+    public void setNameTest3() {
+        String params[] = {"int", "long"};
+        Method a = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        Method b = new Method("another name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        inter.addMethod(a);
+        inter.addMethod(b);
+        Assert.assertFalse(a.setName("another name"));
+    }
+
+    // This test tests Method, but working inter is needed
+    @Test
+    public void setNameTest4() {
+        String params[] = {"int", "long"};
+        Method a = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        String params2[] = {"int", "long", "long"};
+        Method b = new Method("another name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params2);
+        inter.addMethod(a);
+        Assert.assertTrue(inter.addMethod(b));
+        Assert.assertTrue(a.setName("another name"));   // another signature
+    }
+
+    // This test tests Method, but working inter is needed
+    @Test
+    public void setNameTest5() {
+        String params[] = {"int", "long"};
+        Method a = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        String params2[] = {"int", "long", "long"};
+        Method b = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params2);
+        inter.addMethod(a);
+        Assert.assertTrue(inter.addMethod(b));
+        Assert.assertFalse(a.setParameters(params));   // same as 'a' signature
+    }
+
+    // This test tests Method, but working inter is needed
+    @Test
+    public void setNameTest6() {
+        String params[] = {"int", "long"};
+        Method a = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        Method b = new Method("another name", inter, Type.getType("int"), Attribute.Visibility.PUBLIC, false, params);
+        inter.addMethod(a);
+        Assert.assertTrue(inter.addMethod(b));
+        Assert.assertTrue(a.setName("another name"));   // another return type
+    }
 }
