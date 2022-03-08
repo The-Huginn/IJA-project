@@ -7,9 +7,10 @@ import backend.diagramObject.Method;
 import java.util.ArrayList;
 
 import backend.diagram.ClassDiagram;
+import backend.diagram.Diagram;
 
 public abstract class UMLObject extends Element{
-    protected final ClassDiagram parent;
+    private final ClassDiagram parent;
     private ArrayList<Attribute> variables;
     private ArrayList<Method> methods;
 
@@ -64,5 +65,12 @@ public abstract class UMLObject extends Element{
      */
     public void removeMethod(int index) {
 
+    }
+
+    /**
+     * @return
+     */
+    protected final Diagram getParent() {
+        return null;
     }
 }

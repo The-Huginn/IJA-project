@@ -10,6 +10,11 @@ public class UMLInterface extends UMLObject{
     }
 
     @Override
+    public boolean setName(String newName) {
+        return false;
+    }
+
+    @Override
     public boolean addVariable(Attribute variable) {
         return false;
     }

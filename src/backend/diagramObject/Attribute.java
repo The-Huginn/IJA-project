@@ -12,7 +12,7 @@ public class Attribute extends Element {
         PACKAGE
     }
 
-    protected final UMLObject parent;
+    private final UMLObject parent;
     private Type type;
     private Visibility visibility;
     private boolean isVisibilityChangable;
@@ -84,5 +84,12 @@ public class Attribute extends Element {
      */
     public boolean isVisibilityChangable() {
         return false;
+    }
+
+    /**
+     * @return
+     */
+    protected final UMLObject getParent() {
+        return null;
     }
 }
