@@ -1,6 +1,7 @@
 package backend.diagram;
 
 import backend.diagram.Relation;
+import backend.diagramObject.UMLClass;
 
 public class SeqRelation extends Relation{
     private SeqRelEnum type;
@@ -20,7 +21,11 @@ public class SeqRelation extends Relation{
     /**
      * @param name
      */
-    public SeqRelation(String name) {
+    public SeqRelation(String name, Diagram parent) {
+
+    }
+
+    public SeqRelation(String name, Diagram parent, UMLClass firstClass, int firstInstance, UMLClass secondClass, int secondInstance) {
 
     }
 
@@ -56,5 +61,19 @@ public class SeqRelation extends Relation{
      */
     public void setNote(String newNote) {
         
+    }
+
+    /**
+     * @return
+     */
+    public SeqRelEnum getType() {
+        return null;
+    }
+
+    /**
+     * @param newType
+     */
+    public void setType(SeqRelEnum newType) {
+
     }
 }

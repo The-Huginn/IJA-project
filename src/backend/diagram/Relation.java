@@ -19,6 +19,15 @@ public abstract class Relation extends Element{
     }
 
     /**
+     * @param name
+     * @param parent
+     * @param pair
+     */
+    public Relation(String name, Diagram parent, UMLClass firstClass, int firstInstance, UMLClass secondClass, int secondInstance) {
+
+    }
+
+    /**
      * @return If everything is ok
      */
     abstract boolean checkCorrect();

@@ -28,6 +28,11 @@ public class Method extends Attribute{
 
     }
 
+    @Override
+    public boolean setName(String newName) {
+        return false;
+    }
+
     public ArrayList<Type> getParameters() {
         return null;
     }
