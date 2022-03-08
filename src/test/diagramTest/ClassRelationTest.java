@@ -6,7 +6,6 @@ import backend.diagram.ClassRelation;
 import test.diagramObjectTest.helpers.TypeHelper;
 
 import java.util.ArrayList;
-import javafx.util.Pair;
 
 import org.junit.Assert;
 import org.junit.Test;
