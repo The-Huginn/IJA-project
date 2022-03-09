@@ -217,4 +217,45 @@ public class AdvancedTest {
 
         Assert.assertFalse(mainDiagram.checkCorrect());
     }
+
+    @Test
+    public void checkInheritanceTest5() {
+        String[] params = {"int"};
+        UMLClass umlClass = mainDiagram.getClasses().get(0);
+        umlClass.addMethod(new Method("method", umlClass, Type.getType("int"), Attribute.Visibility.PRIVATE, params));  // We are not able to inherit this method
+
+        UMLClass secondUmlClass = mainDiagram.getClasses().get(1);
+        ClassRelation classRelation = new ClassRelation("inheritance", mainDiagram, secondUmlClass, 0, umlClass, 0);
+        Assert.assertTrue(classRelation.setType(ClassRelEnum.GENERALIZATION));
+        mainDiagram.addRelation(classRelation);
+
+        UMLClass thirdUmlClass = mainDiagram.getClasses().get(2);
+        ClassRelation classRelation2 = new ClassRelation("inheritance", mainDiagram, thirdUmlClass, 0, secondUmlClass, 0);
+        Assert.assertTrue(classRelation2.setType(ClassRelEnum.GENERALIZATION));
+
+        SeqDiagram seqDiagram = new SeqDiagram("name", mainDiagram);
+        seqDiagram.addInstance(thirdUmlClass, 0);
+        seqDiagram.addInstance(classes.get(3), 0);
+
+        SeqRelation seqRelation = new SeqRelation("first relation", seqDiagram, thirdUmlClass, 0, classes.get(3), 0);
+        Assert.assertFalse(seqRelation.setMethod("method(10)"));
+        Assert.assertFalse(mainDiagram.checkCorrect());
+    }
+
+    @Test
+    public void missingInstanceTest() {
+        SeqDiagram seqDiagram = new SeqDiagram("name", mainDiagram);
+        UMLClass umlClass = new UMLClass("name", new ClassDiagram("new name"));
+        Assert.assertFalse(seqDiagram.addInstance(umlClass, 0));
+    }
+
+    @Test
+    public void missingInstanceTest2() {
+        SeqDiagram seqDiagram = new SeqDiagram("name", mainDiagram);
+        seqDiagram.addInstance(classes.get(0), 0);
+        seqDiagram.addInstance(classes.get(1), 1);
+
+        SeqRelation relation = new SeqRelation("relation", seqDiagram);
+        Assert.assertFalse(relation.setFirst(classes.get(0), 1)); // We dont have this instanceNumber
+    }
 }
