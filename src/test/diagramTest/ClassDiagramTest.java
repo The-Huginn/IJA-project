@@ -45,12 +45,6 @@ public class ClassDiagramTest {
     }
 
     @Test
-    public void addWrongRelationTest() {
-        SeqRelation relation = new SeqRelation("name", diagram);    // constructor should not check for correct parent
-        Assert.assertFalse(diagram.addRelation(relation));
-    }
-
-    @Test
     public void removeRelationTest() {
         ClassRelation relation = new ClassRelation("name", diagram);
         ClassRelation relation2 = new ClassRelation("name", diagram);

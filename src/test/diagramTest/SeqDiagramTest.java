@@ -8,7 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import backend.diagram.ClassDiagram;
-import backend.diagram.ClassRelation;
+import backend.diagram.SeqRelation;
 import backend.diagram.SeqDiagram;
 import backend.diagram.SeqRelation;
 import backend.diagramObject.UMLClass;
@@ -43,21 +43,15 @@ public class SeqDiagramTest {
     
     @Test
     public void addRelationTest() {
-        ClassRelation relation = new ClassRelation("name", diagram);
+        SeqRelation relation = new SeqRelation("name", diagram);
         Assert.assertTrue(diagram.addRelation(relation));
     }
 
     @Test
-    public void addWrongRelationTest() {
-        SeqRelation relation = new SeqRelation("name", diagram);    // constructor should not check for correct parent
-        Assert.assertFalse(diagram.addRelation(relation));
-    }
-
-    @Test
     public void removeRelationTest() {
-        ClassRelation relation = new ClassRelation("name", diagram);
-        ClassRelation relation2 = new ClassRelation("name", diagram);
-        ClassRelation relation3 = new ClassRelation("another name", diagram);
+        SeqRelation relation = new SeqRelation("name", diagram);
+        SeqRelation relation2 = new SeqRelation("name", diagram);
+        SeqRelation relation3 = new SeqRelation("another name", diagram);
         diagram.addRelation(relation);
         Assert.assertTrue(diagram.addRelation(relation2));
         Assert.assertTrue(diagram.addRelation(relation3));
@@ -72,7 +66,7 @@ public class SeqDiagramTest {
         for (UMLClass umlClass : classes)
             Assert.assertTrue(diagram.addInstance(umlClass, 0));
 
-            for (UMLClass umlClass : classes)
+        for (UMLClass umlClass : classes)
             Assert.assertTrue(diagram.addInstance(umlClass, 1));
     }
 
@@ -81,7 +75,7 @@ public class SeqDiagramTest {
         for (UMLClass umlClass : classes)
             Assert.assertTrue(diagram.addInstance(umlClass, 0));
 
-            for (UMLClass umlClass : classes)
+        for (UMLClass umlClass : classes)
             Assert.assertFalse(diagram.addInstance(umlClass, 0));
     }
 
