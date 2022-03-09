@@ -1,7 +1,7 @@
 package backend.diagram;
 
 import backend.diagram.Relation;
-import backend.diagramObject.UMLClass;
+import backend.diagramObject.UMLObject;
 import javafx.util.Pair;
 
 public class ClassRelation extends Relation{
@@ -19,12 +19,20 @@ public class ClassRelation extends Relation{
         
     }
 
-    public ClassRelation(String name, Diagram parent, UMLClass firstClass, int firstInstance, UMLClass secondClass, int secondInstance) {
+    public ClassRelation(String name, Diagram parent, UMLObject firstClass, int firstInstance, UMLObject secondClass, int secondInstance) {
 
     }
 
     @Override
     public boolean checkCorrect() {
+        return false;
+    }
+
+    public boolean setFirst(UMLObject instance, Integer instanceNumber) {
+        return false;
+    }
+
+    public boolean setSecond(UMLObject instance, Integer instanceNumber) {
         return false;
     }
 

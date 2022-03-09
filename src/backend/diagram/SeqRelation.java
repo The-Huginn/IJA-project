@@ -2,6 +2,7 @@ package backend.diagram;
 
 import backend.diagram.Relation;
 import backend.diagramObject.UMLClass;
+import backend.diagramObject.UMLObject;
 
 public class SeqRelation extends Relation{
     private SeqRelEnum type;
@@ -31,6 +32,14 @@ public class SeqRelation extends Relation{
 
     @Override
     public boolean checkCorrect() {
+        return false;
+    }
+
+    public boolean setFirst(UMLObject instance, Integer instanceNumber) {
+        return false;
+    }
+
+    public boolean setSecond(UMLObject instance, Integer instanceNumber) {
         return false;
     }
 

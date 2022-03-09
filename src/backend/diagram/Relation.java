@@ -2,6 +2,7 @@ package backend.diagram;
 
 import backend.diagramObject.Element;
 import backend.diagramObject.UMLClass;
+import backend.diagramObject.UMLObject;
 import backend.diagram.Diagram;
 import javafx.util.Pair;
 
@@ -35,14 +36,14 @@ public abstract class Relation extends Element{
     /**
      * @return Start point of relation
      */
-    public Pair<UMLClass, Integer> getFirst() {
+    public Pair<UMLObject, Integer> getFirst() {
         return null;
     }
 
     /**
      * @return End point of relation
      */
-    public Pair<UMLClass, Integer> getSecond() {
+    public Pair<UMLObject, Integer> getSecond() {
         return null;
     }
 
@@ -51,16 +52,12 @@ public abstract class Relation extends Element{
      * @param instanceNumber
      * @return Success of operation
      */
-    public boolean setFirst(UMLClass instance, Integer instanceNumber) {
-        return false;
-    }
+    abstract boolean setFirst(UMLObject instance, Integer instanceNumber);
 
     /**
      * @param instance
      * @param instanceNumber
      * @return Success of operation
      */
-    public boolean setSecond(UMLClass instance, Integer instanceNumber) {
-        return false;
-    }
+    abstract boolean setSecond(UMLObject instance, Integer instanceNumber);
 }
