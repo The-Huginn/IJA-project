@@ -8,13 +8,18 @@ public class Type extends Element{
     private static SortedMap<String, Type> instances;
     private boolean isUserDefined;
 
+    // Maybe default constructor is needed, then create dummy instance
+
     /**
-     * @param name
+     * @param name of new Type
      */
-    public Type(String name) {
+    private Type(String name) {
 
     }
 
+    /**
+     * @brief Does not allow to change name to another existing Type or rename immutablly defined types
+     */
     @Override
     public boolean setName(String newName) {
         return false;
@@ -66,5 +71,4 @@ public class Type extends Element{
     public boolean isUserDefined() {
         return false;
     }
-
 }

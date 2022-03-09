@@ -15,10 +15,22 @@ public class ClassRelation extends Relation{
         IMPLEMENTS
     }
 
+    /**
+     * @param name
+     * @param parent Under which parent this ClassRelation lives
+     */
     public ClassRelation(String name, Diagram parent) {
         
     }
 
+    /**
+     * @param name
+     * @param parent Under which parent this ClassRelation lives
+     * @param firstInstance ClassRelation starts from this UMLObject
+     * @param firstInstanceNumber instance number of the first UMLObject instance
+     * @param secondInstance ClassRelation ends in this UMLObject
+     * @param secondInstanceNumber instance number of the second UMLObject instance
+     */
     public ClassRelation(String name, Diagram parent, UMLObject firstClass, int firstInstance, UMLObject secondClass, int secondInstance) {
 
     }
@@ -28,18 +40,33 @@ public class ClassRelation extends Relation{
         return false;
     }
 
+    /**
+     * @note Checks, whether instance exists in parent and if it's correct combination
+     */
+    @Override
     public boolean setFirst(UMLObject instance, Integer instanceNumber) {
         return false;
     }
 
+    /**
+     * @note Checks, whether instance exists in parent and if it's correct combination
+     */
+    @Override
     public boolean setSecond(UMLObject instance, Integer instanceNumber) {
         return false;
     }
 
+    /**
+     * @return
+     */
     public ClassRelEnum getType() {
         return null;
     }
 
+    /**
+     * @param newType
+     * @return
+     */
     public boolean setType(ClassRelEnum newType) {
         return false;
     }

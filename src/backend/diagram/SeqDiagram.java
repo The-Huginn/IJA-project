@@ -29,6 +29,7 @@ public class SeqDiagram extends Diagram {
     }
 
     /**
+     * @note Checks, whether instance exists in parent and whether is it's instanceNumber unique
      * @param instance
      * @param instanceNumber
      * @return

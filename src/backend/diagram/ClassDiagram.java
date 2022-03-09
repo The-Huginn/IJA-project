@@ -29,6 +29,7 @@ public class ClassDiagram extends Diagram{
     }
 
     /**
+     * @note Every UMLClass has to have unique name
      * @param umlClass
      * @return
      */
@@ -51,6 +52,7 @@ public class ClassDiagram extends Diagram{
     }
 
     /**
+     * @note Every UMLInterface has to have unique name
      * @param umlInterface
      * @return
      */
@@ -73,6 +75,7 @@ public class ClassDiagram extends Diagram{
     }
 
     /**
+     * @note Every SeqDiagram has to have unique name
      * @param diagram
      * @return
      */

@@ -12,7 +12,7 @@ public class Element {
 
     /**
      * @param newName
-     * @return True if done otherwise false
+     * @return True if successful otherwise false
      */
     public boolean setName(String newName) {
         return false;

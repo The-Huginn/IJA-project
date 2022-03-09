@@ -1,7 +1,6 @@
 package backend.diagram;
 
 import backend.diagramObject.Element;
-import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLObject;
 import backend.diagram.Diagram;
 import javafx.util.Pair;
@@ -13,7 +12,7 @@ public abstract class Relation extends Element{
 
     /**
      * @param name
-     * @param parent
+     * @param parent Under which parent this Relation lives
      */
     public Relation(String name, Diagram parent) {
 
@@ -21,15 +20,18 @@ public abstract class Relation extends Element{
 
     /**
      * @param name
-     * @param parent
-     * @param pair
+     * @param parent Under which parent this Relation lives
+     * @param firstInstance Relation starts from this UMLObject
+     * @param firstInstanceNumber instance number of the first UMLObject instance
+     * @param secondInstance Relation ends in this UMLObject
+     * @param secondInstanceNumber instance number of the second UMLObject instance
      */
-    public Relation(String name, Diagram parent, UMLClass firstClass, int firstInstance, UMLClass secondClass, int secondInstance) {
+    public Relation(String name, Diagram parent, UMLObject firstInstance, int firstInstanceNumber, UMLObject secondInstance, int secondInstanceNumber) {
 
     }
 
     /**
-     * @return If everything is ok
+     * @return Checks, whether everything is ok
      */
     abstract boolean checkCorrect();
 

@@ -19,6 +19,7 @@ public class Attribute extends Element {
 
     /**
      * @param name
+     * @param parent Under which parent will this Attribute live
      */
     public Attribute(String name, UMLObject parent) {
 
@@ -27,8 +28,9 @@ public class Attribute extends Element {
     /**
      * @brief Constructor for creating Attribute with changable visibility
      * @param name
-     * @param type
-     * @param visibility
+     * @param parent Under which parent will this Attribute live
+     * @param type Type of variable or method
+     * @param visibility Visibility of this attribute
      */
     public Attribute(String name, UMLObject parent, Type type, Visibility visibility) {
 
@@ -37,14 +39,18 @@ public class Attribute extends Element {
     /**
      * @brief Constructor for creating Attribute with unchangable visibility
      * @param name
-     * @param type
-     * @param visibility
-     * @param isVisibilityChangable
+     * @param parent Under which parent will this Attribute live
+     * @param type Type of variable or method
+     * @param visibility Visibility of this attribute
+     * @param isVisibilityChangable upon true Visibility will become immutable
      */
     public Attribute(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable) {
 
     }
 
+    /**
+     * @brief Checks for other attributes in parent if they have the same name or not
+     */
     @Override
     public boolean setName(String newName) {
         return false;
@@ -73,6 +79,7 @@ public class Attribute extends Element {
     }
 
     /**
+     * @brief By default is changable, can be forbidden upon creation with special constructor
      * @param newVisibility
      */
     public void setVisibility(Visibility newVisibility) {

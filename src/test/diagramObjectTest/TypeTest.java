@@ -58,7 +58,7 @@ public class TypeTest {
 
     @Test
     public void dontAddTypeTest() {
-        new Type("random");
+        // new Type("random");
         Assert.assertNull(Type.getType("random"));
     }
 

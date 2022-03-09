@@ -16,7 +16,7 @@ public abstract class UMLObject extends Element{
 
     /**
      * @param name
-     * @param parent
+     * @param parent Under which parent this UMLObject lives
      */
     public UMLObject(String name, ClassDiagram parent) {
         
@@ -24,13 +24,13 @@ public abstract class UMLObject extends Element{
     
     /**
      * @param attribute
-     * @return Success of method
+     * @return Success of the operation
      */
     abstract boolean addVariable(Attribute variable);
 
     /**
      * @param method
-     * @return Success of method
+     * @return Success of the operation
      */
     abstract boolean addMethod(Method method);
 
@@ -54,6 +54,7 @@ public abstract class UMLObject extends Element{
     }
 
     /**
+     * @brief Upon invalid index nothing happens
      * @param index
      */
     public void removeVariable(int index) {
@@ -61,6 +62,7 @@ public abstract class UMLObject extends Element{
     }
 
     /**
+     * @brief Upon invalid index nothing happens
      * @param index
      */
     public void removeMethod(int index) {

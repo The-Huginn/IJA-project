@@ -21,12 +21,21 @@ public class SeqRelation extends Relation{
 
     /**
      * @param name
+     * @param parent Under which parent this SeqRelation lives
      */
     public SeqRelation(String name, Diagram parent) {
 
     }
 
-    public SeqRelation(String name, Diagram parent, UMLClass firstClass, int firstInstance, UMLClass secondClass, int secondInstance) {
+    /**
+     * @param name
+     * @param parent Under which parent this SeqRelation lives
+     * @param firstInstance SeqRelation starts from this UMLObject
+     * @param firstInstanceNumber instance number of the first UMLObject instance
+     * @param secondInstance SeqRelation ends in this UMLObject
+     * @param secondInstanceNumber instance number of the second UMLObject instance
+     */
+    public SeqRelation(String name, Diagram parent, UMLClass firstInstance, int firstInstanceNumber, UMLClass secondInstance, int secondInstanceNumber) {
 
     }
 
@@ -35,10 +44,18 @@ public class SeqRelation extends Relation{
         return false;
     }
 
+    /**
+     * @note Checks, whether instance with it's instanceNumber exists in parent
+     */
+    @Override
     public boolean setFirst(UMLObject instance, Integer instanceNumber) {
         return false;
     }
 
+    /**
+     * @note Checks, whether instance with it's instanceNumber exists in parent
+     */
+    @Override
     public boolean setSecond(UMLObject instance, Integer instanceNumber) {
         return false;
     }
@@ -51,6 +68,7 @@ public class SeqRelation extends Relation{
     }
 
     /**
+     * @brief Accepts the method which invokes this relation, must be visible
      * @param methodCall
      * @return True if method was changed
      */
