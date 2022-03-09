@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import backend.diagram.ClassDiagram;
 import backend.diagram.SeqRelation;
 import backend.diagram.SeqDiagram;
-import backend.diagram.SeqRelation;
 import backend.diagramObject.UMLClass;
 import javafx.util.Pair;
 

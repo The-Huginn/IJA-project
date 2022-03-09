@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 
 import backend.diagram.ClassDiagram;
 import backend.diagram.ClassRelation;
-import backend.diagram.SeqRelation;
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLInterface;
 
