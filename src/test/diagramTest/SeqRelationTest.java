@@ -1,6 +1,8 @@
 package test.diagramTest;
 
 import backend.diagramObject.UMLClass;
+import backend.diagramObject.UMLInterface;
+import backend.diagramObject.UMLObject;
 import javafx.util.Pair;
 import backend.diagram.SeqRelation;
 import backend.diagramObject.Attribute;
@@ -47,11 +49,11 @@ public class SeqRelationTest {
     @Test
     public void getterTest() {
         SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
-        Pair<UMLClass, Integer> pair = relation.getFirst();
+        Pair<UMLObject, Integer> pair = relation.getFirst();
         Assert.assertTrue(relation.getType() == SeqRelation.SeqRelEnum.SYNCHROUNOUS);
-        Assert.assertTrue(pair.getKey() == classes.get(0) && pair.getValue() == 0);
+        Assert.assertTrue((UMLClass) pair.getKey() == classes.get(0) && pair.getValue() == 0);
         pair = relation.getSecond();
-        Assert.assertTrue(pair.getKey() == classes.get(1) && pair.getValue() == 0);
+        Assert.assertTrue((UMLClass) pair.getKey() == classes.get(1) && pair.getValue() == 0);
     }
 
     @Test
@@ -59,8 +61,8 @@ public class SeqRelationTest {
         SeqRelation relation = new SeqRelation("relation", null);
         relation.setFirst(classes.get(0), 1);
         relation.setSecond(classes.get(1), 2);
-        Assert.assertTrue(relation.getFirst().getKey() == classes.get(0) && relation.getFirst().getValue() == 1);
-        Assert.assertTrue(relation.getSecond().getKey() == classes.get(1) && relation.getSecond().getValue() == 2);
+        Assert.assertTrue((UMLClass) relation.getFirst().getKey() == classes.get(0) && relation.getFirst().getValue() == 1);
+        Assert.assertTrue((UMLClass) relation.getSecond().getKey() == classes.get(1) && relation.getSecond().getValue() == 2);
     }
 
     @Test
@@ -74,9 +76,9 @@ public class SeqRelationTest {
     public void changePeersTest() {
         SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
         relation.setFirst(classes.get(2), 2);
-        Assert.assertTrue(relation.getFirst().getKey() == classes.get(2) && relation.getFirst().getValue() == 2);
+        Assert.assertTrue((UMLClass) relation.getFirst().getKey() == classes.get(2) && relation.getFirst().getValue() == 2);
         relation.setSecond(classes.get(3), 3);
-        Assert.assertTrue(relation.getSecond().getKey() == classes.get(3) && relation.getSecond().getValue() == 3);
+        Assert.assertTrue((UMLClass) relation.getSecond().getKey() == classes.get(3) && relation.getSecond().getValue() == 3);
     }
 
     @Test
@@ -84,7 +86,7 @@ public class SeqRelationTest {
         SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
         relation.setSecond(classes.get(0), 1);
         relation.setType(SeqRelation.SeqRelEnum.DESTRUCTION);
-        Assert.assertTrue(relation.getFirst().getKey() == relation.getSecond().getKey());
+        Assert.assertTrue((UMLClass) relation.getFirst().getKey() == (UMLClass) relation.getSecond().getKey());
         Assert.assertTrue(relation.getFirst().getValue() == 0 && relation.getSecond().getValue() == 1);
         Assert.assertTrue(relation.getType() == SeqRelation.SeqRelEnum.DESTRUCTION);
     }
@@ -152,5 +154,19 @@ public class SeqRelationTest {
     public void setNotMethodTest() {
         SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
         Assert.assertFalse(relation.setMethod("attribute(nieco)"));
+    }
+
+    @Test
+    public void setInterfaceTest() {
+        SeqRelation relation = new SeqRelation("relation", null);
+        UMLInterface inter = new UMLInterface("name", null);
+        Assert.assertFalse(relation.setFirst(inter, 0));
+        Assert.assertFalse(relation.setSecond(inter, 0));
+    }
+
+    @Test
+    public void setFirstTest() {
+        SeqRelation relation = new SeqRelation("relation", null);
+        Assert.assertFalse(relation.setSecond(classes.get(0), 0));
     }
 }
