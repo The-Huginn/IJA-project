@@ -9,7 +9,7 @@ public class Element {
      * @param name
      */
     public Element(String name) {
-
+        this.name = name;
     }
 
     /**
@@ -17,23 +17,30 @@ public class Element {
      * @return True if successful otherwise false
      */
     public boolean setName(String newName) {
-        return false;
+        this.name = newName;
+        return true;
     }
 
     /**
      * @return Name of the Element
      */
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public boolean equals(Object anotherObject) {
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return -1;
+        
+        if (anotherObject== this) {
+            return true;
+        }
+ 
+        if (!(anotherObject instanceof Element)) {
+            return false;
+        }
+         
+        Element tmp = (Element) anotherObject;
+         
+        return (tmp.getName().equals(this.getName()));
     }
 }

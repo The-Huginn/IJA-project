@@ -8,10 +8,10 @@ package test.diagramObjectTest;
 import java.util.Arrays;
 import java.util.TreeSet;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 
 import backend.diagramObject.Type;
 
@@ -19,12 +19,12 @@ import test.diagramObjectTest.helpers.TypeHelper;
 
 public class TypeTest {
     
-    @BeforeEach
+    @Before
     public void setup() {
         TypeHelper.setup();
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         TypeHelper.tearDown();
     }
@@ -48,12 +48,12 @@ public class TypeTest {
         TreeSet<String> set = new TreeSet<String> ();
         set.addAll(Arrays.asList("int", "random", "remove", "boolean", "should not allow"));
         Assert.assertTrue(Type.initTypes(set.toArray(new String[set.size()])));
-        Assert.assertNull(Type.getType("random"));
+        Assert.assertNotNull(Type.getType("random"));
     }
 
     @Test
     public void addTypeTest() {
-        Assert.assertFalse(Type.addType("random"));
+        Assert.assertTrue(Type.addType("random"));
     }
 
     @Test

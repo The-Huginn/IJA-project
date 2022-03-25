@@ -1,11 +1,11 @@
 package backend.diagramObject;
 
+import java.lang.reflect.InaccessibleObjectException;
 import java.util.SortedMap;
-
-import backend.diagramObject.Element;
+import java.util.TreeMap;
 
 public class Type extends Element{
-    private static SortedMap<String, Type> instances;
+    private static SortedMap<String, Type> instances = null;
     private boolean isUserDefined;
 
     // Maybe default constructor is needed, then create dummy instance
@@ -13,8 +13,9 @@ public class Type extends Element{
     /**
      * @param name of new Type
      */
-    private Type(String name) {
-        super();
+    private Type(String name, boolean isUserDefined) {
+        super(name);
+        this.isUserDefined = isUserDefined;   
     }
 
     /**
@@ -22,7 +23,16 @@ public class Type extends Element{
      */
     @Override
     public boolean setName(String newName) {
-        return false;
+
+        if (!this.isUserDefined())
+            return false;
+
+        if (instances.containsKey(newName))
+            return false;
+            
+        instances.remove(this.getName());
+        instances.put(newName, this);
+        return super.setName(newName);
     }
 
     /**
@@ -31,14 +41,23 @@ public class Type extends Element{
      * @return True upon success
      */
     public static boolean initTypes(String[] types) {
-        return false;
+        
+        if (instances != null)
+            return false;
+
+        instances = new TreeMap<>();
+        for (String key:types)
+            instances.put(key, new Type(key, false));
+
+        return true;
     }
 
     /**
      * @brief Clears all types from Map
      */
     public static void clearTypes() {
-
+        instances.clear();
+        instances = null;
     }
 
     /**
@@ -46,7 +65,11 @@ public class Type extends Element{
      * @return instance for typeName
      */
     public static Type getType(String typeName) {
-        return null;
+
+        if (instances == null || !instances.containsKey(typeName))
+            return null;
+        
+        return instances.get(typeName);
     }
 
     /**
@@ -54,7 +77,12 @@ public class Type extends Element{
      * @return True upon success otherwise false
      */
     public static boolean addType(String typeName) {
-        return false;
+
+        if (instances.containsKey(typeName))
+            return false;
+
+        instances.put(typeName, new Type(typeName, true));
+        return true;
     }
 
     /**
@@ -62,6 +90,15 @@ public class Type extends Element{
      * @return True upon deletion of type defined by user, otherwise false
      */
     public static boolean removeType(String typeName) {
+
+        if (!instances.containsKey(typeName) || instances == null )
+            return false;
+
+        if (instances.get(typeName).isUserDefined()){
+            instances.remove(typeName);
+            return true;
+        }
+
         return false;
     }
 
@@ -69,6 +106,6 @@ public class Type extends Element{
      * @return
      */
     public boolean isUserDefined() {
-        return false;
+        return this.isUserDefined;
     }
 }
