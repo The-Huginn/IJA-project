@@ -20,7 +20,7 @@ public class ClassRelation extends Relation{
      * @param parent Under which parent this ClassRelation lives
      */
     public ClassRelation(String name, Diagram parent) {
-        
+        super();
     }
 
     /**
@@ -32,7 +32,7 @@ public class ClassRelation extends Relation{
      * @param secondInstanceNumber instance number of the second UMLObject instance
      */
     public ClassRelation(String name, Diagram parent, UMLObject firstClass, int firstInstance, UMLObject secondClass, int secondInstance) {
-
+        super();
     }
 
     @Override

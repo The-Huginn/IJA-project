@@ -10,7 +10,7 @@ public class UMLInterface extends UMLObject{
      * @param parent Under which parent this UMLInterface lives
      */
     public UMLInterface(String name, ClassDiagram parent) {
-
+        super();
     }
 
     /**

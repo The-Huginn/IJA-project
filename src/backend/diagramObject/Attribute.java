@@ -17,12 +17,15 @@ public class Attribute extends Element {
     private Visibility visibility;
     private boolean isVisibilityChangable;
 
+    public Attribute() {super();this.parent = null;}
+
     /**
      * @param name
      * @param parent Under which parent will this Attribute live
      */
     public Attribute(String name, UMLObject parent) {
-
+        super();
+        this.parent = null;
     }
 
     /**
@@ -33,7 +36,8 @@ public class Attribute extends Element {
      * @param visibility Visibility of this attribute
      */
     public Attribute(String name, UMLObject parent, Type type, Visibility visibility) {
-
+        super();
+        this.parent = null;
     }
 
     /**
@@ -45,7 +49,8 @@ public class Attribute extends Element {
      * @param isVisibilityChangable upon true Visibility will become immutable
      */
     public Attribute(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable) {
-
+        super();
+        this.parent = null;
     }
 
     /**

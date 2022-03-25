@@ -14,7 +14,7 @@ public class Method extends Attribute{
      * @param parent Under which parent will this Method live
      */
     public Method(String name, UMLObject parent) {
-
+        super();
     }
 
     /**
@@ -24,7 +24,7 @@ public class Method extends Attribute{
      * @param visibility Visibility of this attribute
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility) {
-
+        super();
     }
 
     /**
@@ -35,7 +35,7 @@ public class Method extends Attribute{
      * @param isVisibilityChangable upon true Visibility will become immutable
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable) {
-
+        super();
     }
 
     /**
@@ -46,7 +46,7 @@ public class Method extends Attribute{
      * @param parameters array of string representation of Types
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility, String[] parameters) {
-
+        super();
     }
 
     /**
@@ -58,7 +58,7 @@ public class Method extends Attribute{
      * @param parameters array of string representation of Types
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable, String[] parameters) {
-
+        super();
     }
 
     /**

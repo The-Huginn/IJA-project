@@ -14,7 +14,7 @@ public class Type extends Element{
      * @param name of new Type
      */
     private Type(String name) {
-
+        super();
     }
 
     /**

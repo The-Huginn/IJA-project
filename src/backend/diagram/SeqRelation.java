@@ -24,7 +24,7 @@ public class SeqRelation extends Relation{
      * @param parent Under which parent this SeqRelation lives
      */
     public SeqRelation(String name, Diagram parent) {
-
+        super();
     }
 
     /**
@@ -36,7 +36,7 @@ public class SeqRelation extends Relation{
      * @param secondInstanceNumber instance number of the second UMLObject instance
      */
     public SeqRelation(String name, Diagram parent, UMLClass firstInstance, int firstInstanceNumber, UMLClass secondInstance, int secondInstanceNumber) {
-
+        super();
     }
 
     @Override

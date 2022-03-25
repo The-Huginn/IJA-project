@@ -7,11 +7,12 @@ import backend.diagramObject.Element;
 public abstract class Diagram extends Element{
     private ArrayList<Relation> relations;
 
+    public Diagram(){};
     /**
      * @param name
      */
     public Diagram(String name) {
-
+        super();
     }
 
     /**

@@ -10,7 +10,7 @@ public class UMLClass extends UMLObject {
      * @param parent Under which parent this UMLClass lives
      */
     public UMLClass(String name, ClassDiagram parent) {
-
+        super();
     }
 
     /**

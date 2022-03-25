@@ -15,7 +15,7 @@ public class ClassDiagram extends Diagram{
      * @param name
      */
     public ClassDiagram(String name) {
-
+        super();
     }
 
     @Override

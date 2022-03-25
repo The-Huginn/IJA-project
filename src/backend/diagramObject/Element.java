@@ -3,6 +3,8 @@ package backend.diagramObject;
 public class Element {
     private String name;
 
+    public Element() {};
+
     /**
      * @param name
      */

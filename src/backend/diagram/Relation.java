@@ -1,6 +1,7 @@
 package backend.diagram;
 
 import backend.diagramObject.Element;
+import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLObject;
 import backend.diagram.Diagram;
 import javafx.util.Pair;
@@ -10,12 +11,15 @@ public abstract class Relation extends Element{
     private Pair<UMLClass, Integer> second;
     protected final Diagram parent;
 
+    public Relation(){super();this.parent = null;};
+
     /**
      * @param name
      * @param parent Under which parent this Relation lives
      */
     public Relation(String name, Diagram parent) {
-
+        super();
+        this.parent = null;
     }
 
     /**
@@ -27,7 +31,8 @@ public abstract class Relation extends Element{
      * @param secondInstanceNumber instance number of the second UMLObject instance
      */
     public Relation(String name, Diagram parent, UMLObject firstInstance, int firstInstanceNumber, UMLObject secondInstance, int secondInstanceNumber) {
-
+        super();
+        this.parent = null;
     }
 
     /**

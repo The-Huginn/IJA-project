@@ -15,7 +15,7 @@ public class SeqDiagram extends Diagram {
      * @param parent
      */
     public SeqDiagram(String name, ClassDiagram parent) {
-
+        super();
     }
 
     @Override

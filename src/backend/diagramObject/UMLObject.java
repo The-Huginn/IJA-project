@@ -14,12 +14,15 @@ public abstract class UMLObject extends Element{
     private ArrayList<Attribute> variables;
     private ArrayList<Method> methods;
 
+    public UMLObject() {super();this.parent = null;}
+
     /**
      * @param name
      * @param parent Under which parent this UMLObject lives
      */
     public UMLObject(String name, ClassDiagram parent) {
-        
+        super();
+        this.parent = parent;
     }
     
     /**
