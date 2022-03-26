@@ -5,23 +5,23 @@ import backend.diagramObject.Attribute;
 import backend.diagramObject.Method;
 import backend.diagramObject.UMLClass;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 
 import test.diagramObjectTest.helpers.TypeHelper;
 
 public class UMLClassTest {
     private UMLClass umlClass;
 
-    @BeforeEach
+    @Before
     public void setup() {
         umlClass = new UMLClass("umlClass name", null);
         TypeHelper.setup();
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         TypeHelper.tearDown();
         umlClass = null;
@@ -81,7 +81,7 @@ public class UMLClassTest {
         umlClass.removeVariable(1);
         Assert.assertTrue(umlClass.getVariables().size() == 2);
         Assert.assertTrue(umlClass.getVariables().get(0) == a);
-        Assert.assertTrue(umlClass.getVariables().get(1) == b);
+        Assert.assertTrue(umlClass.getVariables().get(1) == c);
     }
 
     @Test

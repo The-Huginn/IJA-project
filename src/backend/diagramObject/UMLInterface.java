@@ -1,7 +1,6 @@
 package backend.diagramObject;
 
 import backend.diagram.ClassDiagram;
-import backend.diagramObject.UMLObject;
 
 public class UMLInterface extends UMLObject{
     
@@ -11,6 +10,18 @@ public class UMLInterface extends UMLObject{
      */
     public UMLInterface(String name, ClassDiagram parent) {
         super();
+    }
+
+    @Override
+    public boolean equals(Object anotherObject) {
+
+        if (anotherObject == this)
+            return true;
+
+        if (!(anotherObject instanceof UMLInterface))
+            return false;
+
+        return ((UMLInterface)anotherObject).getName().equals(this.getName());
     }
 
     /**

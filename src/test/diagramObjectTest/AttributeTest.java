@@ -10,19 +10,19 @@ import backend.diagramObject.Attribute;
 
 import test.diagramObjectTest.helpers.TypeHelper;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 
 public class AttributeTest {
     
-    @BeforeEach
+    @Before
     public void setup() {
         TypeHelper.setup();
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         TypeHelper.tearDown();
     }
@@ -66,7 +66,7 @@ public class AttributeTest {
         a.setName("new name");
         Assert.assertTrue(a.getVisibility() == Attribute.Visibility.PROTECTED);
         Assert.assertTrue("new name".equals(a.getName()));
-        Assert.assertTrue(a.getType() == Type.getType("int"));  // yes, we compare by reference
+        Assert.assertTrue(a.getType() == Type.getType("boolean"));  // yes, we compare by reference
     }
 
     @Test

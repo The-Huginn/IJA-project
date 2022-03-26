@@ -1,12 +1,11 @@
 package backend.diagramObject;
 
 import java.util.ArrayList;
-
-import backend.diagramObject.Attribute;
-import backend.diagramObject.Type;
+import java.util.Collections;
+import java.util.List;
 
 public class Method extends Attribute{
-    private ArrayList<Type> parameters;
+    private List<Type> parameters;
 
     /**
      * 
@@ -14,7 +13,8 @@ public class Method extends Attribute{
      * @param parent Under which parent will this Method live
      */
     public Method(String name, UMLObject parent) {
-        super();
+        super(name, parent);
+        this.parameters = new ArrayList<Type>();
     }
 
     /**
@@ -24,7 +24,8 @@ public class Method extends Attribute{
      * @param visibility Visibility of this attribute
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility) {
-        super();
+        super(name, parent, type, visibility);
+        this.parameters = new ArrayList<Type>();
     }
 
     /**
@@ -35,7 +36,8 @@ public class Method extends Attribute{
      * @param isVisibilityChangable upon true Visibility will become immutable
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable) {
-        super();
+        super(name, parent, type, visibility, isVisibilityChangable);
+        this.parameters = new ArrayList<Type>();
     }
 
     /**
@@ -46,7 +48,16 @@ public class Method extends Attribute{
      * @param parameters array of string representation of Types
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility, String[] parameters) {
-        super();
+
+        super(name, parent, type, visibility);
+        this.parameters = new ArrayList<Type>();
+
+        for (String param : parameters) {            
+            if (Type.getType(param) == null)
+                continue;
+
+            this.parameters.add(Type.getType(param));
+        }
     }
 
     /**
@@ -58,7 +69,32 @@ public class Method extends Attribute{
      * @param parameters array of string representation of Types
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable, String[] parameters) {
-        super();
+        
+        super(name, parent, type, visibility, isVisibilityChangable);
+        this.parameters = new ArrayList<Type>();
+
+        for (String param : parameters) {
+            if (Type.getType(param) == null)
+                continue;
+
+            this.parameters.add(Type.getType(param));
+        }
+    }
+
+    @Override
+    public boolean equals(Object anotherObject) {
+
+        if (anotherObject == this)
+            return true;
+
+        if (!(anotherObject instanceof Method))
+            return false;
+
+        Method method = (Method)anotherObject;
+        
+        return  method.getName().equals(this.getName())  &&
+                method.getType() == this.getType() &&
+                method.getParameters().equals(this.getParameters());
     }
 
     /**
@@ -66,14 +102,26 @@ public class Method extends Attribute{
      */
     @Override
     public boolean setName(String newName) {
-        return false;
+
+        // Just for test cases
+        if (this.getParent() == null){
+            super.forceSetName(newName);
+            return true;
+        }
+
+        for (Method method : this.getParent().getMethods())
+            if (method.getName().equals(newName) && method.getType() == this.getType() && method.getParameters().equals(this.getParameters()))
+                return false;
+        
+        super.forceSetName(newName);
+        return true;
     }
 
     /**
      * @return Immutable Array of Types
      */
-    public ArrayList<Type> getParameters() {
-        return null;
+    public List<Type> getParameters() {
+        return Collections.unmodifiableList(this.parameters);
     }
 
     /**
@@ -81,6 +129,29 @@ public class Method extends Attribute{
      * @return Success of the operation
      */
     public boolean setParameters(String[] newParameters) {
-        return false;
+
+        for (String param : newParameters)
+            if (Type.getType(param) == null)
+                return false;
+
+        for (Method method : this.getParent().getMethods())
+            if (method.getName().equals(this.getName()) && method.getType() == this.getType() && method.getParameters().size() == newParameters.length) {
+
+                boolean same = true;
+                List<Type> params = method.getParameters();
+
+                for (int i = 0; i < params.size(); i++)
+                    if (Type.getType(newParameters[i]) != params.get(i))
+                        same = false;
+
+                if (same)
+                    return false;
+            }
+
+        this.parameters.clear();
+        for (String param : newParameters)
+            this.parameters.add(Type.getType(param));
+        
+        return true;
     }
 }

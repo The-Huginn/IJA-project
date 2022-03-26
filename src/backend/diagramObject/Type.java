@@ -1,6 +1,5 @@
 package backend.diagramObject;
 
-import java.lang.reflect.InaccessibleObjectException;
 import java.util.SortedMap;
 import java.util.TreeMap;
 

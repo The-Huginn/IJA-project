@@ -1,9 +1,5 @@
 package backend.diagramObject;
 
-import backend.diagramObject.Element;
-import backend.diagramObject.UMLObject;
-import backend.diagramObject.Type;
-
 public class Attribute extends Element {
     public enum Visibility {
         PRIVATE,
@@ -17,15 +13,17 @@ public class Attribute extends Element {
     private Visibility visibility;
     private boolean isVisibilityChangable;
 
-    public Attribute() {super();this.parent = null;}
 
     /**
      * @param name
      * @param parent Under which parent will this Attribute live
      */
     public Attribute(String name, UMLObject parent) {
-        super();
-        this.parent = null;
+        super(name);
+        this.parent = parent;
+        this.type = null;
+        this.visibility = Visibility.PUBLIC;
+        this.isVisibilityChangable = true;
     }
 
     /**
@@ -36,8 +34,11 @@ public class Attribute extends Element {
      * @param visibility Visibility of this attribute
      */
     public Attribute(String name, UMLObject parent, Type type, Visibility visibility) {
-        super();
-        this.parent = null;
+        super(name);
+        this.parent = parent;
+        this.type = type;
+        this.visibility = visibility;
+        this.isVisibilityChangable = true;
     }
 
     /**
@@ -49,8 +50,23 @@ public class Attribute extends Element {
      * @param isVisibilityChangable upon true Visibility will become immutable
      */
     public Attribute(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable) {
-        super();
-        this.parent = null;
+        super(name);
+        this.parent = parent;
+        this.type = type;
+        this.visibility = visibility;
+        this.isVisibilityChangable = isVisibilityChangable;
+    }
+
+    @Override
+    public boolean equals(Object anotherObject) {
+        
+        if (anotherObject == this)
+            return true;
+
+        if (!(anotherObject instanceof Attribute))
+            return false;
+
+        return ((Attribute)anotherObject).getName().equals(this.getName());
     }
 
     /**
@@ -58,14 +74,26 @@ public class Attribute extends Element {
      */
     @Override
     public boolean setName(String newName) {
-        return false;
+        
+        // Just for test cases
+        if (parent == null){
+            super.setName(newName);
+            return true;
+        }
+
+        for (Attribute tmpAttribute : parent.getVariables())
+            if (tmpAttribute.equals(this))
+                return false;  
+
+        super.setName(newName);
+        return true;
     }
 
     /**
      * @return Type of the Attribute
      */
     public Type getType() {
-        return null;
+        return this.type;
     }
 
     /**
@@ -74,13 +102,17 @@ public class Attribute extends Element {
      */
     public void setType(Type newType) {
 
+        if (newType == null)
+            return;
+        
+        this.type = newType;
     }
     
     /**
      * @return Visibility of the Attribute
      */
     public Visibility getVisibility() {
-        return null;
+        return this.visibility;
     }
 
     /**
@@ -88,20 +120,28 @@ public class Attribute extends Element {
      * @param newVisibility
      */
     public void setVisibility(Visibility newVisibility) {
-        
+        if (this.isVisibilityChangable())
+            this.visibility = newVisibility;    
     }
 
     /**
      * @return True if visibility changable otherwise false
      */
     public boolean isVisibilityChangable() {
-        return false;
+        return this.isVisibilityChangable;      
     }
 
     /**
      * @return
      */
     protected final UMLObject getParent() {
-        return null;
+        return this.parent;
+    }
+
+    /**
+     * @brief This method should be called only to forcibly rename Attribute
+     */
+    protected void forceSetName(String newName) {
+        super.setName(newName);
     }
 }

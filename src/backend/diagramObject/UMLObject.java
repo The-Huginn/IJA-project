@@ -1,18 +1,15 @@
 package backend.diagramObject;
 
-import backend.diagramObject.Element;
-import backend.diagramObject.Attribute;
-import backend.diagramObject.Method;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import backend.diagram.ClassDiagram;
-import backend.diagram.Diagram;
 
 public abstract class UMLObject extends Element{
     private final ClassDiagram parent;
-    private ArrayList<Attribute> variables;
-    private ArrayList<Method> methods;
+    protected List<Attribute> variables;
+    protected List<Method> methods;
 
     public UMLObject() {super();this.parent = null;}
 
@@ -21,8 +18,10 @@ public abstract class UMLObject extends Element{
      * @param parent Under which parent this UMLObject lives
      */
     public UMLObject(String name, ClassDiagram parent) {
-        super();
+        super(name);
         this.parent = parent;
+        this.variables = new ArrayList<Attribute>();
+        this.methods = new ArrayList<Method>();
     }
     
     /**
@@ -45,15 +44,15 @@ public abstract class UMLObject extends Element{
     /**
      * @return Array with variables
      */
-    public ArrayList<Attribute> getVariables() {
-        return null;
+    public List<Attribute> getVariables() {
+        return Collections.unmodifiableList(this.variables);
     }
 
     /**
      * @return Array with methods
      */
-    public ArrayList<Method> getMethods() {
-        return null;
+    public List<Method> getMethods() {
+        return Collections.unmodifiableList(this.methods);
     }
 
     /**
@@ -62,6 +61,10 @@ public abstract class UMLObject extends Element{
      */
     public void removeVariable(int index) {
 
+        if (index < 0 || index >= this.variables.size())
+            return;
+
+        variables.remove(index); 
     }
 
     /**
@@ -70,12 +73,16 @@ public abstract class UMLObject extends Element{
      */
     public void removeMethod(int index) {
 
+        if (index < 0 || index >= this.methods.size())
+            return;
+            
+        this.methods.remove(index);
     }
 
     /**
      * @return
      */
-    protected final Diagram getParent() {
-        return null;
+    protected final ClassDiagram getParent() {
+        return this.parent;
     }
 }
