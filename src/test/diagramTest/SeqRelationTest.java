@@ -92,6 +92,17 @@ public class SeqRelationTest {
     }
 
     @Test
+    public void samePeerTest2() {
+        SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
+        Assert.assertFalse(relation.setSecond(classes.get(0), 0));
+        Assert.assertFalse(relation.setFirst(classes.get(1), 0));
+        Assert.assertTrue(relation.getFirst().getKey() == classes.get(0));
+        Assert.assertTrue(relation.getFirst().getValue() == 0);
+        Assert.assertTrue(relation.getSecond().getKey() == classes.get(1));
+        Assert.assertTrue(relation.getSecond().getValue() == 0);
+    }
+
+    @Test
     public void setMethodTest() {
         SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
         Assert.assertTrue(relation.setMethod("method(10, \"string\")"));

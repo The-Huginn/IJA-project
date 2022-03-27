@@ -258,4 +258,27 @@ public class AdvancedTest {
         SeqRelation relation = new SeqRelation("relation", seqDiagram);
         Assert.assertFalse(relation.setFirst(classes.get(0), 1)); // We dont have this instanceNumber
     }
+
+    @Test
+    public void removeClassAndRelationsTest() {
+        String[] params = {"int"};
+        UMLClass umlClass = mainDiagram.getClasses().get(0);
+        umlClass.addMethod(new Method("method", umlClass, Type.getType("int"), Attribute.Visibility.PUBLIC, params));
+
+        mainDiagram.addRelation(new ClassRelation("first", mainDiagram, classes.get(0), 0, classes.get(1), 0, ClassRelEnum.GENERALIZATION));
+        mainDiagram.addRelation(new ClassRelation("second", mainDiagram, classes.get(1), 0, classes.get(2), 0, ClassRelEnum.GENERALIZATION));
+        mainDiagram.addRelation(new ClassRelation("third", mainDiagram, classes.get(2), 0, classes.get(3), 0, ClassRelEnum.GENERALIZATION));
+
+        SeqDiagram seqDiagram = new SeqDiagram("name", mainDiagram);
+        seqDiagram.addInstance(classes.get(2), 0);
+        seqDiagram.addInstance(classes.get(2), 1);
+
+        SeqRelation seqRelation = new SeqRelation("name", seqDiagram, classes.get(2), 0, classes.get(2), 1);
+        seqRelation.setMethod("method(10)");
+
+        Assert.assertTrue(seqDiagram.addRelation(seqRelation));
+        mainDiagram.removeRelation(0);
+
+        Assert.assertFalse(seqDiagram.checkCorrect());
+    }
 }

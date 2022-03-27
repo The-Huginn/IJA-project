@@ -24,9 +24,11 @@ public class SeqDiagramTest {
         diagram = new SeqDiagram("name", classDiagram);
         classes = new ArrayList<>();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++) {
             // Please do not change names!
             classes.add(new UMLClass("class " + String.valueOf(i), classDiagram));
+            classDiagram.addClass(classes.get(i));
+        }
     }
 
     @After
@@ -141,5 +143,50 @@ public class SeqDiagramTest {
         addInstances(0);
         classDiagram.removeClass(classes.size() - 1);
         Assert.assertFalse(diagram.checkCorrect());
+    }
+
+    @Test
+    public void removeObjectAndRelationTest() {
+        diagram.addInstance(classes.get(0), 0);
+        diagram.addInstance(classes.get(1), 1);
+        SeqRelation rel = new SeqRelation("name", diagram, classes.get(0), 0, classes.get(1), 1);
+        Assert.assertTrue(diagram.addRelation(rel));
+        diagram.removeInstance(0);
+        Assert.assertTrue(diagram.getInstances().size() == 1);
+        Assert.assertTrue(diagram.getInstances().get(0).getKey() == classes.get(1));
+        Assert.assertTrue(diagram.getInstances().get(0).getValue() == 1);
+        Assert.assertTrue(diagram.getRelations().size() == 0);  // We have removed class with it's relationships
+    }
+
+    @Test
+    public void removeObjectAndRelationTest2() {
+        diagram.addInstance(classes.get(0), 0);
+        diagram.addInstance(classes.get(1), 1);
+        SeqRelation rel = new SeqRelation("name", diagram, classes.get(1), 1, classes.get(0), 0);
+        Assert.assertTrue(diagram.addRelation(rel));
+        diagram.removeInstance(0);
+        Assert.assertTrue(diagram.getInstances().size() == 1);
+        Assert.assertTrue(diagram.getInstances().get(0).getKey() == classes.get(1));
+        Assert.assertTrue(diagram.getInstances().get(0).getValue() == 1);
+        Assert.assertTrue(diagram.getRelations().size() == 0);  // We have removed class with it's relationships
+    }
+
+    @Test
+    public void removeObjectAndRelationTest3() {
+        diagram.addInstance(classes.get(0), 0);
+        diagram.addInstance(classes.get(1), 1);
+        diagram.addInstance(classes.get(2), 2);
+        SeqRelation rel = new SeqRelation("name", diagram, classes.get(0), 0, classes.get(1), 1);
+        SeqRelation rel2 = new SeqRelation("name", diagram, classes.get(1), 1, classes.get(2), 2);
+        Assert.assertTrue(diagram.addRelation(rel));
+        Assert.assertTrue(diagram.addRelation(rel2));
+        diagram.removeInstance(0);
+        Assert.assertTrue(diagram.getInstances().size() == 2);
+        Assert.assertTrue(diagram.getInstances().get(0).getKey() == classes.get(1));
+        Assert.assertTrue(diagram.getInstances().get(0).getValue() == 1);
+        Assert.assertTrue(diagram.getInstances().get(1).getKey() == classes.get(2));
+        Assert.assertTrue(diagram.getInstances().get(1).getValue() == 2);
+        Assert.assertTrue(diagram.getRelations().size() == 1);  // We have removed class with it's relationships
+        Assert.assertTrue(diagram.getRelations().get(0) == rel2);
     }
 }

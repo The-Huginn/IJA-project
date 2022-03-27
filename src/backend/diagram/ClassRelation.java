@@ -46,6 +46,28 @@ public class ClassRelation extends Relation{
             this.type = ClassRelEnum.IMPLEMENTS;
     }
 
+    /**
+     * @param name
+     * @param parent Under which parent this ClassRelation lives
+     * @param firstInstance ClassRelation starts from this UMLObject
+     * @param firstInstanceNumber instance number of the first UMLObject instance
+     * @param secondInstance ClassRelation ends in this UMLObject
+     * @param secondInstanceNumber instance number of the second UMLObject instance
+     * @param type Type of relations
+     */
+    public ClassRelation(String name, Diagram parent, UMLObject firstClass, int firstInstance, UMLObject secondClass, int secondInstance, ClassRelEnum type) {
+        super(name, parent, firstClass, firstInstance, secondClass, secondInstance);
+        this.type = type;
+
+        // Overrides to correct type
+        if ((firstClass instanceof UMLInterface) && (secondClass instanceof UMLInterface))
+            this.type = ClassRelEnum.GENERALIZATION;
+
+        // Overrides to correct type
+        if ((firstClass instanceof UMLClass) && (secondClass instanceof UMLInterface))
+            this.type = ClassRelEnum.IMPLEMENTS;
+    }
+
     @Override
     public boolean checkCorrect() {
         return checkValidity(this.getParent(), this.getFirst().getKey(), this.getSecond().getKey(), this.getType());

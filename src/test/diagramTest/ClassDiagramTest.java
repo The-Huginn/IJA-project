@@ -143,6 +143,47 @@ public class ClassDiagramTest {
             Assert.assertTrue(interfaces.get(i) == returnInterfaces.get(i));
     }
 
+    @Test
+    public void removeObjectAndRelationTest() {
+        diagram.addClass(classes.get(0));
+        diagram.addClass(classes.get(1));
+        ClassRelation rel = new ClassRelation("name", diagram, classes.get(0), 0, classes.get(1), 0);
+        Assert.assertTrue(diagram.addRelation(rel));
+        diagram.removeClass(0);
+        Assert.assertTrue(diagram.getClasses().size() == 1);
+        Assert.assertTrue(diagram.getClasses().get(0) == classes.get(1));
+        Assert.assertTrue(diagram.getRelations().size() == 0);  // We have removed class with it's relationships
+    }
+
+    @Test
+    public void removeObjectAndRelationTest2() {
+        diagram.addClass(classes.get(0));
+        diagram.addClass(classes.get(1));
+        ClassRelation rel = new ClassRelation("name", diagram, classes.get(1), 0, classes.get(0), 0);
+        Assert.assertTrue(diagram.addRelation(rel));
+        diagram.removeClass(0);
+        Assert.assertTrue(diagram.getClasses().size() == 1);
+        Assert.assertTrue(diagram.getClasses().get(0) == classes.get(1));
+        Assert.assertTrue(diagram.getRelations().size() == 0);  // We have removed class with it's relationships
+    }
+
+    @Test
+    public void removeObjectAndRelationTest3() {
+        diagram.addClass(classes.get(0));
+        diagram.addClass(classes.get(1));
+        diagram.addClass(classes.get(2));
+        ClassRelation rel = new ClassRelation("name", diagram, classes.get(0), 0, classes.get(1), 0);
+        ClassRelation rel2 = new ClassRelation("name", diagram, classes.get(1), 0, classes.get(2), 0);
+        Assert.assertTrue(diagram.addRelation(rel));
+        Assert.assertTrue(diagram.addRelation(rel2));
+        diagram.removeClass(0);
+        Assert.assertTrue(diagram.getClasses().size() == 2);
+        Assert.assertTrue(diagram.getClasses().get(0) == classes.get(1));
+        Assert.assertTrue(diagram.getClasses().get(0) == classes.get(2));
+        Assert.assertTrue(diagram.getRelations().size() == 1);  // We have removed class with it's relationships
+        Assert.assertTrue(diagram.getRelations().get(0) == rel2);
+    }
+
     // tests for UMLClass and UMLInterface
     // tests for recursive checkCorrect
 }
