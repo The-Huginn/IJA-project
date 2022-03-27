@@ -21,6 +21,7 @@ public class ClassDiagramTest {
     public void setup() {
         diagram = new ClassDiagram("name");
         classes = new ArrayList<>();
+        interfaces = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
             // Please do not change names!
@@ -46,8 +47,8 @@ public class ClassDiagramTest {
     @Test
     public void removeRelationTest() {
         ClassRelation relation = new ClassRelation("name", diagram);
-        ClassRelation relation2 = new ClassRelation("name", diagram);
-        ClassRelation relation3 = new ClassRelation("another name", diagram);
+        ClassRelation relation2 = new ClassRelation("another name", diagram);
+        ClassRelation relation3 = new ClassRelation("another another name", diagram);
         diagram.addRelation(relation);
         Assert.assertTrue(diagram.addRelation(relation2));
         Assert.assertTrue(diagram.addRelation(relation3));
@@ -71,7 +72,7 @@ public class ClassDiagramTest {
     // In that case this problem does not happen.
     @Test
     public void addObjectTest2() {
-        classes.get(0).setName("class 2");
+        classes.get(0).setName("class 1");
         diagram.addClass(classes.get(0));
         Assert.assertFalse(diagram.addClass(classes.get(1)));
     }

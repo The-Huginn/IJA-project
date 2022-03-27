@@ -6,7 +6,7 @@ import backend.diagramObject.UMLClass;
 import javafx.util.Pair;
 
 public class SeqDiagram extends Diagram {
-    private ClassDiagram parent;
+    private final ClassDiagram parent;
     private ArrayList<Pair<UMLClass, Integer>> instances;
 
     /**
@@ -14,7 +14,7 @@ public class SeqDiagram extends Diagram {
      * @param parent
      */
     public SeqDiagram(String name, ClassDiagram parent) {
-        super();
+        super();this.parent=null;
     }
 
     @Override
@@ -48,6 +48,13 @@ public class SeqDiagram extends Diagram {
      * @return
      */
     public ArrayList<Pair<UMLClass, Integer>> getInstances() {
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    public final ClassDiagram getParent() {
         return null;
     }
 }

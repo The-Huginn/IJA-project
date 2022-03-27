@@ -14,12 +14,25 @@ public class ClassDiagram extends Diagram{
      * @param name
      */
     public ClassDiagram(String name) {
-        super();
+        super(name);
+        this.classes = new ArrayList<>();
+        this.interfaces = new ArrayList<>();
+        this.seqDiagrams = new ArrayList<>();
     }
 
     @Override
     public boolean addRelation(Relation relation) {
-        return false;
+
+        if (!(relation instanceof ClassRelation))
+            return false;
+
+        for (Relation relation2 : this.getRelations())
+            if (((ClassRelation)relation).equals(relation2))
+                return false;
+        
+        this.getRelations().add(relation);
+
+        return true;
     }
 
     @Override
@@ -33,7 +46,16 @@ public class ClassDiagram extends Diagram{
      * @return
      */
     public boolean addClass(UMLClass umlClass) {
-        return false;
+
+        if (umlClass == null)
+            return false;
+
+        for (UMLClass umlClass1 : this.getClasses())
+            if (umlClass.equals(umlClass1))
+                return false;
+
+        this.classes.add(umlClass);
+        return true;
     }
 
     /**
@@ -41,13 +63,33 @@ public class ClassDiagram extends Diagram{
      */
     public void removeClass(int index) {
 
+        ArrayList<UMLClass> test = this.getClasses();//.get(index-1);
+
+        if (index < 0 || index >= this.getClasses().size())
+            return;
+        
+        for (Relation relation : this.getRelations()) {
+            if (relation instanceof ClassRelation){
+                
+                // If it is first
+                if (relation.first.getKey().equals(this.getClasses().indexOf(index)))
+                    removeRelation(this.getRelations().indexOf(relation));
+
+                // If it is second
+                if (relation.second.getKey().equals(this.getClasses().indexOf(index)))
+                    removeRelation(this.getRelations().indexOf(relation));
+
+            }
+        }
+
+        this.classes.remove(index);
     }
 
     /**
      * @return
      */
     public ArrayList<UMLClass> getClasses() {
-        return null;
+        return this.classes;
     }
 
     /**
@@ -56,7 +98,16 @@ public class ClassDiagram extends Diagram{
      * @return
      */
     public boolean addInterface(UMLInterface umlInterface) {
-        return false;
+
+        if (umlInterface == null)
+            return false;
+
+        for (UMLInterface umlInterface1 : this.getInterfaces()) 
+            if (umlInterface.equals(umlInterface1))
+                return false;
+
+        this.interfaces.add(umlInterface);
+        return true;
     }
 
     /**
@@ -64,13 +115,17 @@ public class ClassDiagram extends Diagram{
      */
     public void removeInterface(int index) {
 
+        if (index < 0 || index >= this.getInterfaces().size())
+            return;
+
+        this.interfaces.remove(index);
     }
 
     /**
      * @return
      */
     public ArrayList<UMLInterface> getInterfaces() {
-        return null;
+        return this.interfaces;
     }
 
     /**
@@ -78,21 +133,33 @@ public class ClassDiagram extends Diagram{
      * @param diagram
      * @return
      */
-    public boolean addDiagram(SeqDiagram diagram) {
-        return false;
+    public boolean addDiagram(SeqDiagram seqDiagram) {
+
+        if (seqDiagram == null)
+            return false;
+        
+        for (SeqDiagram seqDiagram1 : this.getDiagrams())
+            if (seqDiagram1.equals(seqDiagram))
+                return false;
+
+        this.seqDiagrams.add(seqDiagram);    
+        return true;
     }
 
     /**
      * @param index
      */
     public void removeDiagram(int index) {
+        if (index < 0 || index >= this.getDiagrams().size())
+            return;
 
+        this.seqDiagrams.remove(index);
     }
 
     /**
      * @return
      */
     public ArrayList<SeqDiagram> getDiagrams() {
-        return null;
+        return this.seqDiagrams;
     }
 }

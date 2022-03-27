@@ -69,6 +69,24 @@ public class ClassRelation extends Relation{
     }
 
     @Override
+    public boolean equals(Object anotherObject) {
+
+        if (anotherObject == this)
+            return true;
+
+        if (!(anotherObject instanceof ClassRelation))
+            return false;
+
+        ClassRelation object = (ClassRelation) anotherObject;
+
+        return object.getName().equals(this.getName()) &&
+                object.getFirst().getKey().equals(this.getFirst().getKey()) &&
+                object.getSecond().getKey().equals(this.getSecond().getKey()) &&
+                object.getType() == this.getType() &&
+                object.getParent() == this.getParent();
+    }
+
+    @Override
     public boolean checkCorrect() {
         return checkValidity(this.getParent(), this.getFirst().getKey(), this.getSecond().getKey(), this.getType());
     }

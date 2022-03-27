@@ -12,7 +12,8 @@ public abstract class Diagram extends Element{
      * @param name
      */
     public Diagram(String name) {
-        super();
+        super(name);
+        this.relations = new ArrayList<>();
     }
 
     /**
@@ -30,13 +31,17 @@ public abstract class Diagram extends Element{
      * @return
      */
     public ArrayList<Relation> getRelations() {
-        return null;
+        return this.relations;
     }
 
     /**
      * @param index
      */
     public void removeRelation(int index) {
+        
+        if (index < 0 || this.getRelations().size() <= index)
+            return;
 
+        this.relations.remove(index);
     }
 }
