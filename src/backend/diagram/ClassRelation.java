@@ -1,9 +1,6 @@
 package backend.diagram;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-
-import org.junit.runner.notification.RunListener.ThreadSafe;
 
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLInterface;

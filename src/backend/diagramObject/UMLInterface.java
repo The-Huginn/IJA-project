@@ -83,8 +83,7 @@ public class UMLInterface extends UMLObject{
     @Override
     public boolean checkCorrect() {
     
-        // TODO - Check by Rasto
-        for (Method method1 : this.getMethods()){
+        for (Method method1 : this.getMethods()) {
 
             if (method1.isVisibilityChangable() || method1.getVisibility() != Visibility.PUBLIC)
                 return false;
@@ -92,7 +91,7 @@ public class UMLInterface extends UMLObject{
             for (Method method2 : this.getMethods())
                 if (method1.equals(method2) && method1 != method2)
                     return false;
-                }
+        }
 
         for (Attribute attribute1 : this.getVariables()){
 
@@ -101,7 +100,8 @@ public class UMLInterface extends UMLObject{
             
             for (Attribute attribute2 : this.getVariables())
                 if(attribute1.equals(attribute2) && attribute1 != attribute2)
-                    return false;}
+                    return false;
+        }
 
         return true;
     }

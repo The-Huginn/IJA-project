@@ -1,7 +1,6 @@
 package backend.diagram;
 
 import backend.diagramObject.Element;
-import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLObject;
 import javafx.util.Pair;
 

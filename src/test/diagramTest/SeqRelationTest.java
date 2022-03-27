@@ -84,17 +84,11 @@ public class SeqRelationTest {
     @Test
     public void samePeerTest() {
         SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
-        relation.setSecond(classes.get(0), 1);
-        relation.setType(SeqRelation.SeqRelEnum.DESTRUCTION);
+        Assert.assertTrue(relation.setSecond(classes.get(0), 1));
+        Assert.assertTrue(relation.setType(SeqRelation.SeqRelEnum.DESTRUCTION));
         Assert.assertTrue((UMLClass) relation.getFirst().getKey() == (UMLClass) relation.getSecond().getKey());
         Assert.assertTrue(relation.getFirst().getValue() == 0 && relation.getSecond().getValue() == 1);
         Assert.assertTrue(relation.getType() == SeqRelation.SeqRelEnum.DESTRUCTION);
-    }
-
-    @Test
-    public void samePeerTest2() {
-        SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
-        Assert.assertFalse(relation.setSecond(classes.get(0), 0));   // we probably dont want to allow self-reference
     }
 
     @Test
