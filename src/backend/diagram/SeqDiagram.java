@@ -2,7 +2,6 @@ package backend.diagram;
 
 import java.util.ArrayList;
 
-import backend.diagram.Diagram;
 import backend.diagramObject.UMLClass;
 import javafx.util.Pair;
 

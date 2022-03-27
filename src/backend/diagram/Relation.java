@@ -3,13 +3,12 @@ package backend.diagram;
 import backend.diagramObject.Element;
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLObject;
-import backend.diagram.Diagram;
 import javafx.util.Pair;
 
 public abstract class Relation extends Element{
-    private Pair<UMLClass, Integer> first;
-    private Pair<UMLClass, Integer> second;
-    protected final Diagram parent;
+    protected Pair<UMLObject, Integer> first;
+    protected Pair<UMLObject, Integer> second;
+    private final Diagram parent;
 
     public Relation(){super();this.parent = null;};
 
@@ -18,8 +17,10 @@ public abstract class Relation extends Element{
      * @param parent Under which parent this Relation lives
      */
     public Relation(String name, Diagram parent) {
-        super();
-        this.parent = null;
+        super(name);
+        this.parent = parent;
+        this.first = new Pair<UMLObject,Integer>(null, -1);
+        this.second = new Pair<UMLObject,Integer>(null, -1);
     }
 
     /**
@@ -31,8 +32,10 @@ public abstract class Relation extends Element{
      * @param secondInstanceNumber instance number of the second UMLObject instance
      */
     public Relation(String name, Diagram parent, UMLObject firstInstance, int firstInstanceNumber, UMLObject secondInstance, int secondInstanceNumber) {
-        super();
-        this.parent = null;
+        super(name);
+        this.parent = parent;
+        this.first = new Pair<UMLObject,Integer>(firstInstance, firstInstanceNumber);
+        this.second = new Pair<UMLObject,Integer>(secondInstance, secondInstanceNumber);
     }
 
     /**
@@ -44,14 +47,14 @@ public abstract class Relation extends Element{
      * @return Start point of relation
      */
     public Pair<UMLObject, Integer> getFirst() {
-        return null;
+        return first;
     }
 
     /**
      * @return End point of relation
      */
     public Pair<UMLObject, Integer> getSecond() {
-        return null;
+        return second;
     }
 
     /**
@@ -67,4 +70,8 @@ public abstract class Relation extends Element{
      * @return Success of operation
      */
     abstract boolean setSecond(UMLObject instance, Integer instanceNumber);
+
+    protected final Diagram getParent() {
+        return this.parent;
+    }
 }

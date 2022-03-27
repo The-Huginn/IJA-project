@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.After;
+import org.junit.Before;
 
 public class ClassRelationTest {
     private ArrayList<UMLClass> classes;
 
-    @BeforeEach
+    @Before
     public void setup() {
         TypeHelper.setup();
         classes = new ArrayList<>();
@@ -24,7 +24,7 @@ public class ClassRelationTest {
             classes.add(new UMLClass("first class" + String.valueOf(i), null));
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         TypeHelper.tearDown();
         classes.clear();
@@ -45,15 +45,15 @@ public class ClassRelationTest {
     @Test
     public void setRelationTest() {
         ClassRelation relation = new ClassRelation("relation", null);
-        relation.setFirst(classes.get(0), 0);
-        relation.setSecond(classes.get(1), 0);
+        Assert.assertTrue(relation.setFirst(classes.get(0), 0));
+        Assert.assertTrue(relation.setSecond(classes.get(1), 0));
         Assert.assertTrue((UMLClass) relation.getFirst().getKey() == classes.get(0));
         Assert.assertTrue((UMLClass) relation.getSecond().getKey() == classes.get(1));
     }
 
     @Test
     public void changeTypeTest() {
-        ClassRelation relation = new ClassRelation("relation", null);
+        ClassRelation relation = new ClassRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
         relation.setType(ClassRelation.ClassRelEnum.AGGREGATION);
         Assert.assertTrue(relation.getType() == ClassRelation.ClassRelEnum.AGGREGATION);
     }
@@ -89,6 +89,7 @@ public class ClassRelationTest {
         UMLInterface inter = new UMLInterface("name", null);
         ClassRelation relation = new ClassRelation("relation", null);
         relation.setFirst(inter, 0);
+        relation.setType(ClassRelEnum.GENERALIZATION);
         Assert.assertTrue(relation.getType() == ClassRelEnum.GENERALIZATION);
         Assert.assertFalse(relation.setSecond(classes.get(0), 0));
     }
@@ -105,7 +106,7 @@ public class ClassRelationTest {
         relation.setFirst(classes.get(0), 0);
         Assert.assertTrue(relation.getType() == ClassRelEnum.ASSOCIATION);
         UMLInterface inter = new UMLInterface("name", null);
-        Assert.assertTrue(relation.setSecond(inter, 0));
+        Assert.assertTrue(relation.setSecond(inter, 0, ClassRelEnum.IMPLEMENTS));
         Assert.assertTrue(relation.getType() == ClassRelEnum.IMPLEMENTS);
     }
 
@@ -113,7 +114,7 @@ public class ClassRelationTest {
     public void implementInterfaceTest2() {
         ClassRelation relation = new ClassRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
         UMLInterface inter = new UMLInterface("name", null);
-        Assert.assertTrue(relation.setSecond(inter, 0));
+        Assert.assertTrue(relation.setSecond(inter, 0, ClassRelEnum.IMPLEMENTS));
         Assert.assertTrue(relation.getType() == ClassRelEnum.IMPLEMENTS);
     }
 

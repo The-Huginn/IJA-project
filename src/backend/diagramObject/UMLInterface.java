@@ -1,6 +1,7 @@
 package backend.diagramObject;
 
 import backend.diagram.ClassDiagram;
+import backend.diagramObject.Attribute.Visibility;
 
 public class UMLInterface extends UMLObject{
     
@@ -9,7 +10,7 @@ public class UMLInterface extends UMLObject{
      * @param parent Under which parent this UMLInterface lives
      */
     public UMLInterface(String name, ClassDiagram parent) {
-        super();
+        super(name, parent);
     }
 
     @Override
@@ -29,7 +30,14 @@ public class UMLInterface extends UMLObject{
      */
     @Override
     public boolean setName(String newName) {
-        return false;
+        
+        for (UMLInterface interface1 : this.getParent().getInterfaces())
+            if (this.equals(interface1))
+                return false;
+        
+        super.setName(newName);
+        return true;
+        
     }
 
     /**
@@ -37,7 +45,19 @@ public class UMLInterface extends UMLObject{
      */
     @Override
     public boolean addVariable(Attribute variable) {
-        return false;
+
+        if (variable instanceof Method)
+            return false;
+
+        for (Attribute attribute : variable.getParent().getVariables())
+            if (attribute.equals(variable))
+                return false;
+
+        if (variable.getVisibility() != Visibility.PUBLIC || variable.isVisibilityChangable())
+            return false;
+
+        this.variables.add(variable);
+        return true;
     }
 
     /**
@@ -45,7 +65,16 @@ public class UMLInterface extends UMLObject{
      */
     @Override
     public boolean addMethod(Method method) {
-        return false;
+
+        for (Method method1 : method.getParent().getMethods())
+            if (method.equals(method1))
+                return false;
+        
+        if (method.getVisibility() != Visibility.PUBLIC || method.isVisibilityChangable())
+            return false;
+        
+        this.methods.add(method);
+        return true ;
     }
 
     /**
@@ -53,6 +82,27 @@ public class UMLInterface extends UMLObject{
      */
     @Override
     public boolean checkCorrect() {
-        return false;
+    
+        // TODO - Check by Rasto
+        for (Method method1 : this.getMethods()){
+
+            if (method1.isVisibilityChangable() || method1.getVisibility() != Visibility.PUBLIC)
+                return false;
+
+            for (Method method2 : this.getMethods())
+                if (method1.equals(method2) && method1 != method2)
+                    return false;
+                }
+
+        for (Attribute attribute1 : this.getVariables()){
+
+            if (attribute1.isVisibilityChangable() || attribute1.getVisibility() != Visibility.PUBLIC || (attribute1 instanceof Method))
+                return false;
+            
+            for (Attribute attribute2 : this.getVariables())
+                if(attribute1.equals(attribute2) && attribute1 != attribute2)
+                    return false;}
+
+        return true;
     }
 }

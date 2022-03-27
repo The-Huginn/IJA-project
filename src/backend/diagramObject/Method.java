@@ -134,19 +134,20 @@ public class Method extends Attribute{
             if (Type.getType(param) == null)
                 return false;
 
-        for (Method method : this.getParent().getMethods())
-            if (method.getName().equals(this.getName()) && method.getType() == this.getType() && method.getParameters().size() == newParameters.length) {
+        if (this.getParent() != null)
+            for (Method method : this.getParent().getMethods())
+                if (method.getName().equals(this.getName()) && method.getType() == this.getType() && method.getParameters().size() == newParameters.length) {
 
-                boolean same = true;
-                List<Type> params = method.getParameters();
+                    boolean same = true;
+                    List<Type> params = method.getParameters();
 
-                for (int i = 0; i < params.size(); i++)
-                    if (Type.getType(newParameters[i]) != params.get(i))
-                        same = false;
+                    for (int i = 0; i < params.size(); i++)
+                        if (Type.getType(newParameters[i]) != params.get(i))
+                            same = false;
 
-                if (same)
-                    return false;
-            }
+                    if (same)
+                        return false;
+                }
 
         this.parameters.clear();
         for (String param : newParameters)

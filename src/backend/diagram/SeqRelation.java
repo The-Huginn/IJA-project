@@ -1,6 +1,5 @@
 package backend.diagram;
 
-import backend.diagram.Relation;
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLObject;
 

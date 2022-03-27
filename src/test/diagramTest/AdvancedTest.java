@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.After;
+import org.junit.Before;
 
 import backend.diagram.ClassDiagram;
 import backend.diagram.ClassRelation;
@@ -23,7 +23,7 @@ public class AdvancedTest {
     private ArrayList<UMLClass> classes;
     private ArrayList<UMLInterface> interfaces;
 
-    @BeforeEach
+    @Before
     public void setup() {
         mainDiagram = new ClassDiagram("name");
         classes = new ArrayList<>();
@@ -42,7 +42,7 @@ public class AdvancedTest {
             mainDiagram.addInterface(umlInterface);
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         mainDiagram = null;
         classes.clear();

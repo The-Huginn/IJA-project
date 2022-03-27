@@ -14,15 +14,15 @@ import test.diagramObjectTest.helpers.TypeHelper;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.After;
+import org.junit.Before;
 
 public class SeqRelationTest {
     private ArrayList<UMLClass> classes;
     private Method method;
     private Attribute attribute;
 
-    @BeforeEach
+    @Before
     public void setup() {
         TypeHelper.setup();
         classes = new ArrayList<>();
@@ -34,7 +34,7 @@ public class SeqRelationTest {
         classes.get(0).addVariable(attribute);
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         TypeHelper.tearDown();
         classes.clear();

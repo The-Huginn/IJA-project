@@ -7,21 +7,21 @@ import backend.diagramObject.UMLInterface;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.After;
+import org.junit.Before;
 
 import test.diagramObjectTest.helpers.TypeHelper;
 
 public class UMLInterfaceTest {
     private UMLInterface inter;
 
-    @BeforeEach
+    @Before
     public void setup() {
         inter = new UMLInterface("interface name", null);
         TypeHelper.setup();
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         inter = null;
         TypeHelper.tearDown();
@@ -85,7 +85,7 @@ public class UMLInterfaceTest {
         inter.removeVariable(1);
         Assert.assertTrue(inter.getVariables().size() == 2);
         Assert.assertTrue(inter.getVariables().get(0) == a);
-        Assert.assertTrue(inter.getVariables().get(1) == b);
+        Assert.assertTrue(inter.getVariables().get(1) == c);
     }
 
     @Test
@@ -104,9 +104,8 @@ public class UMLInterfaceTest {
         String params[] = {"int", "long"};
         Method m = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
         inter.addVariable(a);
-        Assert.assertTrue(inter.addVariable(m));
+        Assert.assertFalse(inter.addVariable(m));
         Assert.assertTrue(inter.getVariables().get(0) == a);
-        Assert.assertTrue(inter.getVariables().get(1) == m);
     }
 
     @Test
@@ -115,10 +114,10 @@ public class UMLInterfaceTest {
         Method m = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
         String params2[] = {"int", "long"};
         Method m2 = new Method("name", inter, Type.getType("int"), Attribute.Visibility.PUBLIC, false, params2);
-        inter.addVariable(m);
-        Assert.assertTrue(inter.addVariable(m2));
-        Assert.assertTrue(inter.getVariables().get(0) == m);
-        Assert.assertTrue(inter.getVariables().get(1) == m2);
+        inter.addMethod(m);
+        Assert.assertTrue(inter.addMethod(m2));
+        Assert.assertTrue(inter.getMethods().get(0) == m);
+        Assert.assertTrue(inter.getMethods().get(1) == m2);
     }
     
     @Test
@@ -127,10 +126,10 @@ public class UMLInterfaceTest {
         Method m = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
         String params2[] = {"int", "int"};
         Method m2 = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params2);
-        inter.addVariable(m);
-        Assert.assertTrue(inter.addVariable(m2));
-        Assert.assertTrue(inter.getVariables().get(0) == m);
-        Assert.assertTrue(inter.getVariables().get(1) == m2);
+        inter.addMethod(m);
+        Assert.assertTrue(inter.addMethod(m2));
+        Assert.assertTrue(inter.getMethods().get(0) == m);
+        Assert.assertTrue(inter.getMethods().get(1) == m2);
     }
 
     @Test
@@ -139,10 +138,10 @@ public class UMLInterfaceTest {
         Method m = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
         String params2[] = {"int"};
         Method m2 = new Method("name", inter, Type.getType("int"), Attribute.Visibility.PUBLIC, false, params2);
-        inter.addVariable(m);
-        Assert.assertTrue(inter.addVariable(m2));
-        Assert.assertTrue(inter.getVariables().get(0) == m);
-        Assert.assertTrue(inter.getVariables().get(1) == m2);
+        inter.addMethod(m);
+        Assert.assertTrue(inter.addMethod(m2));
+        Assert.assertTrue(inter.getMethods().get(0) == m);
+        Assert.assertTrue(inter.getMethods().get(1) == m2);
     }
 
     @Test
@@ -151,10 +150,10 @@ public class UMLInterfaceTest {
         Method m = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
         String params2[] = {"int", "long"};
         Method m2 = new Method("name", inter, Type.getType("int"), Attribute.Visibility.PUBLIC, false, params2);
-        inter.addVariable(m);
-        Assert.assertTrue(inter.addVariable(m2));
-        Assert.assertTrue(inter.getVariables().get(0) == m);
-        Assert.assertTrue(inter.getVariables().get(1) == m2);
+        inter.addMethod(m);
+        Assert.assertTrue(inter.addMethod(m2));
+        Assert.assertTrue(inter.getMethods().get(0) == m);
+        Assert.assertTrue(inter.getMethods().get(1) == m2);
     }
 
     @Test
@@ -163,9 +162,20 @@ public class UMLInterfaceTest {
         Method m = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
         String params2[] = {"int", "long"};
         Method m2 = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params2);
-        inter.addVariable(m);
-        Assert.assertFalse(inter.addVariable(m2));
-        Assert.assertTrue(inter.getVariables().get(0) == m);
+        inter.addMethod(m);
+        Assert.assertFalse(inter.addMethod(m2));
+        Assert.assertTrue(inter.getMethods().get(0) == m);
+    }
+
+    @Test
+    public void addAttributeTest12() {
+        Attribute a = new Attribute("name", inter, Type.getType("int"), Attribute.Visibility.PUBLIC, false);
+        String params[] = {"int", "long"};
+        Method m = new Method("name", inter, Type.getType("void"), Attribute.Visibility.PUBLIC, false, params);
+        inter.addVariable(a);
+        Assert.assertTrue(inter.addMethod(m));
+        Assert.assertTrue(inter.getVariables().get(0) == a);
+        Assert.assertTrue(inter.getMethods().get(0) == m);
     }
 
     @Test(expected = Test.None.class /* expecting no exception */)
