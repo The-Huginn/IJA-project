@@ -7,24 +7,56 @@ import javafx.util.Pair;
 
 public class SeqDiagram extends Diagram {
     private final ClassDiagram parent;
-    private ArrayList<Pair<UMLClass, Integer>> instances;
+    private ArrayList<Pair<UMLClass, Integer>> instances = new ArrayList<>();
 
     /**
      * @param name
      * @param parent
      */
     public SeqDiagram(String name, ClassDiagram parent) {
-        super();this.parent=null;
+        super(name);
+        this.parent = parent;
+    }
+
+    @Override
+    public boolean setName(String newName) {
+
+        for (SeqDiagram diagram : this.getParent().getDiagrams())
+            if (diagram.getName().equals(newName))
+                return false;
+
+        super.setName(newName);
+
+        return true;
     }
 
     @Override
     public boolean addRelation(Relation relation) {
-        return false;
+
+        if (!(relation instanceof SeqRelation))
+            return false;
+
+        for (Relation relation2: this.getRelations())
+            if (relation.equals(relation2))
+                return false;
+
+        this.getRelations().add(relation);
+
+        return true;
     }
 
     @Override
     public boolean checkCorrect() {
-        return false;
+
+        for (Pair<UMLClass, Integer> pair : this.instances)
+            if (!this.getParent().getClasses().contains(pair.getKey()))
+                return false;
+
+        for (Relation relation : this.getRelations())
+            if (!(((SeqRelation)relation).checkCorrect()))
+                return false;
+
+        return true;
     }
 
     /**
@@ -34,7 +66,17 @@ public class SeqDiagram extends Diagram {
      * @return
      */
     public boolean addInstance(UMLClass instance, int instanceNumber) {
-        return false;
+
+        if (!this.getParent().getClasses().contains(instance))
+            return false;
+
+        for (Pair<UMLClass, Integer> pair: this.instances)
+            if (pair.getKey().equals(instance) && pair.getValue().equals(instanceNumber))
+                return false;
+
+        this.instances.add(new Pair<UMLClass, Integer> (instance, instanceNumber));
+
+        return true;
     }
 
     /**
@@ -42,19 +84,27 @@ public class SeqDiagram extends Diagram {
      */
     public void removeInstance(int index) {
 
+        if (index < 0 || index >= this.instances.size())
+            return;
+
+        // checks if instance and instanceNumber occur as first or second in the relation
+        this.getRelations().removeIf(relation -> (this.instances.get(index).getKey().equals(relation.getFirst().getKey()) && this.instances.get(index).getValue().equals(relation.getFirst().getValue())) ||
+                                                (this.instances.get(index).getKey().equals(relation.getSecond().getKey()) && this.instances.get(index).getValue().equals(relation.getSecond().getValue())));
+
+        this.instances.remove(index);
     }
 
     /**
      * @return
      */
     public ArrayList<Pair<UMLClass, Integer>> getInstances() {
-        return null;
+        return this.instances;
     }
 
     /**
      * @return
      */
     public final ClassDiagram getParent() {
-        return null;
+        return this.parent;
     }
 }

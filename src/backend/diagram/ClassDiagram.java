@@ -37,7 +37,24 @@ public class ClassDiagram extends Diagram{
 
     @Override
     public boolean checkCorrect() {
-        return false;
+
+        for (SeqDiagram diagram : this.getDiagrams())
+            if (!diagram.checkCorrect())
+                return false;
+
+        for (UMLClass class1 : this.getClasses())
+            if (!class1.checkCorrect())
+                return false;
+
+        for (UMLInterface interface1 : this.getInterfaces())
+            if (!interface1.checkCorrect())
+                return false;
+
+        for (Relation relation : this.getRelations())
+            if (!((ClassRelation)relation).checkCorrect())
+                return false;
+
+        return true;
     }
 
     /**

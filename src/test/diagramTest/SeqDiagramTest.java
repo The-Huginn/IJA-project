@@ -91,7 +91,7 @@ public class SeqDiagramTest {
 
         for (int i = 0; i < classes.size(); i++) {
             Assert.assertTrue(instances.get(i).getKey() == classes.get(i) && instances.get(i).getValue() == 0);
-            Assert.assertTrue(instances.get(i + classes.size()).getKey() == classes.get(i) && instances.get(i + classes.size()).getValue() == 0);
+            Assert.assertTrue(instances.get(i + classes.size()).getKey() == classes.get(i) && instances.get(i + classes.size()).getValue() == 1);
         }
     }
 

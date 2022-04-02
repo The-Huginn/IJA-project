@@ -7,6 +7,7 @@ import backend.diagramObject.Method;
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLInterface;
 import backend.diagramObject.UMLObject;
+import backend.diagramObject.Attribute.Visibility;
 import javafx.util.Pair;
 
 public class SeqRelation extends Relation{
@@ -231,7 +232,7 @@ public class SeqRelation extends Relation{
         }
 
         String parameters[] = methodParams.split(",");
-        // TODO check for empty parameters[index]
+        
         for (String param : parameters) {
             if (param.replaceAll(" ","").equals(""))
                 if (parameters.length == 1)
@@ -257,7 +258,10 @@ public class SeqRelation extends Relation{
 
         for (Method method : current.getMethods())
             if (method.getName().equals(methodName) && method.getParameters().size() == paramCount)
-                return true;
+                if (method.getVisibility() == Visibility.PRIVATE)
+                    return false;
+                else
+                    return true;
 
         // Just for test cases
         if (diagram == null)
