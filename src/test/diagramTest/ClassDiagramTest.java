@@ -1,6 +1,7 @@
 package test.diagramTest;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,8 +15,8 @@ import backend.diagramObject.UMLInterface;
 
 public class ClassDiagramTest {
     private ClassDiagram diagram;
-    private ArrayList<UMLClass> classes;
-    private ArrayList<UMLInterface> interfaces;
+    private List<UMLClass> classes;
+    private List<UMLInterface> interfaces;
 
     @Before
     public void setup() {
@@ -108,8 +109,8 @@ public class ClassDiagramTest {
         for (UMLInterface umlInterface : interfaces)
             Assert.assertTrue(diagram.addInterface(umlInterface));
 
-        ArrayList<UMLClass> returnClasses = diagram.getClasses();
-        ArrayList<UMLInterface> returnInterfaces = diagram.getInterfaces();
+        List<UMLClass> returnClasses = diagram.getClasses();
+        List<UMLInterface> returnInterfaces = diagram.getInterfaces();
 
         Assert.assertTrue(returnClasses.size() == classes.size() && returnInterfaces.size() == interfaces.size());      
 
@@ -132,8 +133,8 @@ public class ClassDiagramTest {
         diagram.removeInterface(1);
         interfaces.remove(1);
 
-        ArrayList<UMLClass> returnClasses = diagram.getClasses();
-        ArrayList<UMLInterface> returnInterfaces = diagram.getInterfaces();
+        List<UMLClass> returnClasses = diagram.getClasses();
+        List<UMLInterface> returnInterfaces = diagram.getInterfaces();
 
         Assert.assertTrue(returnClasses.size() == classes.size() && returnInterfaces.size() == interfaces.size());      
 

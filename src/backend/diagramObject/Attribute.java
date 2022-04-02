@@ -9,9 +9,9 @@ public class Attribute extends Element {
     }
 
     private final UMLObject parent;
-    private Type type;
-    private Visibility visibility;
-    private boolean isVisibilityChangable;
+    private Type type = null;
+    private Visibility visibility = Visibility.PUBLIC;
+    private boolean isVisibilityChangable = true;
 
 
     /**
@@ -21,9 +21,6 @@ public class Attribute extends Element {
     public Attribute(String name, UMLObject parent) {
         super(name);
         this.parent = parent;
-        this.type = null;
-        this.visibility = Visibility.PUBLIC;
-        this.isVisibilityChangable = true;
     }
 
     /**
@@ -38,7 +35,6 @@ public class Attribute extends Element {
         this.parent = parent;
         this.type = type;
         this.visibility = visibility;
-        this.isVisibilityChangable = true;
     }
 
     /**

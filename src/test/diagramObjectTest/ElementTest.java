@@ -10,9 +10,6 @@ import org.junit.Test;
 
 import backend.diagramObject.Element;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class ElementTest {
 
     @Test
@@ -59,8 +56,7 @@ public class ElementTest {
     @Test
     public void EqualsUnrelatedTest() {
         Element e1 = new Element("name");
-        ArrayList<Integer> e2 = new ArrayList<>(Arrays.asList(1, 2));
-        Assert.assertFalse(e1.equals(e2));
+        Assert.assertFalse(e1.equals(null));
     }
 
     @Test

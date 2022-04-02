@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Method extends Attribute{
-    private List<Type> parameters;
+    private List<Type> parameters = new ArrayList<>();
 
     /**
      * 
@@ -14,7 +14,6 @@ public class Method extends Attribute{
      */
     public Method(String name, UMLObject parent) {
         super(name, parent);
-        this.parameters = new ArrayList<Type>();
     }
 
     /**
@@ -25,7 +24,6 @@ public class Method extends Attribute{
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility) {
         super(name, parent, type, visibility);
-        this.parameters = new ArrayList<Type>();
     }
 
     /**
@@ -37,7 +35,6 @@ public class Method extends Attribute{
      */
     public Method(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable) {
         super(name, parent, type, visibility, isVisibilityChangable);
-        this.parameters = new ArrayList<Type>();
     }
 
     /**
@@ -50,7 +47,6 @@ public class Method extends Attribute{
     public Method(String name, UMLObject parent, Type type, Visibility visibility, String[] parameters) {
 
         super(name, parent, type, visibility);
-        this.parameters = new ArrayList<Type>();
 
         for (String param : parameters) {            
             if (Type.getType(param) == null)
@@ -71,7 +67,6 @@ public class Method extends Attribute{
     public Method(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable, String[] parameters) {
         
         super(name, parent, type, visibility, isVisibilityChangable);
-        this.parameters = new ArrayList<Type>();
 
         for (String param : parameters) {
             if (Type.getType(param) == null)

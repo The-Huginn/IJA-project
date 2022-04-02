@@ -1,6 +1,7 @@
 package test.diagramTest;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import javafx.util.Pair;
 public class SeqDiagramTest {
     private ClassDiagram classDiagram;
     private SeqDiagram diagram;
-    private ArrayList<UMLClass> classes;
+    private List<UMLClass> classes;
 
     @Before
     public void setup() {
@@ -85,7 +86,7 @@ public class SeqDiagramTest {
         addInstances(0);
         addInstances(1);
 
-        ArrayList<Pair<UMLClass, Integer>> instances = diagram.getInstances();
+        List<Pair<UMLClass, Integer>> instances = diagram.getInstances();
 
         Assert.assertTrue(instances.size() == 2 * classes.size());
 
@@ -102,7 +103,7 @@ public class SeqDiagramTest {
         diagram.removeInstance(2);
         classes.remove(2);
 
-        ArrayList<Pair<UMLClass, Integer>> instances = diagram.getInstances();
+        List<Pair<UMLClass, Integer>> instances = diagram.getInstances();
 
         Assert.assertTrue(instances.size() == classes.size());
 
@@ -117,7 +118,7 @@ public class SeqDiagramTest {
         diagram.removeInstance(classes.size() - 1);
         diagram.addInstance(classes.get(classes.size() - 1), 0);
 
-        ArrayList<Pair<UMLClass, Integer>> instances = diagram.getInstances();
+        List<Pair<UMLClass, Integer>> instances = diagram.getInstances();
 
         Assert.assertTrue(instances.size() == classes.size());
 

@@ -1,23 +1,22 @@
 package backend.diagram;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLInterface;
 
 public class ClassDiagram extends Diagram{
-    ArrayList<UMLClass> classes;
-    ArrayList<UMLInterface> interfaces;
-    ArrayList<SeqDiagram> seqDiagrams;
+    List<UMLClass> classes = new ArrayList<>();
+    List<UMLInterface> interfaces = new ArrayList<>();
+    List<SeqDiagram> seqDiagrams = new ArrayList<>();
 
     /**
      * @param name
      */
     public ClassDiagram(String name) {
         super(name);
-        this.classes = new ArrayList<>();
-        this.interfaces = new ArrayList<>();
-        this.seqDiagrams = new ArrayList<>();
     }
 
     @Override
@@ -30,7 +29,7 @@ public class ClassDiagram extends Diagram{
             if (((ClassRelation)relation).equals(relation2))
                 return false;
         
-        this.getRelations().add(relation);
+        this.relations.add(relation);
 
         return true;
     }
@@ -85,7 +84,7 @@ public class ClassDiagram extends Diagram{
         
         UMLClass toRemove = this.getClasses().get(index);
 
-        this.getRelations().removeIf(relation -> toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()));
+        this.relations.removeIf(relation -> toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()));
 
         this.classes.remove(index);
     }
@@ -93,8 +92,8 @@ public class ClassDiagram extends Diagram{
     /**
      * @return
      */
-    public ArrayList<UMLClass> getClasses() {
-        return this.classes;
+    public List<UMLClass> getClasses() {
+        return Collections.unmodifiableList(this.classes);
     }
 
     /**
@@ -125,7 +124,7 @@ public class ClassDiagram extends Diagram{
 
         UMLInterface toRemove = this.getInterfaces().get(index);
 
-        this.getRelations().removeIf(relation -> toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()));
+        this.relations.removeIf(relation -> toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()));
 
         this.interfaces.remove(index);
     }
@@ -133,8 +132,8 @@ public class ClassDiagram extends Diagram{
     /**
      * @return
      */
-    public ArrayList<UMLInterface> getInterfaces() {
-        return this.interfaces;
+    public List<UMLInterface> getInterfaces() {
+        return Collections.unmodifiableList(this.interfaces);
     }
 
     /**
@@ -168,7 +167,7 @@ public class ClassDiagram extends Diagram{
     /**
      * @return
      */
-    public ArrayList<SeqDiagram> getDiagrams() {
-        return this.seqDiagrams;
+    public List<SeqDiagram> getDiagrams() {
+        return Collections.unmodifiableList(this.seqDiagrams);
     }
 }

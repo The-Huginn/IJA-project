@@ -1,6 +1,6 @@
 package backend.diagram;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import backend.diagram.ClassRelation.ClassRelEnum;
 import backend.diagramObject.Method;
@@ -11,10 +11,10 @@ import backend.diagramObject.Attribute.Visibility;
 import javafx.util.Pair;
 
 public class SeqRelation extends Relation{
-    private SeqRelEnum type;
-    private String methodName;
-    private String methodParams;
-    private String note;
+    private SeqRelEnum type = SeqRelEnum.SYNCHROUNOUS;
+    private String methodName = "Missing method name";
+    private String methodParams = "Missing method params";
+    private String note = "Missing note";
 
     public enum SeqRelEnum {
         SYNCHROUNOUS,
@@ -30,10 +30,6 @@ public class SeqRelation extends Relation{
      */
     public SeqRelation(String name, Diagram parent) {
         super(name, parent);
-        this.type = SeqRelEnum.SYNCHROUNOUS;
-        this.methodName = "Missing method name";
-        this.methodParams = "Missing method params";
-        this.note = "Missing note";
     }
 
     /**
@@ -46,10 +42,6 @@ public class SeqRelation extends Relation{
      */
     public SeqRelation(String name, Diagram parent, UMLClass firstInstance, int firstInstanceNumber, UMLClass secondInstance, int secondInstanceNumber) {
         super(name, parent, firstInstance, firstInstanceNumber, secondInstance, secondInstanceNumber);
-        this.type = SeqRelEnum.SYNCHROUNOUS;
-        this.methodName = "Missing method name";
-        this.methodParams = "Missing method params";
-        this.note = "Missing note";
     }
 
     @Override
@@ -268,7 +260,7 @@ public class SeqRelation extends Relation{
             return false;
 
         if (current instanceof UMLClass) {
-            ArrayList<Relation> relations = diagram.getRelations();
+            List<Relation> relations = diagram.getRelations();
 
             for (Relation relation : relations) {
                 ClassRelation classRelation = (ClassRelation) relation;
@@ -282,7 +274,7 @@ public class SeqRelation extends Relation{
             }
         }
         else {
-            ArrayList<Relation> relations = diagram.getRelations();
+            List<Relation> relations = diagram.getRelations();
 
             for (Relation relation : relations) {
                 ClassRelation classRelation = (ClassRelation) relation;

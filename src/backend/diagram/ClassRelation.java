@@ -8,7 +8,7 @@ import backend.diagramObject.UMLObject;
 import javafx.util.Pair;
 
 public class ClassRelation extends Relation{
-    private ClassRelEnum type;
+    private ClassRelEnum type = ClassRelEnum.ASSOCIATION;
 
     public enum ClassRelEnum {
         ASSOCIATION,
@@ -24,7 +24,6 @@ public class ClassRelation extends Relation{
      */
     public ClassRelation(String name, Diagram parent) {
         super(name, parent);
-        this.type = ClassRelEnum.ASSOCIATION;
     }
 
     /**
@@ -37,7 +36,6 @@ public class ClassRelation extends Relation{
      */
     public ClassRelation(String name, Diagram parent, UMLObject firstClass, int firstInstance, UMLObject secondClass, int secondInstance) {
         super(name, parent, firstClass, firstInstance, secondClass, secondInstance);
-        this.type = ClassRelEnum.ASSOCIATION;
 
         if ((firstClass instanceof UMLInterface) && (secondClass instanceof UMLInterface))
             this.type = ClassRelEnum.GENERALIZATION;

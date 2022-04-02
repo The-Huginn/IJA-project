@@ -8,8 +8,8 @@ import backend.diagram.ClassDiagram;
 
 public abstract class UMLObject extends Element{
     private final ClassDiagram parent;
-    protected List<Attribute> variables;
-    protected List<Method> methods;
+    protected List<Attribute> variables = new ArrayList<>();
+    protected List<Method> methods = new ArrayList<>();
 
     public UMLObject() {super();this.parent = null;}
 
@@ -20,8 +20,6 @@ public abstract class UMLObject extends Element{
     public UMLObject(String name, ClassDiagram parent) {
         super(name);
         this.parent = parent;
-        this.variables = new ArrayList<Attribute>();
-        this.methods = new ArrayList<Method>();
     }
     
     /**

@@ -1,11 +1,13 @@
 package backend.diagram;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import backend.diagramObject.Element;
 
 public abstract class Diagram extends Element{
-    private ArrayList<Relation> relations;
+    protected List<Relation> relations = new ArrayList<>();
 
     public Diagram(){};
     /**
@@ -13,7 +15,6 @@ public abstract class Diagram extends Element{
      */
     public Diagram(String name) {
         super(name);
-        this.relations = new ArrayList<>();
     }
 
     /**
@@ -30,8 +31,8 @@ public abstract class Diagram extends Element{
     /**
      * @return
      */
-    public ArrayList<Relation> getRelations() {
-        return this.relations;
+    public List<Relation> getRelations() {
+        return Collections.unmodifiableList(this.relations);
     }
 
     /**

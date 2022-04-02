@@ -5,8 +5,8 @@ import backend.diagramObject.UMLObject;
 import javafx.util.Pair;
 
 public abstract class Relation extends Element{
-    protected Pair<UMLObject, Integer> first;
-    protected Pair<UMLObject, Integer> second;
+    protected Pair<UMLObject, Integer> first = new Pair<UMLObject,Integer>(null, -1);
+    protected Pair<UMLObject, Integer> second = new Pair<UMLObject,Integer>(null, -1);
     private final Diagram parent;
 
     public Relation(){super();this.parent = null;};
@@ -18,8 +18,6 @@ public abstract class Relation extends Element{
     public Relation(String name, Diagram parent) {
         super(name);
         this.parent = parent;
-        this.first = new Pair<UMLObject,Integer>(null, -1);
-        this.second = new Pair<UMLObject,Integer>(null, -1);
     }
 
     /**

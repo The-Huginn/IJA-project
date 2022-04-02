@@ -1,13 +1,15 @@
 package backend.diagram;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import backend.diagramObject.UMLClass;
 import javafx.util.Pair;
 
 public class SeqDiagram extends Diagram {
     private final ClassDiagram parent;
-    private ArrayList<Pair<UMLClass, Integer>> instances = new ArrayList<>();
+    private List<Pair<UMLClass, Integer>> instances = new ArrayList<>();
 
     /**
      * @param name
@@ -40,7 +42,7 @@ public class SeqDiagram extends Diagram {
             if (relation.equals(relation2))
                 return false;
 
-        this.getRelations().add(relation);
+        this.relations.add(relation);
 
         return true;
     }
@@ -88,7 +90,7 @@ public class SeqDiagram extends Diagram {
             return;
 
         // checks if instance and instanceNumber occur as first or second in the relation
-        this.getRelations().removeIf(relation -> (this.instances.get(index).getKey().equals(relation.getFirst().getKey()) && this.instances.get(index).getValue().equals(relation.getFirst().getValue())) ||
+        this.relations.removeIf(relation -> (this.instances.get(index).getKey().equals(relation.getFirst().getKey()) && this.instances.get(index).getValue().equals(relation.getFirst().getValue())) ||
                                                 (this.instances.get(index).getKey().equals(relation.getSecond().getKey()) && this.instances.get(index).getValue().equals(relation.getSecond().getValue())));
 
         this.instances.remove(index);
@@ -97,8 +99,8 @@ public class SeqDiagram extends Diagram {
     /**
      * @return
      */
-    public ArrayList<Pair<UMLClass, Integer>> getInstances() {
-        return this.instances;
+    public List<Pair<UMLClass, Integer>> getInstances() {
+        return Collections.unmodifiableList(this.instances);
     }
 
     /**
