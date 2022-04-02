@@ -180,7 +180,7 @@ public class ClassDiagramTest {
         diagram.removeClass(0);
         Assert.assertTrue(diagram.getClasses().size() == 2);
         Assert.assertTrue(diagram.getClasses().get(0) == classes.get(1));
-        Assert.assertTrue(diagram.getClasses().get(0) == classes.get(2));
+        Assert.assertTrue(diagram.getClasses().get(1) == classes.get(2));
         Assert.assertTrue(diagram.getRelations().size() == 1);  // We have removed class with it's relationships
         Assert.assertTrue(diagram.getRelations().get(0) == rel2);
     }

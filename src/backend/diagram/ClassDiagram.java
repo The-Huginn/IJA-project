@@ -63,24 +63,12 @@ public class ClassDiagram extends Diagram{
      */
     public void removeClass(int index) {
 
-        ArrayList<UMLClass> test = this.getClasses();//.get(index-1);
-
         if (index < 0 || index >= this.getClasses().size())
             return;
         
-        for (Relation relation : this.getRelations()) {
-            if (relation instanceof ClassRelation){
-                
-                // If it is first
-                if (relation.first.getKey().equals(this.getClasses().indexOf(index)))
-                    removeRelation(this.getRelations().indexOf(relation));
+        UMLClass toRemove = this.getClasses().get(index);
 
-                // If it is second
-                if (relation.second.getKey().equals(this.getClasses().indexOf(index)))
-                    removeRelation(this.getRelations().indexOf(relation));
-
-            }
-        }
+        this.getRelations().removeIf(relation -> toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()));
 
         this.classes.remove(index);
     }
@@ -117,6 +105,10 @@ public class ClassDiagram extends Diagram{
 
         if (index < 0 || index >= this.getInterfaces().size())
             return;
+
+        UMLInterface toRemove = this.getInterfaces().get(index);
+
+        this.getRelations().removeIf(relation -> toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()));
 
         this.interfaces.remove(index);
     }
