@@ -103,12 +103,12 @@ public class ClassRelation extends Relation{
         if (instance == null)
             return false;
 
-        if (checkValidity(this.getParent(), instance, this.getSecond().getKey(), this.getType())){
-            this.first = new Pair<UMLObject,Integer>(instance, instanceNumber);
-            return true;
-        }
-
-        return false;
+        if (!checkValidity(this.getParent(), instance, this.getSecond().getKey(), this.getType()))
+            return false;
+    
+        this.first = new Pair<UMLObject,Integer>(instance, instanceNumber);
+    
+        return true;
     }
 
     /**
@@ -120,12 +120,12 @@ public class ClassRelation extends Relation{
         if (this.getFirst().getKey() == null || instance == null)
             return false;
 
-        if (checkValidity(this.getParent(), this.getFirst().getKey(), instance, this.getType())){
-            this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
-            return true;
-        }
+        if (!checkValidity(this.getParent(), this.getFirst().getKey(), instance, this.getType()))
+            return false;
 
-        return false;
+        this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
+        
+        return true;
     }
 
     /**

@@ -123,9 +123,53 @@ public class SeqRelation extends Relation{
             if (instance1.getKey().equals(instance) && instance1.getValue() == instanceNumber) {
                 this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);    
                 return true;
-            }   
+            }
         
         return false;
+    }
+
+    /**
+     * @brief Checks if the combination of first, second and type of the relationship is correct
+     * @param instance
+     * @param instanceNumber
+     * @param newType
+     * @return True upon success otherwise false
+     */
+    public boolean setSecond(UMLObject instance, Integer instanceNumber, SeqRelEnum newType) {
+
+        if (instance == null || (instance instanceof UMLInterface) || this.getFirst().getKey() == null)
+            return false;
+
+        SeqDiagram parent = (SeqDiagram) this.getParent();
+        
+        // Just for test cases
+        if (parent == null) {
+            this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
+            return true;
+        }
+
+        boolean found = false;
+        for (Pair<UMLClass, Integer> instance1 : parent.getInstances())
+            if (instance1.getKey().equals(instance) && instance1.getValue() == instanceNumber) {
+                this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
+                found = true;
+            }
+        if (!found)
+            return false;
+
+        if (!checkValidity(parent,
+                            (UMLClass)this.getFirst().getKey(),
+                            this.getFirst().getValue(),
+                            (UMLClass)this.getSecond().getKey(),
+                            this.getSecond().getValue(),
+                            this.methodName,
+                            this.methodParams))
+            return false;
+
+        this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
+        this.type = newType;
+
+        return true;
     }
 
     /**

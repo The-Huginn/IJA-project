@@ -7,7 +7,9 @@ public class Type extends Element{
     private static SortedMap<String, Type> instances = null;
     private boolean isUserDefined;
 
-    // Maybe default constructor is needed, then create dummy instance
+    public Type() {
+        
+    }
 
     /**
      * @param name of new Type

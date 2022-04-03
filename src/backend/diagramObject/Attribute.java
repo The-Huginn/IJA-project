@@ -43,7 +43,7 @@ public class Attribute extends Element {
      * @param parent Under which parent will this Attribute live
      * @param type Type of variable or method
      * @param visibility Visibility of this attribute
-     * @param isVisibilityChangable upon true Visibility will become immutable
+     * @param isVisibilityChangable upon false Visibility will become immutable
      */
     public Attribute(String name, UMLObject parent, Type type, Visibility visibility, boolean isVisibilityChangable) {
         super(name);
