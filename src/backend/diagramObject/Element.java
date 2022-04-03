@@ -1,6 +1,12 @@
 package backend.diagramObject;
 
-public class Element {
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+import backend.undoInterface;
+
+public class Element implements undoInterface{
+    private Deque<String> name_stack = new ArrayDeque<>();
     private String name;
 
     public Element() {};
@@ -17,7 +23,9 @@ public class Element {
      * @return True if successful otherwise false
      */
     public boolean setName(String newName) {
+        this.name_stack.add(name);
         this.name = newName;
+
         return true;
     }
 
@@ -26,6 +34,11 @@ public class Element {
      */
     public String getName() {
         return this.name;
+    }
+
+    public void undo() {
+        if (!this.name_stack.isEmpty())
+            this.name = this.name_stack.pop();
     }
 
     @Override
