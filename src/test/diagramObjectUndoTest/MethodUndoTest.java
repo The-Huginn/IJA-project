@@ -78,6 +78,6 @@ public class MethodUndoTest {
 
         method.undo();
 
-        Assert.assertTrue(method.getVisibility() == Visibility.PRIVATE);
+        Assert.assertTrue(method.getVisibility() == Visibility.PUBLIC);
     }
 }

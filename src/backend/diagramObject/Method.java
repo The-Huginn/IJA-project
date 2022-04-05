@@ -1,11 +1,22 @@
 package backend.diagramObject;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 
 public class Method extends Attribute{
     private List<Type> parameters = new ArrayList<>();
+
+    // variables for undo operations
+    private Deque<UndoType> undo_stack = new ArrayDeque<>();
+    private Deque<List<Type>> undo_params = new ArrayDeque<>();
+
+    private enum UndoType {
+        setParameters,
+        others
+    }
 
     /**
      * 
@@ -100,6 +111,8 @@ public class Method extends Attribute{
 
         // Just for test cases
         if (this.getParent() == null){
+            undo_stack.addFirst(UndoType.others);
+
             super.forceSetName(newName);
             return true;
         }
@@ -107,6 +120,8 @@ public class Method extends Attribute{
         for (Method method : this.getParent().getMethods())
             if (method.getName().equals(newName) && method.getType() == this.getType() && method.getParameters().equals(this.getParameters()))
                 return false;
+
+        undo_stack.addFirst(UndoType.others);
         
         super.forceSetName(newName);
         return true;
@@ -144,10 +159,39 @@ public class Method extends Attribute{
                         return false;
                 }
 
-        this.parameters.clear();
+        undo_stack.addFirst(UndoType.setParameters);
+        undo_params.addFirst(this.parameters);
+
+        this.parameters = new ArrayList<>();
         for (String param : newParameters)
             this.parameters.add(Type.getType(param));
         
         return true;
+    }
+
+    @Override
+    public void setType(Type newType) {
+        undo_stack.add(UndoType.others);
+        super.setType(newType);
+    }
+
+    @Override
+    public void setVisibility(Visibility newVisibility) {
+        undo_stack.add(UndoType.others);
+        super.setVisibility(newVisibility);
+    }
+
+    public void undo() {
+        
+        if (undo_stack.isEmpty())
+            return;
+
+        UndoType type = undo_stack.pop();
+
+        if (type == UndoType.setParameters) {
+            this.parameters = undo_params.pop();
+        } else if (type == UndoType.others) {
+            super.undo();
+        }
     }
 }

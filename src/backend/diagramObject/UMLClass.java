@@ -1,8 +1,20 @@
 package backend.diagramObject;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import backend.diagram.ClassDiagram;
 
 public class UMLClass extends UMLObject {
+
+    // variables for undo operations
+    private Deque<UndoType> undo_stack = new ArrayDeque<>();
+
+    private enum UndoType {
+        addVariable,
+        addMethod,
+        others
+    }
     
     /**
      * @param name
@@ -30,12 +42,19 @@ public class UMLClass extends UMLObject {
     @Override
     public boolean setName(String newName) {
 
+        if (this.getParent() == null) {
+            undo_stack.addFirst(UndoType.others);
+
+            return super.setName(newName);
+        }
+
         for (UMLClass umlClass : this.getParent().getClasses())
             if (umlClass.getName().equals(newName))
                 return false;
         
-        super.setName(newName);
-        return true;
+        undo_stack.addFirst(UndoType.others);
+
+        return super.setName(newName);
     }
 
     /**
@@ -50,6 +69,8 @@ public class UMLClass extends UMLObject {
         for (Attribute attribute : this.variables)
             if (attribute.equals(variable))
                 return false;
+
+        undo_stack.addFirst(UndoType.addVariable);
         
         this.variables.add(variable);
         return true;
@@ -64,6 +85,8 @@ public class UMLClass extends UMLObject {
         for (Method aux_method : this.methods)
             if (aux_method.equals(method))
                 return false;
+
+        undo_stack.addFirst(UndoType.addMethod);
 
         this.methods.add(method);
         return true;
@@ -86,5 +109,33 @@ public class UMLClass extends UMLObject {
                     return false;
 
         return true;
+    }
+
+    @Override
+    public void removeVariable(int index) {
+        undo_stack.addFirst(UndoType.others);
+        super.removeVariable(index);
+    }
+
+    @Override
+    public void removeMethod(int index) {
+        undo_stack.addFirst(UndoType.others);
+        super.removeMethod(index);
+    }
+
+    public void undo() {
+
+        if (undo_stack.isEmpty())
+            return;
+
+        UndoType type = undo_stack.pop();
+
+        if (type == UndoType.addVariable) {
+            variables.remove(variables.size() - 1);
+        } else if (type == UndoType.addMethod) {
+            methods.remove(methods.size() - 1);
+        } else if (type == UndoType.others) {
+            super.undo();
+        }
     }
 }

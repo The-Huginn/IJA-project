@@ -23,7 +23,7 @@ public class Element implements undoInterface{
      * @return True if successful otherwise false
      */
     public boolean setName(String newName) {
-        this.name_stack.add(name);
+        this.name_stack.addFirst(name);
         this.name = newName;
 
         return true;

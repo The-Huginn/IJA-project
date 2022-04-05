@@ -53,6 +53,7 @@ public class TypeUndoTest {
         (new Type()).undo();
 
         Assert.assertNotNull(Type.getType("typeName"));
+        Assert.assertTrue(Type.getType("typeName").getName().equals("typeName"));
     }
 
     @Test
@@ -62,7 +63,7 @@ public class TypeUndoTest {
         (new Type()).undo();
 
         Assert.assertNotNull(Type.getType("int"));
-        Assert.assertNotNull(Type.getType("bool"));
+        Assert.assertNotNull(Type.getType("boolean"));
     }
 
     @Test
@@ -77,10 +78,10 @@ public class TypeUndoTest {
 
         (new Type()).undo();
 
-        Assert.assertNotNull(Type.getType("typeName"));
-
-        (new Type()).undo();
-
         Assert.assertNotNull(Type.getType("newType"));
+        
+        (new Type()).undo();
+        
+        Assert.assertNotNull(Type.getType("typeName"));
     }
 }

@@ -79,7 +79,7 @@ public class AttributeUndoTest {
 
         attr.undo();
 
-        Assert.assertTrue(attr.getType() == Type.getType("long"));
+        Assert.assertTrue(attr.getType() == Type.getType("int"));
 
         attr.undo();
 

@@ -1,5 +1,8 @@
 package backend.diagramObject;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class Attribute extends Element {
     public enum Visibility {
         PRIVATE,
@@ -12,6 +15,19 @@ public class Attribute extends Element {
     private Type type = null;
     private Visibility visibility = Visibility.PUBLIC;
     private boolean isVisibilityChangable = true;
+
+    // variables for undo operations
+    private Deque<UndoType> undo_stack = new ArrayDeque<>();
+    private Deque<String> undo_name = new ArrayDeque<>();
+    private Deque<Type> undo_type = new ArrayDeque<>();
+    private Deque<Visibility> undo_visibility = new ArrayDeque<>();
+
+    private enum UndoType {
+        setName,
+        setType,
+        setVisibility,
+        forceSetName
+    }
 
 
     /**
@@ -72,14 +88,19 @@ public class Attribute extends Element {
     public boolean setName(String newName) {
         
         // Just for test cases
-        if (parent == null){
+        if (parent == null) {
+            undo_stack.addFirst(UndoType.setName);
+            undo_name.addFirst(this.getName());
+
             super.setName(newName);
             return true;
         }
 
         for (Attribute tmpAttribute : parent.getVariables())
             if (tmpAttribute.equals(this))
-                return false;  
+                return false;
+
+        undo_stack.addFirst(UndoType.setName);
 
         super.setName(newName);
         return true;
@@ -98,9 +119,12 @@ public class Attribute extends Element {
      */
     public void setType(Type newType) {
 
-        if (newType == null)
+        if (newType == null || this.getType() == newType)
             return;
         
+        undo_stack.addFirst(UndoType.setType);
+        undo_type.addFirst(this.getType());
+
         this.type = newType;
     }
     
@@ -116,8 +140,13 @@ public class Attribute extends Element {
      * @param newVisibility
      */
     public void setVisibility(Visibility newVisibility) {
-        if (this.isVisibilityChangable())
-            this.visibility = newVisibility;    
+        if (!this.isVisibilityChangable())
+            return;
+
+        undo_stack.addFirst(UndoType.setVisibility);
+        undo_visibility.addFirst(this.getVisibility());
+
+        this.visibility = newVisibility;    
     }
 
     /**
@@ -138,6 +167,32 @@ public class Attribute extends Element {
      * @brief This method should be called only to forcibly rename Attribute
      */
     protected void forceSetName(String newName) {
+
+        undo_stack.addFirst(UndoType.forceSetName);
+        undo_name.addFirst(this.getName());
+
         super.setName(newName);
+    }
+
+    public void undo() {
+
+        if (undo_stack.isEmpty())
+            return;
+
+        UndoType type = undo_stack.pop();
+
+        if (type == UndoType.setName) {
+            super.undo();
+        } else if (type == UndoType.setType) {
+            Type top = undo_type.pop();
+
+            this.type = top;
+        } else if (type == UndoType.setVisibility) {
+            Visibility top = undo_visibility.pop();
+
+            this.visibility = top;
+        } else if (type == UndoType.forceSetName) {
+            super.undo();
+        }
     }
 }
