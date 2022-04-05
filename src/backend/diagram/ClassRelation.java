@@ -1,6 +1,8 @@
 package backend.diagram;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLInterface;
@@ -16,6 +18,19 @@ public class ClassRelation extends Relation{
         COMPOSITION,
         GENERALIZATION,
         IMPLEMENTS
+    }
+
+    // variables for undo operations
+    private Deque<UndoType> undo_stack = new ArrayDeque<>();
+    private Deque<Pair<UMLObject, Integer>> undo_pair = new ArrayDeque<>();
+    private Deque<ClassRelEnum> undo_type = new ArrayDeque<>();
+
+    private enum UndoType {
+        setFirst,
+        setSecond,
+        setSecond2,
+        setType,
+        others
     }
 
     /**
@@ -67,6 +82,12 @@ public class ClassRelation extends Relation{
     }
 
     @Override
+    public boolean setName(String newName) {
+        undo_stack.addFirst(UndoType.others);
+        return super.setName(newName);
+    }
+
+    @Override
     public boolean equals(Object anotherObject) {
 
         if (anotherObject == this)
@@ -96,6 +117,9 @@ public class ClassRelation extends Relation{
     public boolean setFirst(UMLObject instance, Integer instanceNumber) {
 
         if (this.getSecond().getKey() == null) {
+            undo_stack.addFirst(UndoType.setFirst);
+            undo_pair.addFirst(this.first);
+
             this.first = new Pair<UMLObject,Integer>(instance, instanceNumber);
             return true;
         }
@@ -106,6 +130,9 @@ public class ClassRelation extends Relation{
         if (!checkValidity(this.getParent(), instance, this.getSecond().getKey(), this.getType()))
             return false;
     
+        undo_stack.addFirst(UndoType.setFirst);
+        undo_pair.addFirst(this.first);
+
         this.first = new Pair<UMLObject,Integer>(instance, instanceNumber);
     
         return true;
@@ -123,6 +150,9 @@ public class ClassRelation extends Relation{
         if (!checkValidity(this.getParent(), this.getFirst().getKey(), instance, this.getType()))
             return false;
 
+        undo_stack.addFirst(UndoType.setSecond);
+        undo_pair.addFirst(this.second);
+        
         this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
         
         return true;
@@ -141,6 +171,10 @@ public class ClassRelation extends Relation{
 
         if (!checkValidity(this.getParent(), this.getFirst().getKey(), instance, newType))
             return false;
+
+        undo_stack.addFirst(UndoType.setSecond2);
+        undo_pair.addFirst(this.second);
+        undo_type.addFirst(this.type);
 
         this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
         this.type = newType;
@@ -162,16 +196,44 @@ public class ClassRelation extends Relation{
     public boolean setType(ClassRelEnum newType) {
 
         if (this.getFirst().getKey() == null || this.getSecond().getKey() == null) {
+            undo_stack.addFirst(UndoType.setType);
+            undo_type.addFirst(this.type);
+
             this.type = newType;
             return true;
         }
 
         if (checkValidity(this.getParent(), this.getFirst().getKey(), this.getSecond().getKey(), newType)){
+            undo_stack.addFirst(UndoType.setType);
+            undo_type.addFirst(this.type);
+
             this.type = newType;
             return true;
         }
 
         return false;
+    }
+
+    @Override
+    public void undo() {
+
+        if (undo_stack.isEmpty())
+            return;
+
+        UndoType type = undo_stack.pop();
+
+        if (type == UndoType.setFirst) {
+            this.first = undo_pair.pop();
+        } else if (type == UndoType.setSecond) {
+            this.second = undo_pair.pop();
+        } else if (type == UndoType.setSecond2) {
+            this.second = undo_pair.pop();
+            this.type = undo_type.pop();
+        } else if (type == UndoType.setType) {
+            this.type = undo_type.pop();
+        } else if (type == UndoType.others) {
+            super.undo();
+        }
     }
 
     /**

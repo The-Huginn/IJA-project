@@ -131,6 +131,12 @@ public class SeqRelationUndoTest {
         relation.undo();
 
         Assert.assertTrue(relation.getType() == SeqRelEnum.SYNCHROUNOUS);
+        Assert.assertTrue(relation.getFirst().getKey() == firstClass);
+        Assert.assertTrue(relation.getSecond().getKey() == null);
+
+        relation.undo();
+
+        Assert.assertTrue(relation.getType() == SeqRelEnum.SYNCHROUNOUS);
         Assert.assertTrue(relation.getFirst().getKey() == null);
         Assert.assertTrue(relation.getSecond().getKey() == null);
     }

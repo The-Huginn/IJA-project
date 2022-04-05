@@ -1,5 +1,7 @@
 package backend.diagram;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 
 import backend.diagram.ClassRelation.ClassRelEnum;
@@ -22,6 +24,23 @@ public class SeqRelation extends Relation{
         RETURN,
         CREATION,
         DESTRUCTION
+    }
+
+    // variables for undo operations
+    private Deque<UndoType> undo_stack = new ArrayDeque<>();
+    private Deque<Pair<UMLObject, Integer>> undo_pair = new ArrayDeque<>();
+    private Deque<Pair<String, String>> undo_method = new ArrayDeque<>();
+    private Deque<SeqRelEnum> undo_type = new ArrayDeque<>();
+    private Deque<String> undo_note = new ArrayDeque<>();
+
+    private enum UndoType {
+        setFirst,
+        setSecond,
+        setSecond2,
+        setMethod,
+        setNote,
+        setType,
+        others
     }
 
     /**
@@ -65,6 +84,12 @@ public class SeqRelation extends Relation{
     }
 
     @Override
+    public boolean setName(String newName) {
+        undo_stack.addFirst(UndoType.others);
+        return super.setName(newName);
+    }
+
+    @Override
     public boolean checkCorrect() {
         return checkValidity((SeqDiagram) this.getParent(),
                             (UMLClass) this.getFirst().getKey(),
@@ -88,12 +113,19 @@ public class SeqRelation extends Relation{
 
         // Just for test cases
         if (parent == null) {
+            undo_stack.addFirst(UndoType.setFirst);
+            undo_pair.addFirst(this.first);
+
             this.first = new Pair<UMLObject,Integer>(instance, instanceNumber);
             return true;
         }
 
         for (Pair<UMLClass, Integer> instance1 : parent.getInstances()){
             if (instance1.getKey().equals(instance) && instance1.getValue() == instanceNumber) {
+
+                undo_stack.addFirst(UndoType.setFirst);
+                undo_pair.addFirst(this.first);
+
                 this.first = new Pair<UMLObject,Integer>(instance, instanceNumber);
                 return true;
             }
@@ -115,12 +147,19 @@ public class SeqRelation extends Relation{
         
         // Just for test cases
         if (parent == null) {
+            undo_stack.addFirst(UndoType.setSecond);
+            undo_pair.addFirst(this.second);
+
             this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
             return true;
         }
 
         for (Pair<UMLClass, Integer> instance1 : parent.getInstances())
             if (instance1.getKey().equals(instance) && instance1.getValue() == instanceNumber) {
+
+                undo_stack.addFirst(UndoType.setSecond);
+                undo_pair.addFirst(this.second);
+
                 this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);    
                 return true;
             }
@@ -144,7 +183,12 @@ public class SeqRelation extends Relation{
         
         // Just for test cases
         if (parent == null) {
+            undo_stack.addFirst(UndoType.setSecond2);
+            undo_pair.addFirst(this.second);
+            undo_type.addFirst(this.type);
+
             this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
+            this.type = newType;
             return true;
         }
 
@@ -165,6 +209,10 @@ public class SeqRelation extends Relation{
                             this.methodName,
                             this.methodParams))
             return false;
+
+        undo_stack.addFirst(UndoType.setSecond2);
+        undo_pair.addFirst(this.second);
+        undo_type.addFirst(this.type);
 
         this.second = new Pair<UMLObject,Integer>(instance, instanceNumber);
         this.type = newType;
@@ -203,6 +251,9 @@ public class SeqRelation extends Relation{
                 auxParams))
             return false;
 
+        undo_stack.addFirst(UndoType.setMethod);
+        undo_method.addFirst(new Pair<String,String>(this.methodName, this.methodParams));
+
         this.methodName = auxMethodName;
         this.methodParams = auxParams;
 
@@ -220,6 +271,9 @@ public class SeqRelation extends Relation{
      * @param newNote
      */
     public void setNote(String newNote) {
+        undo_stack.addFirst(UndoType.setNote);
+        undo_note.addFirst(this.note);
+
         this.note = newNote;
     }
 
@@ -234,8 +288,40 @@ public class SeqRelation extends Relation{
      * @param newType
      */
     public boolean setType(SeqRelEnum newType) {
+        undo_stack.addFirst(UndoType.setType);
+        undo_type.addFirst(this.type);
+
         this.type = newType;
         return true;
+    }
+
+    @Override
+    public void undo() {
+
+        if (undo_stack.isEmpty())
+            return;
+
+        UndoType type = undo_stack.pop();
+
+        if (type == UndoType.setFirst) {
+            this.first = undo_pair.pop();
+        } else if (type == UndoType.setSecond) {
+            this.second = undo_pair.pop();
+        } else if (type == UndoType.setSecond2) {
+            this.second = undo_pair.pop();
+            this.type = undo_type.pop();
+        } else if (type == UndoType.setMethod) {
+            Pair<String, String> top = undo_method.pop();
+
+            this.methodName = top.getKey();
+            this.methodParams = top.getValue();
+        } else if (type == UndoType.setNote) {
+            this.note = undo_note.pop();
+        } else if (type == UndoType.setType) {
+            this.type = undo_type.pop();
+        } else if (type == UndoType.others) {
+            super.undo();
+        }
     }
 
     private static boolean checkValidity(   SeqDiagram parent,

@@ -62,13 +62,13 @@ public class ClassRelationUndoTest {
         UMLInterface umlInterface = new UMLInterface("name", null);
 
         Assert.assertTrue(relation.setSecond(umlClass, 0, ClassRelEnum.AGGREGATION));
-        Assert.assertTrue(relation.setSecond(umlInterface, 0, ClassRelEnum.GENERALIZATION));
+        Assert.assertTrue(relation.setSecond(umlInterface, 0, ClassRelEnum.IMPLEMENTS));
         Assert.assertTrue(relation.setSecond(new UMLClass("another another name", null), 0, ClassRelEnum.ASSOCIATION));
 
         relation.undo();
 
         Assert.assertTrue(relation.getSecond().getKey() == umlInterface);
-        Assert.assertTrue(relation.getType() == ClassRelEnum.GENERALIZATION);
+        Assert.assertTrue(relation.getType() == ClassRelEnum.IMPLEMENTS);
 
         relation.undo();
 
@@ -126,6 +126,12 @@ public class ClassRelationUndoTest {
         relation.undo();
 
         Assert.assertTrue(relation.getType() == ClassRelEnum.GENERALIZATION);
+        Assert.assertTrue(relation.getFirst().getKey() == firstClass);
+        Assert.assertTrue(relation.getSecond().getKey() == null);
+
+        relation.undo();
+
+        Assert.assertTrue(relation.getType() == ClassRelEnum.ASSOCIATION);
         Assert.assertTrue(relation.getFirst().getKey() == firstClass);
         Assert.assertTrue(relation.getSecond().getKey() == null);
 
