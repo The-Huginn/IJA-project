@@ -1,15 +1,28 @@
 package backend.diagramObject;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 
 import backend.diagram.ClassDiagram;
+import javafx.util.Pair;
 
 public abstract class UMLObject extends Element{
     private final ClassDiagram parent;
     protected List<Attribute> variables = new ArrayList<>();
     protected List<Method> methods = new ArrayList<>();
+
+    // variables for undo operations
+    private Deque<UndoType> undo_stack = new ArrayDeque<>();
+    private Deque<Pair<Integer, Attribute>> undo_remove = new ArrayDeque<>();
+
+    private enum UndoType {
+        removeVariable,
+        removeMethod,
+        others
+    }
 
     public UMLObject() {super();this.parent = null;}
 
@@ -20,6 +33,13 @@ public abstract class UMLObject extends Element{
     public UMLObject(String name, ClassDiagram parent) {
         super(name);
         this.parent = parent;
+    }
+
+    @Override
+    public boolean setName(String newName) {
+        undo_stack.addFirst(UndoType.others);
+
+        return super.setName(newName);
     }
     
     /**
@@ -62,6 +82,9 @@ public abstract class UMLObject extends Element{
         if (index < 0 || index >= this.variables.size())
             return;
 
+        undo_stack.addFirst(UndoType.removeVariable);
+        undo_remove.addFirst(new Pair<Integer,Attribute>(index, variables.get(index)));
+
         variables.remove(index); 
     }
 
@@ -73,6 +96,9 @@ public abstract class UMLObject extends Element{
 
         if (index < 0 || index >= this.methods.size())
             return;
+
+        undo_stack.addFirst(UndoType.removeMethod);
+        undo_remove.addFirst(new Pair<Integer,Attribute>(index, methods.get(index)));
             
         this.methods.remove(index);
     }
@@ -82,5 +108,25 @@ public abstract class UMLObject extends Element{
      */
     protected final ClassDiagram getParent() {
         return this.parent;
+    }
+
+    public void undo() {
+
+        if (undo_stack.isEmpty())
+            return;
+
+        UndoType type = undo_stack.pop();
+
+        if (type == UndoType.removeVariable) {
+            Pair<Integer, Attribute> top = undo_remove.pop();
+
+            variables.add(top.getKey(), top.getValue());
+        } else if (type == UndoType.removeMethod) {
+            Pair<Integer, Attribute> top = undo_remove.pop();
+
+            methods.add(top.getKey(), (Method)top.getValue());
+        } else if (type == UndoType.others) {
+            super.undo();
+        }
     }
 }

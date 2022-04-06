@@ -1,13 +1,32 @@
 package backend.diagramObject;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import javafx.util.Pair;
 
 public class Type extends Element{
     private static SortedMap<String, Type> instances = null;
     private boolean isUserDefined;
 
-    // Maybe default constructor is needed, then create dummy instance
+    // variables for undo operations
+    private static Deque<UndoType> undo_stack = new ArrayDeque<>();
+    private static Deque<SortedMap<String, Type>> undo_initTypes = new ArrayDeque<>();
+    private static Deque<Pair<String, Type>> undo_Type = new ArrayDeque<>();
+
+    private enum UndoType {
+        SetName,
+        initTypes,
+        clearTypes,
+        addType,
+        removeType
+    }
+
+    public Type() {
+        
+    }
 
     /**
      * @param name of new Type
@@ -28,9 +47,13 @@ public class Type extends Element{
 
         if (instances.containsKey(newName))
             return false;
+
+        undo_stack.addFirst(UndoType.SetName);
+        undo_Type.addFirst(new Pair<String,Type>(this.getName(), this));
             
         instances.remove(this.getName());
         instances.put(newName, this);
+
         return super.setName(newName);
     }
 
@@ -44,6 +67,8 @@ public class Type extends Element{
         if (instances != null)
             return false;
 
+        undo_stack.addFirst(UndoType.initTypes);
+
         instances = new TreeMap<>();
         for (String key:types)
             instances.put(key, new Type(key, false));
@@ -55,7 +80,14 @@ public class Type extends Element{
      * @brief Clears all types from Map
      */
     public static void clearTypes() {
-        instances.clear();
+        
+        if (instances == null)
+            return;
+
+        undo_stack.addFirst(UndoType.clearTypes);
+
+        undo_initTypes.addFirst(instances);
+
         instances = null;
     }
 
@@ -80,7 +112,13 @@ public class Type extends Element{
         if (instances.containsKey(typeName))
             return false;
 
-        instances.put(typeName, new Type(typeName, true));
+        undo_stack.addFirst(UndoType.addType);
+
+        Type newType = new Type(typeName, true);
+
+        undo_Type.addFirst(new Pair<String,Type>(typeName, newType));
+        instances.put(typeName, newType);
+
         return true;
     }
 
@@ -93,7 +131,12 @@ public class Type extends Element{
         if (!instances.containsKey(typeName) || instances == null )
             return false;
 
-        if (instances.get(typeName).isUserDefined()){
+        if (instances.get(typeName).isUserDefined()) {
+
+            undo_stack.addFirst(UndoType.removeType);
+
+            undo_Type.addFirst(new Pair<String,Type>(typeName, instances.get(typeName)));
+
             instances.remove(typeName);
             return true;
         }
@@ -106,5 +149,42 @@ public class Type extends Element{
      */
     public boolean isUserDefined() {
         return this.isUserDefined;
+    }
+
+    /**
+     * @brief This method renames the Type via the Element's undo
+     */
+    public void undoName() {
+        super.undo();
+    }
+
+    public void undo() {
+        if (undo_stack.isEmpty())
+            return;
+
+        UndoType type = undo_stack.pop();
+
+        if (type == UndoType.SetName) {
+            Pair<String, Type> top = undo_Type.pop();
+
+            instances.remove(top.getValue().getName());
+            instances.put(top.getKey(), top.getValue());
+
+            top.getValue().undoName();
+
+        } else if (type == UndoType.initTypes) {
+            instances = null;
+        } else if (type == UndoType.clearTypes) {
+            instances = undo_initTypes.pop();
+        } else if (type == UndoType.addType) {
+            Pair<String, Type> top = undo_Type.pop();
+
+            instances.remove(top.getKey());
+            
+        } else if (type == UndoType.removeType) {
+            Pair<String, Type> top = undo_Type.pop();
+
+            instances.put(top.getKey(), top.getValue());
+        }
     }
 }

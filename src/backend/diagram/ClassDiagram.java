@@ -1,22 +1,49 @@
 package backend.diagram;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLInterface;
+import javafx.util.Pair;
 
 public class ClassDiagram extends Diagram{
     List<UMLClass> classes = new ArrayList<>();
     List<UMLInterface> interfaces = new ArrayList<>();
     List<SeqDiagram> seqDiagrams = new ArrayList<>();
 
+    // variables for undo operations
+    private Deque<UndoType> undo_stack = new ArrayDeque<>();
+    private Deque<List<Pair<Integer, Relation>>> undo_relation = new ArrayDeque<>();
+    private Deque<Pair<Integer, UMLClass>> undo_class = new ArrayDeque<>();
+    private Deque<Pair<Integer, UMLInterface>> undo_interface = new ArrayDeque<>();
+    private Deque<Pair<Integer, SeqDiagram>> undo_diagram = new ArrayDeque<>();
+
+    private enum UndoType {
+        addRelation,
+        addClass,
+        removeClass,
+        addInterface,
+        removeInterface,
+        addDiagram,
+        removeDiagram,
+        others
+    }
+
     /**
      * @param name
      */
     public ClassDiagram(String name) {
         super(name);
+    }
+
+    @Override
+    public boolean setName(String newName) {
+        undo_stack.addFirst(UndoType.others);
+        return super.setName(newName);
     }
 
     @Override
@@ -29,9 +56,17 @@ public class ClassDiagram extends Diagram{
             if (((ClassRelation)relation).equals(relation2))
                 return false;
         
+        undo_stack.addFirst(UndoType.addRelation);
+
         this.relations.add(relation);
 
         return true;
+    }
+
+    @Override
+    public void removeRelation(int index) {
+        undo_stack.addFirst(UndoType.others);
+        super.removeRelation(index);
     }
 
     @Override
@@ -70,7 +105,10 @@ public class ClassDiagram extends Diagram{
             if (umlClass.equals(umlClass1))
                 return false;
 
+        undo_stack.addFirst(UndoType.addClass);
+
         this.classes.add(umlClass);
+
         return true;
     }
 
@@ -84,7 +122,20 @@ public class ClassDiagram extends Diagram{
         
         UMLClass toRemove = this.getClasses().get(index);
 
+        List<Pair<Integer, Relation>> toDelete = new ArrayList<>();
+
+        for (int i = 0; i < relations.size(); i++) {
+            Relation relation = relations.get(i);
+
+            if (toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()))
+                toDelete.add(new Pair<Integer,Relation>(i, relation));
+        }
+
         this.relations.removeIf(relation -> toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()));
+
+        undo_stack.addFirst(UndoType.removeClass);
+        undo_relation.addFirst(toDelete);
+        undo_class.addFirst(new Pair<Integer,UMLClass>(index, classes.get(index)));
 
         this.classes.remove(index);
     }
@@ -110,6 +161,8 @@ public class ClassDiagram extends Diagram{
             if (umlInterface.equals(umlInterface1))
                 return false;
 
+        undo_stack.addFirst(UndoType.addInterface);
+
         this.interfaces.add(umlInterface);
         return true;
     }
@@ -124,7 +177,20 @@ public class ClassDiagram extends Diagram{
 
         UMLInterface toRemove = this.getInterfaces().get(index);
 
+        List<Pair<Integer, Relation>> toDelete = new ArrayList<>();
+
+        for (int i = 0; i < relations.size(); i++) {
+            Relation relation = relations.get(i);
+
+            if (toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()))
+                toDelete.add(new Pair<Integer,Relation>(i, relation));
+        }
+
         this.relations.removeIf(relation -> toRemove.equals(relation.getFirst().getKey()) || toRemove.equals(relation.getSecond().getKey()));
+
+        undo_stack.addFirst(UndoType.removeInterface);
+        undo_relation.addFirst(toDelete);
+        undo_interface.addFirst(new Pair<Integer, UMLInterface>(index, interfaces.get(index)));
 
         this.interfaces.remove(index);
     }
@@ -150,6 +216,8 @@ public class ClassDiagram extends Diagram{
             if (seqDiagram1.equals(seqDiagram))
                 return false;
 
+        undo_stack.addFirst(UndoType.addDiagram);
+
         this.seqDiagrams.add(seqDiagram);    
         return true;
     }
@@ -161,6 +229,9 @@ public class ClassDiagram extends Diagram{
         if (index < 0 || index >= this.getDiagrams().size())
             return;
 
+        undo_stack.addFirst(UndoType.removeDiagram);
+        undo_diagram.addFirst(new Pair<Integer,SeqDiagram>(index, seqDiagrams.get(index)));
+
         this.seqDiagrams.remove(index);
     }
 
@@ -169,5 +240,45 @@ public class ClassDiagram extends Diagram{
      */
     public List<SeqDiagram> getDiagrams() {
         return Collections.unmodifiableList(this.seqDiagrams);
+    }
+
+    @Override
+    public void undo() {
+
+        if (undo_stack.isEmpty())
+            return;
+
+        UndoType type = undo_stack.pop();
+
+        if (type == UndoType.addRelation) {
+            relations.remove(relations.size() - 1);
+        } else if (type == UndoType.addClass) {
+            classes.remove(classes.size() - 1);
+        } else if (type == UndoType.removeClass) {
+            List<Pair<Integer, Relation>> top = undo_relation.pop();
+
+            for (Pair<Integer, Relation> pair : top)
+                relations.add(pair.getKey(), pair.getValue());
+
+            Pair<Integer, UMLClass> top_class = undo_class.pop();
+            classes.add(top_class.getKey(), top_class.getValue());
+        } else if (type == UndoType.addInterface) {
+            interfaces.remove(interfaces.size() - 1);
+        } else if (type == UndoType.removeInterface) {
+            List<Pair<Integer, Relation>> top = undo_relation.pop();
+
+            for (Pair<Integer, Relation> pair : top)
+                relations.add(pair.getKey(), pair.getValue());
+
+            Pair<Integer, UMLInterface> top_interface = undo_interface.pop();
+            interfaces.add(top_interface.getKey(), top_interface.getValue());
+        } else if (type == UndoType.addDiagram) {
+            seqDiagrams.remove(seqDiagrams.size() - 1);
+        } else if (type == UndoType.removeDiagram) {
+            Pair<Integer, SeqDiagram> top = undo_diagram.pop();
+            seqDiagrams.add(top.getKey(), top.getValue());
+        } else if (type == UndoType.others) {
+            super.undo();
+        }
     }
 }
