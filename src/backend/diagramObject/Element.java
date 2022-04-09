@@ -3,6 +3,8 @@ package backend.diagramObject;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.json.JSONObject;
+
 import backend.undoInterface;
 
 public class Element implements undoInterface{
@@ -55,5 +57,32 @@ public class Element implements undoInterface{
         Element tmp = (Element) anotherObject;
          
         return (tmp.getName().equals(this.getName()));
+    }
+
+    /**
+     * Converts representation of the object into JSON format
+     * @return
+     */
+    public JSONObject getJSON() {
+        JSONObject json = new JSONObject();
+        json.put("name", getName());
+
+        return json;
+    }
+
+    /**
+     * Sets without much controls attributes to values in JSON
+     * @param parent
+     * @param json JSONObject to be read from
+     * @return success of the operation
+     */
+    public boolean setJSON(JSONObject json) {
+
+        if (!json.has("name"))
+            return false;
+
+        name = json.getString("name");
+
+        return true;
     }
 }

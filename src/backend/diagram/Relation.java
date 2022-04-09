@@ -3,6 +3,8 @@ package backend.diagram;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.json.JSONObject;
+
 import backend.diagramObject.Element;
 import backend.diagramObject.UMLObject;
 import javafx.util.Pair;
@@ -98,5 +100,29 @@ public abstract class Relation extends Element{
         if (type == UndoType.others) {
             super.undo();
         }
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        JSONObject firstJSON = new JSONObject();
+        firstJSON.put("instance", getFirst().getKey().getName());
+        firstJSON.put("instanceNumber", getFirst().getValue());
+
+        JSONObject secondJSON = new JSONObject();
+        secondJSON.put("instance", getSecond().getKey().getName());
+        secondJSON.put("instanceNumber", getSecond().getValue());
+
+        json.put("first", firstJSON);
+        json.put("second", secondJSON);
+        
+        return json;
+    }
+
+    // We are not able to set classes here, we pass it onto inheriting classes
+    @Override
+    public boolean setJSON(JSONObject json) {
+        return super.setJSON(json);
     }
 }

@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import backend.diagramObject.UMLClass;
 import javafx.util.Pair;
 
@@ -186,5 +189,56 @@ public class SeqDiagram extends Diagram {
         } else if (type == UndoType.others) {
             super.undo();
         }
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        JSONArray array = new JSONArray();
+
+        for (Pair<UMLClass, Integer> pair : getInstances()) {
+            JSONObject classJSON = new JSONObject();
+            classJSON.put("instance", pair.getKey().getName());
+            classJSON.put("instanceNumber", pair.getValue());
+            array.put(classJSON);
+        }
+
+        json.put("instances", array);
+
+        return json;
+    }
+
+    @Override
+    public boolean setJSON(JSONObject json) {
+
+        if (!json.has("instances") || !json.has("relations"))
+            return false;
+
+        JSONArray instanceJSON = json.getJSONArray("instances");
+        JSONArray relationJSON = json.getJSONArray("relations");
+
+        for (int i = 0; i < instanceJSON.length(); i++) {
+            JSONObject instanceObject = instanceJSON.getJSONObject(i);
+            
+            if (!instanceObject.has("instance") || !instanceObject.has("instanceNumber"))
+                return false;
+
+            for (UMLClass class1 : getParent().getClasses()) {
+                if (class1.getName().equals(instanceObject.getString("instance")))
+                    instances.add(new Pair<UMLClass,Integer>(class1, instanceObject.getInt("instanceNumber")));
+            }
+        }
+
+        for (int i = 0; i < relationJSON.length(); i++) {
+            SeqRelation relation = new SeqRelation("", this);
+
+            if (!relation.setJSON(relationJSON.getJSONObject(i)))
+                return false;
+
+            relations.add(relation);
+        }
+
+        return super.setJSON(json);
     }
 }

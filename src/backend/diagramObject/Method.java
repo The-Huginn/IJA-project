@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Method extends Attribute{
     private List<Type> parameters = new ArrayList<>();
 
@@ -193,5 +196,34 @@ public class Method extends Attribute{
         } else if (type == UndoType.others) {
             super.undo();
         }
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        JSONArray params = new JSONArray();
+        for (Type type : getParameters()) {
+            params.put(type.getName());
+        }
+
+        json.put("parameters", params);
+
+        return json;
+    }
+
+    @Override
+    public boolean setJSON(JSONObject json) {
+
+        if (!json.has("parameters"))
+            return false;
+
+        JSONArray array = json.getJSONArray("parameters");
+
+        for (int i = 0; i < array.length(); i++) {
+            parameters.add(Type.getType(array.getString(i)));
+        }
+
+        return super.setJSON(json);
     }
 }

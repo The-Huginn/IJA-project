@@ -1,9 +1,14 @@
 package backend.diagramObject;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javafx.util.Pair;
 
@@ -186,5 +191,45 @@ public class Type extends Element{
 
             instances.put(top.getKey(), top.getValue());
         }
+    }
+
+    public static JSONArray getJSONTypes() {
+        JSONArray array = new JSONArray();
+
+        for (var entry : instances.entrySet()) {
+            JSONObject type = new JSONObject();
+            type.put("name", entry.getValue().getName());
+            type.put("isUserDefined", entry.getValue().isUserDefined());
+            array.put(type);
+        }
+        
+        return array;
+    }
+
+    public static boolean setJSONTypes(JSONArray array) {
+
+        List<String> userDefined = new ArrayList<>();
+        List<String> notUserDefined = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject json = array.getJSONObject(i);
+            if (!json.has("name") || !json.has("isUserDefined"))
+                return false;
+
+            if (json.getBoolean("isUserDefined"))
+                userDefined.add(json.getString("name"));
+            else
+                notUserDefined.add(json.getString("name"));
+        }
+
+        clearTypes();
+        initTypes(notUserDefined.toArray(String[]::new));
+
+        for (String name : userDefined) {
+            if (!Type.addType(name))
+                return false;
+        }
+
+        return true;
     }
 }

@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import backend.diagramObject.Type;
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLInterface;
 import javafx.util.Pair;
@@ -280,5 +284,80 @@ public class ClassDiagram extends Diagram{
         } else if (type == UndoType.others) {
             super.undo();
         }
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        JSONArray classJSON = new JSONArray();
+        JSONArray interfaceJSON = new JSONArray();
+        JSONArray diagramJSON = new JSONArray();
+
+        for (UMLClass class1 : getClasses()) {
+            classJSON.put(class1.getJSON());
+        }
+
+        for (UMLInterface interface1 : getInterfaces()) {
+            interfaceJSON.put(interface1.getJSON());
+        }
+
+        for (SeqDiagram seqDiagram : getDiagrams()) {
+            diagramJSON.put(seqDiagram.getJSON());
+        }
+
+        json.put("classes", classJSON);
+        json.put("interfaces", interfaceJSON);
+        json.put("seqDiagrams", diagramJSON);
+        json.put("types", Type.getJSONTypes());
+
+        return json;
+    }
+
+    @Override
+    public boolean setJSON(JSONObject json) {
+
+        if (!json.has("relations") || !json.has("classes") || !json.has("interfaces") || !json.has("seqDiagrams") || !json.has("types"))
+            return false;
+
+        JSONArray classJSON = json.getJSONArray("classes");
+        JSONArray interfaceJSON = json.getJSONArray("interfaces");
+        JSONArray diagramJSON = json.getJSONArray("seqDiagrams");
+        JSONArray relationJSON = json.getJSONArray("relations");
+        Type.setJSONTypes(json.getJSONArray("types"));
+
+        for (int i = 0; i < classJSON.length(); i++) {
+            UMLClass class1 = new UMLClass("", this);
+            if (!class1.setJSON(classJSON.getJSONObject(i)))
+                return false;
+
+            classes.add(class1);
+        }
+
+        for (int i = 0; i < interfaceJSON.length(); i++) {
+            UMLInterface interface1 = new UMLInterface("", this);
+            if (!interface1.setJSON(interfaceJSON.getJSONObject(i)))
+                return false;
+
+            interfaces.add(interface1);
+        }
+
+        for (int i = 0; i < relationJSON.length(); i++) {
+            ClassRelation relation = new ClassRelation("", this);
+            if (!relation.setJSON(relationJSON.getJSONObject(i)))
+                return false;
+
+            relations.add(relation);
+        }
+
+        for (int i = 0; i < diagramJSON.length(); i++) {
+            SeqDiagram seqDiagram = new SeqDiagram("", this);
+            if (!seqDiagram.setJSON(diagramJSON.getJSONObject(i)))
+                return false;
+
+            seqDiagrams.add(seqDiagram);
+        }
+
+        return super.setJSON(json);
     }
 }

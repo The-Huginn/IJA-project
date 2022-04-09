@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import backend.diagram.ClassRelation.ClassRelEnum;
 import backend.diagramObject.Method;
 import backend.diagramObject.UMLClass;
@@ -224,7 +226,7 @@ public class SeqRelation extends Relation{
      * @return String with method invoking relation
      */
     public String getMethod() {
-        return this.methodName  ;
+        return this.methodName;
     }
 
     /**
@@ -415,5 +417,54 @@ public class SeqRelation extends Relation{
         }
 
         return false;
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        json.put("relationType", getType().ordinal());
+        json.put("methodName", getMethod());
+        json.put("methodParams", methodParams);
+        json.put("note", getNote());
+
+        return json;
+    }
+
+    @Override
+    public boolean setJSON(JSONObject json) {
+
+        if (!json.has("first") || !json.has("second") || !json.has("relationType") || !json.has("methodName") || !json.has("methodParams") || !json.has("note"))
+            return false;
+
+        JSONObject firstJSON = json.getJSONObject("first");
+        JSONObject secondJSON = json.getJSONObject("second");
+
+        if (!firstJSON.has("instance") || !firstJSON.has("instanceNumber"))
+            return false;
+
+        if (!secondJSON.has("instance") || !secondJSON.has("instanceNumber"))
+            return false;
+
+        ClassDiagram grandparent = ((SeqDiagram)getParent()).getParent();
+        
+        for (UMLClass class1 : grandparent.getClasses()) {
+            if (class1.getName().equals(firstJSON.getString("instance")))
+                first = new Pair<UMLObject,Integer>(class1, firstJSON.getInt("instanceNumber"));
+
+            if (class1.getName().equals(secondJSON.getString("instance")))
+                second = new Pair<UMLObject,Integer>(class1, secondJSON.getInt("instanceNumber"));
+        }
+
+        int typ = json.getInt("relationType");
+        if (typ < 0 || typ >= SeqRelEnum.values().length)
+            return false;
+
+        type = SeqRelEnum.values()[typ];
+        methodName = json.getString("methodName");
+        methodParams = json.getString("methodParams");
+        note = json.getString("note");
+
+        return super.setJSON(json);
     }
 }

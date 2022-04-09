@@ -3,6 +3,8 @@ package backend.diagramObject;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.json.JSONObject;
+
 import backend.diagram.ClassDiagram;
 
 public class UMLClass extends UMLObject {
@@ -137,5 +139,15 @@ public class UMLClass extends UMLObject {
         } else if (type == UndoType.others) {
             super.undo();
         }
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        return super.getJSON();
+    }
+
+    @Override
+    public boolean setJSON(JSONObject json) {
+        return super.setJSON(json);
     }
 }

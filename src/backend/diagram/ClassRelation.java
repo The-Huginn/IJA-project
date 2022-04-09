@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 
+import org.json.JSONObject;
+
 import backend.diagramObject.UMLClass;
 import backend.diagramObject.UMLInterface;
 import backend.diagramObject.UMLObject;
@@ -289,5 +291,48 @@ public class ClassRelation extends Relation{
             return false;
 
         return true;
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        json.put("relationType", getType().ordinal());
+
+        return json;
+    }
+
+    @Override
+    public boolean setJSON(JSONObject json) {
+
+        if (!json.has("first") || !json.has("second") || !json.has("relationType"))
+            return false;
+
+        JSONObject firstJSON = json.getJSONObject("first");
+        JSONObject secondJSON = json.getJSONObject("second");
+
+        if (!firstJSON.has("instance") || !firstJSON.has("instanceNumber"))
+            return false;
+
+        if (!secondJSON.has("instance") || !secondJSON.has("instanceNumber"))
+            return false;
+
+        ClassDiagram grandparent = (ClassDiagram)getParent();
+
+        for (UMLClass class1 : grandparent.getClasses()) {
+            if (class1.getName().equals(firstJSON.getString("instance")))
+                first = new Pair<UMLObject,Integer>(class1, firstJSON.getInt("instanceNumber"));
+
+            if (class1.getName().equals(secondJSON.getString("instance")))
+                second = new Pair<UMLObject,Integer>(class1, secondJSON.getInt("instanceNumber"));
+        }
+
+        int typ = json.getInt("relationType");
+        if (typ < 0 || typ >= ClassRelEnum.values().length)
+            return false;
+
+        type = ClassRelEnum.values()[typ];
+
+        return super.setJSON(json);
     }
 }

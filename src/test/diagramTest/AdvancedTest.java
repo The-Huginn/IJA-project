@@ -142,6 +142,7 @@ public class AdvancedTest {
         seqDiagram.addInstance(secondUmlClass, 0);
 
         SeqRelation seqRelation = new SeqRelation("first relation", seqDiagram, secondUmlClass, 0, umlClass, 0);
+        seqDiagram.addRelation(seqRelation);
         Assert.assertTrue(seqRelation.setMethod("method(10)")); // inherited method
 
         Assert.assertTrue(mainDiagram.checkCorrect());

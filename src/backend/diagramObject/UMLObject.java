@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import backend.diagram.ClassDiagram;
 import javafx.util.Pair;
 
@@ -128,5 +131,56 @@ public abstract class UMLObject extends Element{
         } else if (type == UndoType.others) {
             super.undo();
         }
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        JSONArray vars = new JSONArray();
+        JSONArray methods = new JSONArray();
+
+        for (Attribute attr : getVariables()) {
+            vars.put(attr.getJSON());
+        }
+
+        for (Method method : getMethods()) {
+            methods.put(method.getJSON());
+        }
+
+        json.put("variables", vars);
+        json.put("methods", methods);
+
+        return json;
+    }
+
+    @Override
+    public boolean setJSON(JSONObject json) {
+
+        if (!json.has("variables") || !json.has("methods"))
+            return false;
+
+        JSONArray vars = json.getJSONArray("variables");
+        JSONArray mtds = json.getJSONArray("methods");
+
+        for (int i = 0; i < vars.length(); i++) {
+            Attribute attr = new Attribute("", this);
+            
+            if (!attr.setJSON(vars.getJSONObject(i)))
+                return false;
+
+            variables.add(attr);
+        }
+
+        for (int i = 0; i < mtds.length(); i++) {
+            Method method = new Method("", this);
+
+            if (!method.setJSON(mtds.getJSONObject(i)))
+                return false;
+
+            methods.add(method);
+        }
+
+        return super.setJSON(json);
     }
 }

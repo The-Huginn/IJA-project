@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import backend.diagramObject.Element;
 import javafx.util.Pair;
 
@@ -82,5 +85,26 @@ public abstract class Diagram extends Element{
         } else if (type == UndoType.others) {
             super.undo();
         }
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        JSONArray array = new JSONArray();
+
+        for (Relation relation : getRelations()) {
+            array.put(relation.getJSON());
+        }
+
+        json.put("relations", array);
+
+        return json;
+    }
+
+    // we cant set up relations here
+    @Override
+    public boolean setJSON(JSONObject json) {
+        return super.setJSON(json);
     }
 }

@@ -3,6 +3,8 @@ package backend.diagramObject;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.json.JSONObject;
+
 public class Attribute extends Element {
     public enum Visibility {
         PRIVATE,
@@ -194,5 +196,34 @@ public class Attribute extends Element {
         } else if (type == UndoType.forceSetName) {
             super.undo();
         }
+    }
+
+    @Override
+    public JSONObject getJSON() {
+        JSONObject json = super.getJSON();
+
+        json.put("type", getType().getName());
+        json.put("visibility", getVisibility().ordinal());
+        json.put("isVisibilityChangable", isVisibilityChangable());
+
+        return json;
+    }
+
+    @Override
+    public boolean setJSON(JSONObject json) {
+
+        if (!json.has("type") || !json.has("visibility") || !json.has("isVisibilityChangable"))
+            return false;
+
+        int vis = json.getInt("visibility");
+
+        if (vis < 0 || vis >= Visibility.values().length)
+            return false;
+
+        type = Type.getType(json.getString("type"));
+        visibility = Visibility.values()[vis];
+        isVisibilityChangable = json.getBoolean("isVisibilityChangable");
+
+        return super.setJSON(json);
     }
 }
