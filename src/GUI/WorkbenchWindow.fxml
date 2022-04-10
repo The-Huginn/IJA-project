@@ -43,6 +43,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -51,7 +52,7 @@
 
 <VBox prefHeight="756.0" prefWidth="1327.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
   <children>
-      <HBox prefHeight="13.0" prefWidth="1327.0" styleClass="menu-bar">
+      <HBox alignment="CENTER_LEFT" prefHeight="13.0" prefWidth="1327.0" styleClass="menu-bar">
          <children>
           <MenuBar fx:id="myMenuBar" prefHeight="27.0" prefWidth="188.0">
             <menus>
@@ -79,26 +80,35 @@
               </Menu>
             </menus>
           </MenuBar>
-            <Label fx:id="diagramName" alignment="CENTER" prefHeight="24.0" prefWidth="795.0" text="name" />
+            <Label fx:id="diagramName" alignment="CENTER" text="name" textAlignment="CENTER" />
          </children>
       </HBox>
     <SplitPane dividerPositions="0.8" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
           <content>
-            <AnchorPane id="Content" fx:id="view" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="512.0" />
+            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="512.0">
+                     <children>
+                        <BorderPane fx:id="view" prefHeight="545.0" prefWidth="512.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children></AnchorPane>
           </content>
         </ScrollPane>
             <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Add component">
                   <content>
-                    <AnchorPane fx:id="diagramTable" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#test" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane fx:id="diagramTable" prefHeight="676.0" prefWidth="262.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
                   </content>
                 </Tab>
                 <Tab text="Edit component">
                   <content>
-                    <AnchorPane fx:id="editTable" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane fx:id="editTable" prefHeight="676.0" prefWidth="262.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
                   </content>
                 </Tab>
               </tabs>
