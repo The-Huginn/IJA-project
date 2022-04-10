@@ -102,7 +102,10 @@ public class Type extends Element{
      */
     public static Type getType(String typeName) {
 
-        if (instances == null || !instances.containsKey(typeName))
+        if (instances == null)
+            return null;
+
+        if (!instances.containsKey(typeName))
             return null;
         
         return instances.get(typeName);
@@ -147,6 +150,23 @@ public class Type extends Element{
         }
 
         return false;
+    }
+
+    /**
+     * @return
+     */
+    public static List<String> getAllTypes() {
+
+        List<String> list = new ArrayList<>();
+
+        if (instances == null)
+            return list;
+
+        for (var entry : instances.entrySet()) {
+            list.add(entry.getKey());
+        }
+
+        return list;
     }
 
     /**
@@ -222,8 +242,9 @@ public class Type extends Element{
                 notUserDefined.add(json.getString("name"));
         }
 
-        clearTypes();
-        initTypes(notUserDefined.toArray(String[]::new));
+        instances = new TreeMap<>();
+        for (String key : notUserDefined)
+            instances.put(key, new Type(key, false));
 
         for (String name : userDefined) {
             if (!Type.addType(name))

@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 
 import org.json.JSONObject;
 
+import Application.App;
+
 public class Saver {
     
     // most likely even GUI will be passed
@@ -30,6 +32,7 @@ public class Saver {
         
         try (FileWriter file = new FileWriter(correct_path)) {
             file.write(json.toString(4));
+            App.save();
 
         } catch (Exception e) {
             e.printStackTrace();
