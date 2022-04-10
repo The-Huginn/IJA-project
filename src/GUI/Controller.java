@@ -9,6 +9,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
@@ -21,6 +23,7 @@ public class Controller {
     @FXML AnchorPane view;
     @FXML AnchorPane diagramTable;
     @FXML AnchorPane editTable;
+    @FXML Label diagramName;
 
     private String currentPath = "";
 
@@ -63,12 +66,28 @@ public class Controller {
             alert.show();
         } else {
             currentPath = selectedFile.toString();
+            App.setDiagram(diagram);
         }
     }
 
     @FXML
     protected void close(ActionEvent event) {
+        if (App.getDiagram() == null)
+            return;
 
+        // TODO probably clean "canvas"
+        if (App.isSaved()) {
+            App.setDiagram(null);
+        } else {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+
+            alert.setContentText("Are you sure you do not want to save your work?");
+
+            alert.showAndWait().ifPresent(present -> {
+                if (present == ButtonType.OK)
+                    App.setDiagram(null);
+            });
+        }
     }
 
     @FXML

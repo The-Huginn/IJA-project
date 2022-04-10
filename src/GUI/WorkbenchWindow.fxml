@@ -49,34 +49,39 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="756.0" prefWidth="1327.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+<VBox prefHeight="756.0" prefWidth="1327.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
   <children>
-    <MenuBar fx:id="myMenuBar" prefWidth="1126.0" VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" onAction="#newDiagram" text="New" />
-            <MenuItem fx:id="openFile" mnemonicParsing="false" onAction="#openFile" text="Open…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
-            <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save As…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
+      <HBox prefHeight="13.0" prefWidth="1327.0" styleClass="menu-bar">
+         <children>
+          <MenuBar fx:id="myMenuBar" prefHeight="27.0" prefWidth="188.0">
+            <menus>
+              <Menu mnemonicParsing="false" text="File">
+                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#newDiagram" text="New" />
+                  <MenuItem fx:id="openFile" mnemonicParsing="false" onAction="#openFile" text="Open…" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save As…" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Edit">
+                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Help">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="About This App" />
+                </items>
+              </Menu>
+            </menus>
+          </MenuBar>
+            <Label fx:id="diagramName" alignment="CENTER" prefHeight="24.0" prefWidth="795.0" text="name" />
+         </children>
+      </HBox>
     <SplitPane dividerPositions="0.8" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
