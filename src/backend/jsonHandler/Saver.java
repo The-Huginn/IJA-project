@@ -14,6 +14,9 @@ public class Saver {
     // most likely even GUI will be passed
     public static void save(ClassDiagram diagram, String path) {
 
+        if (diagram == null)
+            return;
+
         JSONObject json = diagram.getJSON();
 
         String correct_path = (Paths.get(path).isAbsolute() ? path : "./" + path);
