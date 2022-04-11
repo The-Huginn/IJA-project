@@ -1,0 +1,120 @@
+{
+    "seqDiagrams": [{
+        "instances": [
+            {
+                "instance": "class 0",
+                "instanceNumber": 0
+            },
+            {
+                "instance": "class 1",
+                "instanceNumber": 0
+            }
+        ],
+        "name": "name",
+        "relations": [{
+            "relationType": 0,
+            "note": "Missing note",
+            "methodParams": "10",
+            "name": "first relation",
+            "methodName": "method",
+            "first": {
+                "instance": "class 0",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "class 1",
+                "instanceNumber": 0
+            }
+        }]
+    }],
+    "interfaces": [
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 0"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 1"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 2"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 3"
+        }
+    ],
+    "types": [
+        {
+            "name": "boolean",
+            "isUserDefined": false
+        },
+        {
+            "name": "byte",
+            "isUserDefined": false
+        },
+        {
+            "name": "char",
+            "isUserDefined": false
+        },
+        {
+            "name": "float",
+            "isUserDefined": false
+        },
+        {
+            "name": "int",
+            "isUserDefined": false
+        },
+        {
+            "name": "long",
+            "isUserDefined": false
+        },
+        {
+            "name": "short",
+            "isUserDefined": false
+        },
+        {
+            "name": "string",
+            "isUserDefined": false
+        },
+        {
+            "name": "void",
+            "isUserDefined": false
+        }
+    ],
+    "classes": [
+        {
+            "variables": [],
+            "methods": [{
+                "visibility": 1,
+                "isVisibilityChangable": true,
+                "name": "method",
+                "type": "int",
+                "parameters": ["int"]
+            }],
+            "name": "class 0"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 1"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 2"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 3"
+        }
+    ],
+    "name": "name",
+    "relations": []
+}

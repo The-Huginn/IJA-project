@@ -79,6 +79,12 @@ public class Controller {
 
             alert.show();
         } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+
+            alert.setContentText("The diagram was successfully loaded.");
+
+            alert.show();
+
             currentPath = selectedFile.toString();
             App.setDiagram(diagram);
         }

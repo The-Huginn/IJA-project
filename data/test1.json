@@ -1,0 +1,86 @@
+{
+    "seqDiagrams": [],
+    "interfaces": [],
+    "types": [
+        {
+            "name": "boolean",
+            "isUserDefined": false
+        },
+        {
+            "name": "byte",
+            "isUserDefined": false
+        },
+        {
+            "name": "char",
+            "isUserDefined": false
+        },
+        {
+            "name": "float",
+            "isUserDefined": false
+        },
+        {
+            "name": "int",
+            "isUserDefined": false
+        },
+        {
+            "name": "long",
+            "isUserDefined": false
+        },
+        {
+            "name": "short",
+            "isUserDefined": false
+        },
+        {
+            "name": "string",
+            "isUserDefined": false
+        },
+        {
+            "name": "void",
+            "isUserDefined": false
+        }
+    ],
+    "classes": [
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 0"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 1"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 2"
+        }
+    ],
+    "name": "name",
+    "relations": [
+        {
+            "relationType": 0,
+            "name": "name",
+            "first": {
+                "instance": "class 0",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "class 1",
+                "instanceNumber": 0
+            }
+        },
+        {
+            "relationType": 0,
+            "name": "name",
+            "first": {
+                "instance": "class 1",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "class 2",
+                "instanceNumber": 0
+            }
+        }
+    ]
+}
