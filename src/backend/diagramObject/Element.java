@@ -1,3 +1,8 @@
+/**
+ * @file Element.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains Base class Element
+ */
 package backend.diagramObject;
 
 import java.util.ArrayDeque;

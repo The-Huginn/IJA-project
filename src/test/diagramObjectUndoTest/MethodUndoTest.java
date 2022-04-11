@@ -1,3 +1,8 @@
+/**
+ * @file MethodUndoTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for undo of Method class
+ */
 package test.diagramObjectUndoTest;
 
 import org.junit.After;

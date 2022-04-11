@@ -1,3 +1,8 @@
+/**
+ * @file AttributeUndoTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for undo of Attribute class
+ */
 package test.diagramObjectUndoTest;
 
 import org.junit.After;

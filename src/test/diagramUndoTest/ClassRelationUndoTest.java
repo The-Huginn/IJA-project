@@ -1,3 +1,8 @@
+/**
+ * @file ClassRelationUndoTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for undo of ClassRelation class
+ */
 package test.diagramUndoTest;
 
 import org.junit.Assert;

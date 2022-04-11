@@ -1,3 +1,8 @@
+/**
+ * @file SeqRelationTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for SeqRelation class
+ */
 package test.diagramTest;
 
 import backend.diagramObject.UMLClass;

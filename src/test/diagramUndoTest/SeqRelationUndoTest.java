@@ -1,3 +1,8 @@
+/**
+ * @file SeqRelationUndoTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for undo of SeqRelation class
+ */
 package test.diagramUndoTest;
 
 import org.junit.Assert;

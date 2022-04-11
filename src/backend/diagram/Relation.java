@@ -1,3 +1,8 @@
+/**
+ * @file Relation.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains abstract class Relation
+ */
 package backend.diagram;
 
 import java.util.ArrayDeque;

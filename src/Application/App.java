@@ -1,3 +1,8 @@
+/**
+ * @file App.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains main function
+ */
 package Application;
 import java.util.ArrayDeque;
 import java.util.Deque;

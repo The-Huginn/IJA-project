@@ -1,3 +1,8 @@
+/**
+ * @file UMLClassUndoTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for undo of UMLCLass class
+ */
 package test.diagramObjectUndoTest;
 
 import org.junit.Assert;

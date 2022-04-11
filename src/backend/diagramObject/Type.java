@@ -1,3 +1,8 @@
+/**
+ * @file Type.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains class Type
+ */
 package backend.diagramObject;
 
 import java.util.ArrayDeque;

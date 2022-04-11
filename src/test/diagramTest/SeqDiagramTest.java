@@ -1,3 +1,8 @@
+/**
+ * @file SeqDiagramTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for SeqDiagram class
+ */
 package test.diagramTest;
 
 import java.util.ArrayList;

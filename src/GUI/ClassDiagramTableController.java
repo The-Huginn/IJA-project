@@ -1,3 +1,8 @@
+/**
+ * @file ClassDiagramTableController.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains controller for ClassDiagram edit tab
+ */
 package GUI;
 
 import Application.App;

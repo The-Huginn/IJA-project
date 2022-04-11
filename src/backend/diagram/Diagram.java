@@ -1,3 +1,8 @@
+/**
+ * @file Diagram.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains abstract class Diagram
+ */
 package backend.diagram;
 
 import java.util.ArrayDeque;

@@ -1,3 +1,8 @@
+/**
+ * @file ClassDiagramTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for ClassDiagram
+ */
 package test.diagramTest;
 
 import java.util.ArrayList;

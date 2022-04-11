@@ -1,3 +1,8 @@
+/**
+ * @file UMLObject.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains abstract class UMLObject
+ */
 package backend.diagramObject;
 
 import java.util.ArrayDeque;

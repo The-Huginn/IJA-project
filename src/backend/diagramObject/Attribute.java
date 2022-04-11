@@ -1,3 +1,8 @@
+/**
+ * @file Attribute.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains class Attribute, inherited by Method
+ */
 package backend.diagramObject;
 
 import java.util.ArrayDeque;

@@ -1,3 +1,8 @@
+/**
+ * @file SeqDiagram.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains class SeqDiagram
+ */
 package backend.diagram;
 
 import java.util.ArrayDeque;

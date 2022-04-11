@@ -1,3 +1,8 @@
+/**
+ * @file UMLInterface.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains class UMLInterface
+ */
 package backend.diagramObject;
 
 import java.util.ArrayDeque;

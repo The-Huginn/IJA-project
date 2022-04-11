@@ -1,3 +1,8 @@
+/**
+ * @file Controller.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains controller for the main app
+ */
 package GUI;
 
 import java.io.File;

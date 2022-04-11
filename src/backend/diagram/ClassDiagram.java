@@ -1,3 +1,8 @@
+/**
+ * @file ClassDiagram.java
+ * @author Rastislav Budinsky (xbudin05), Vladimir Meciar (xmecia00)
+ * @brief This file contains class ClassDiagram
+ */
 package backend.diagram;
 
 import java.util.ArrayDeque;

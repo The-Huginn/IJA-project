@@ -1,3 +1,8 @@
+/**
+ * @file ClassRelationTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for ClassRelation class
+ */
 package test.diagramTest;
 
 import backend.diagramObject.UMLClass;

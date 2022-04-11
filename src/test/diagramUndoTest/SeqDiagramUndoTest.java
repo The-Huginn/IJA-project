@@ -1,3 +1,8 @@
+/**
+ * @file SeqDiagramUndoTest.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains tests for undo of SeqDiagram class
+ */
 package test.diagramUndoTest;
 
 import org.junit.Assert;

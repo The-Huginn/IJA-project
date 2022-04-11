@@ -1,3 +1,8 @@
+/**
+ * @file Saved.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains Saver for loading and saving diagram
+ */
 package backend.jsonHandler;
 
 import backend.diagram.ClassDiagram;
