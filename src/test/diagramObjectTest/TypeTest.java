@@ -38,7 +38,7 @@ public class TypeTest {
     public void setTypesTest() {
         TreeSet<String> set = new TreeSet<String> ();
         set.addAll(Arrays.asList("random", "remove", "should not allow"));
-        Assert.assertFalse(Type.initTypes(set.toArray(new String[set.size()])));
+        Assert.assertFalse(Type.initTypes(set.toArray(new String[set.size()]), null));
         Assert.assertNull(Type.getType("random"));
     }
 
@@ -47,7 +47,7 @@ public class TypeTest {
         Type.clearTypes();
         TreeSet<String> set = new TreeSet<String> ();
         set.addAll(Arrays.asList("int", "random", "remove", "boolean", "should not allow"));
-        Assert.assertTrue(Type.initTypes(set.toArray(new String[set.size()])));
+        Assert.assertTrue(Type.initTypes(set.toArray(new String[set.size()]), null));
         Assert.assertNotNull(Type.getType("random"));
     }
 

@@ -15,10 +15,12 @@ import java.util.TreeMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import backend.diagram.ClassDiagram;
 import javafx.util.Pair;
 
 public class Type extends Element{
     private static SortedMap<String, Type> instances = null;
+    private static ClassDiagram parent;
     private boolean isUserDefined;
 
     // variables for undo operations
@@ -72,11 +74,12 @@ public class Type extends Element{
      * @param types
      * @return True upon success
      */
-    public static boolean initTypes(String[] types) {
+    public static boolean initTypes(String[] types, ClassDiagram newParent) {
         
         if (instances != null)
             return false;
 
+        parent = newParent;
         undo_stack.addFirst(UndoType.initTypes);
 
         instances = new TreeMap<>();
@@ -136,15 +139,67 @@ public class Type extends Element{
     }
 
     /**
+     * @brief This method checks if there are no objects using Type with typeName
+     * @param typeName
+     * @return true if can be deleted
+     */
+    private static boolean canDeleteType(String typeName) {
+        if (parent == null)
+            return true;
+
+        // We still have this type used somewhere
+        for (UMLClass class1 : parent.getClasses()) {
+            for (Method method : class1.getMethods()) {
+
+                // as method return type
+                if (method.getType() == Type.getType(typeName))
+                    return false;
+
+                // as method parameter type
+                for (Type type : method.getParameters())
+                    if (type == Type.getType(typeName))
+                        return false;
+            }
+
+            for (Attribute attribute : class1.getVariables())
+                if (attribute.getType() == Type.getType(typeName))
+                    return false;
+        }
+
+        for (UMLInterface interface1 : parent.getInterfaces()) {
+            for (Method method : interface1.getMethods()) {
+
+                // as method return type
+                if (method.getType() == Type.getType(typeName))
+                    return false;
+
+                // as method parameter type
+                for (Type type : method.getParameters())
+                    if (type == Type.getType(typeName))
+                        return false;
+            }
+
+            for (Attribute attribute : interface1.getVariables())
+                if (attribute.getType() == Type.getType(typeName))
+                    return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @param typeName
      * @return True upon deletion of type defined by user, otherwise false
      */
     public static boolean removeType(String typeName) {
 
-        if (!instances.containsKey(typeName) || instances == null )
+        if (instances == null || !instances.containsKey(typeName))
             return false;
 
         if (instances.get(typeName).isUserDefined()) {
+
+            if (!canDeleteType(typeName))
+                return false;
 
             undo_stack.addFirst(UndoType.removeType);
 

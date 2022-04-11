@@ -322,4 +322,32 @@ public class AdvancedTest {
 
         Assert.assertFalse(seqDiagram.checkCorrect());
     }
+
+    @Test
+    public void removeExistingTypeTest() {
+        TypeHelper.tearDown();
+        String[] types = {"int", "long"};
+        Type.initTypes(types, mainDiagram);
+        Type.addType("random");
+
+        String[] params = {"random"};
+        mainDiagram.getClasses().get(0).addMethod(new Method("name", mainDiagram.getClasses().get(0), Type.getType("random"), Attribute.Visibility.PUBLIC, params));
+        mainDiagram.getInterfaces().get(2).addVariable(new Attribute("name", mainDiagram.getInterfaces().get(2), Type.getType("random"), Attribute.Visibility.PUBLIC, false));
+
+        Assert.assertFalse(Type.removeType("random"));
+
+        mainDiagram.getClasses().get(0).removeMethod(0);
+
+        Assert.assertFalse(Type.removeType("random"));
+
+        mainDiagram.getClasses().get(0).addMethod(new Method("name", mainDiagram.getClasses().get(0), Type.getType("random"), Attribute.Visibility.PUBLIC, params));
+        mainDiagram.getInterfaces().get(2).removeVariable(0);
+
+        Assert.assertFalse(Type.removeType("random"));
+
+        mainDiagram.getClasses().get(0).removeMethod(0);
+        mainDiagram.getInterfaces().get(2).removeVariable(0);
+
+        Assert.assertTrue(Type.removeType("random"));
+    }
 }
