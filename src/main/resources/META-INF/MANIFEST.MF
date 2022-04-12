@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Class-Path: javafx-base-18-linux.jar javafx-swt.jar javafx.base.jar java
+ fx.controls.jar javafx.fxml.jar javafx.graphics.jar javafx.media.jar ja
+ vafx.swing.jar javafx.web.jar javafx-graphics-18-linux.jar javafx-fxml-
+ 18.jar javafx-fxml-18-linux.jar json-20220320.jar controlsfx-11.1.1.jar
+  javafx-controls-18-linux.jar javafx-graphics-18.jar javafx-base-18.jar
+  javafx-controls-18.jar
+
