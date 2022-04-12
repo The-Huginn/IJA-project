@@ -1,3 +1,7 @@
 lib/
-.vscode
+.vscode/
 bin/
+
+## IntelliJ
+.idea/
+IJA-project.iml
