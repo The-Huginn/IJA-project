@@ -77,7 +77,6 @@ public class Element implements undoInterface{
 
     /**
      * Sets without much controls attributes to values in JSON
-     * @param parent
      * @param json JSONObject to be read from
      * @return success of the operation
      */

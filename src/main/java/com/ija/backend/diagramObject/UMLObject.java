@@ -51,7 +51,7 @@ public abstract class UMLObject extends Element{
     }
     
     /**
-     * @param attribute
+     * @param variable
      * @return Success of the operation
      */
     abstract boolean addVariable(Attribute variable);

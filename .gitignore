@@ -5,3 +5,11 @@ bin/
 ## IntelliJ
 .idea/
 IJA-project.iml
+Project.iml
+project.iml
+
+## Maven
+build
+maven
+doc
+target

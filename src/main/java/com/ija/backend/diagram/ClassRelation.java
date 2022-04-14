@@ -52,9 +52,9 @@ public class ClassRelation extends Relation{
      * @param name
      * @param parent Under which parent this ClassRelation lives
      * @param firstInstance ClassRelation starts from this UMLObject
-     * @param firstInstanceNumber instance number of the first UMLObject instance
+     * @param firstClass instance number of the first UMLObject instance
      * @param secondInstance ClassRelation ends in this UMLObject
-     * @param secondInstanceNumber instance number of the second UMLObject instance
+     * @param secondClass instance number of the second UMLObject instance
      */
     public ClassRelation(String name, Diagram parent, UMLObject firstClass, int firstInstance, UMLObject secondClass, int secondInstance) {
         super(name, parent, firstClass, firstInstance, secondClass, secondInstance);
@@ -70,9 +70,9 @@ public class ClassRelation extends Relation{
      * @param name
      * @param parent Under which parent this ClassRelation lives
      * @param firstInstance ClassRelation starts from this UMLObject
-     * @param firstInstanceNumber instance number of the first UMLObject instance
+     * @param firstClass instance number of the first UMLObject instance
      * @param secondInstance ClassRelation ends in this UMLObject
-     * @param secondInstanceNumber instance number of the second UMLObject instance
+     * @param secondClass instance number of the second UMLObject instance
      * @param type Type of relations
      */
     public ClassRelation(String name, Diagram parent, UMLObject firstClass, int firstInstance, UMLObject secondClass, int secondInstance, ClassRelEnum type) {

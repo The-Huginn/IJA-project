@@ -213,7 +213,7 @@ public class ClassDiagram extends Diagram{
 
     /**
      * @note Every SeqDiagram has to have unique name
-     * @param diagram
+     * @param seqDiagram
      * @return
      */
     public boolean addDiagram(SeqDiagram seqDiagram) {
