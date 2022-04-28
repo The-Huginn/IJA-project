@@ -5,7 +5,6 @@
  */
 package com.ija.backend.diagramObject;
 
-import com.ija.backend.diagramObject.Type;
 import com.ija.backend.diagramObject.helpers.TypeHelper;
 import java.util.List;
 
@@ -13,9 +12,6 @@ import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.ija.backend.diagramObject.Attribute;
-import com.ija.backend.diagramObject.Method;
 
 
 public class MethodTest {

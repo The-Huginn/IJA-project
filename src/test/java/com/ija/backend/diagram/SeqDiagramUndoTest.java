@@ -7,8 +7,6 @@ package com.ija.backend.diagram;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.ija.backend.diagram.SeqDiagram;
-import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagramObject.UMLClass;
 
 public class SeqDiagramUndoTest {

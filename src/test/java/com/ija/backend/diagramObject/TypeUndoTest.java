@@ -9,7 +9,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ija.backend.diagramObject.Type;
 import com.ija.backend.diagramObject.helpers.TypeHelper;
 public class TypeUndoTest {
     

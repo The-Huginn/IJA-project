@@ -7,7 +7,6 @@ package com.ija.backend.diagram;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagram.SeqRelation.SeqRelEnum;
 import com.ija.backend.diagramObject.UMLClass;
 

@@ -7,7 +7,6 @@ package com.ija.backend.diagram;
 import com.ija.backend.diagramObject.UMLClass;
 import com.ija.backend.diagramObject.UMLInterface;
 import com.ija.backend.diagramObject.UMLObject;
-import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagramObject.Attribute;
 import com.ija.backend.diagramObject.Method;
 import com.ija.backend.diagramObject.Type;

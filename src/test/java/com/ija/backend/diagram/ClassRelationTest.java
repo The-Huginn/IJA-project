@@ -6,7 +6,6 @@
 package com.ija.backend.diagram;
 import com.ija.backend.diagramObject.UMLClass;
 import com.ija.backend.diagramObject.UMLInterface;
-import com.ija.backend.diagram.ClassRelation;
 import com.ija.backend.diagram.ClassRelation.ClassRelEnum;
 import com.ija.backend.diagramObject.helpers.TypeHelper;
 import java.util.ArrayList;

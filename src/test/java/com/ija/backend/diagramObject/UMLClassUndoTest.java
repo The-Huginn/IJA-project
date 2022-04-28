@@ -7,10 +7,6 @@ package com.ija.backend.diagramObject;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.ija.backend.diagramObject.Attribute;
-import com.ija.backend.diagramObject.Method;
-import com.ija.backend.diagramObject.UMLClass;
-
 public class UMLClassUndoTest {
 
     @Test

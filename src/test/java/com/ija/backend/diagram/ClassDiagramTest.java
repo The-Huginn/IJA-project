@@ -12,8 +12,6 @@ import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
 
-import com.ija.backend.diagram.ClassDiagram;
-import com.ija.backend.diagram.ClassRelation;
 import com.ija.backend.diagramObject.UMLClass;
 import com.ija.backend.diagramObject.UMLInterface;
 

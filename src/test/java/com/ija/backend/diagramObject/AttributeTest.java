@@ -4,8 +4,6 @@
  * @brief This file contains tests for Attribute class
  */
 package com.ija.backend.diagramObject;
-import com.ija.backend.diagramObject.Type;
-import com.ija.backend.diagramObject.Attribute;
 
 import com.ija.backend.diagramObject.helpers.TypeHelper;
 import org.junit.After;

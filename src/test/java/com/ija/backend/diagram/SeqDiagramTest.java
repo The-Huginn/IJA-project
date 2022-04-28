@@ -12,9 +12,6 @@ import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
 
-import com.ija.backend.diagram.ClassDiagram;
-import com.ija.backend.diagram.SeqRelation;
-import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagramObject.UMLClass;
 import javafx.util.Pair;
 
