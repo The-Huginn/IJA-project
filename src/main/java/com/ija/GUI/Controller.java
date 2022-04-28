@@ -37,7 +37,7 @@ public class Controller {
 
     @FXML
     protected void test() throws IOException {
-        Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/Application/ClassDiagramTable.fxml"));
+        Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/ClassDiagramTable.fxml"));
         diagramTable.setCenter(node);
     }
 

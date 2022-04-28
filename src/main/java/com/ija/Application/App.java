@@ -26,7 +26,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("/com/ija/Application/WorkbenchWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/ija/GUI/WorkbenchWindow.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
