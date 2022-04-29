@@ -25,7 +25,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
- 
+
 public class Controller {
     @FXML MenuBar myMenuBar;
     @FXML BorderPane view;
@@ -35,22 +35,27 @@ public class Controller {
 
     private String currentPath = "";
 
-    @FXML
-    protected void test() throws IOException {
-        Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/ClassDiagramTable.fxml"));
-        diagramTable.setCenter(node);
+    private void showAddComponent() {
+        try {
+            Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/ClassDiagramTable.fxml"));
+            diagramTable.setCenter(node);
+        } catch (IOException e) {
+            System.err.println("Unable to open ClassDiagramTable...");
+        }
     }
 
     @FXML
     protected void newDiagram(ActionEvent event) {
         if (App.getDiagram() == null || App.isSaved()) {
-            
+
             TextInputDialog td = new TextInputDialog("Enter name of the diagram");
             td.setHeaderText("Enter name");
 
             td.showAndWait();
 
             App.setDiagram(new ClassDiagram(td.getEditor().getText()));
+
+            showAddComponent();
 
         } else {
             Alert alert = new Alert(AlertType.WARNING);
@@ -69,9 +74,9 @@ public class Controller {
         Stage stage = (Stage)myMenuBar.getScene().getWindow();
 
         File selectedFile = fileChooser.showOpenDialog(stage);
-        
+
         ClassDiagram diagram = Saver.load(selectedFile.toString());
-        
+
         if (diagram == null) {
             Alert alert = new Alert(AlertType.ERROR);
 
@@ -87,6 +92,8 @@ public class Controller {
 
             currentPath = selectedFile.toString();
             App.setDiagram(diagram);
+
+            showAddComponent();
         }
     }
 
@@ -98,14 +105,17 @@ public class Controller {
         // TODO probably clean "canvas"
         if (App.isSaved()) {
             App.setDiagram(null);
+            diagramTable.setCenter(null);
         } else {
             Alert alert = new Alert(AlertType.CONFIRMATION);
 
             alert.setContentText("Are you sure you do not want to save your work?");
 
             alert.showAndWait().ifPresent(present -> {
-                if (present == ButtonType.OK)
+                if (present == ButtonType.OK) {
                     App.setDiagram(null);
+                    diagramTable.setCenter(null);
+                }
             });
         }
     }
