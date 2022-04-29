@@ -50,7 +50,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="756.0" prefWidth="1327.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ija.GUI.Controller">
+<VBox prefHeight="756.0" prefWidth="1327.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ija.GUI.MainWindowController">
   <children>
       <HBox alignment="CENTER_LEFT" prefHeight="13.0" prefWidth="1327.0" styleClass="menu-bar">
          <children>
@@ -80,17 +80,14 @@
               </Menu>
             </menus>
           </MenuBar>
-            <Label fx:id="diagramName" alignment="CENTER" text="name" textAlignment="CENTER" />
+            <Label fx:id="diagramName" alignment="CENTER" text="" textAlignment="CENTER" />
          </children>
       </HBox>
     <SplitPane dividerPositions="0.8" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
           <content>
-            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="512.0">
-                     <children>
-                        <BorderPane fx:id="view" prefHeight="545.0" prefWidth="512.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children></AnchorPane>
+            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="708.0" prefWidth="1056.0" />
           </content>
         </ScrollPane>
             <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">

@@ -26,22 +26,32 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class Controller {
+public class MainWindowController {
     @FXML MenuBar myMenuBar;
     @FXML BorderPane view;
-    @FXML BorderPane diagramTable;
-    @FXML BorderPane editTable;
-    @FXML Label diagramName;
+    @FXML public BorderPane diagramTable;
+    @FXML public BorderPane editTable;
+    @FXML public Label diagramName;
 
     private String currentPath = "";
 
-    private void showAddComponent() {
+    private void loadDiagram() {
         try {
             Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/ClassDiagramTable.fxml"));
             diagramTable.setCenter(node);
+            Node edit = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/EditDiagramTable.fxml"));
+            editTable.setCenter(edit);
+            diagramName.setText(App.getDiagram().getName());
         } catch (IOException e) {
-            System.err.println("Unable to open ClassDiagramTable...");
+            System.err.println(e);
+            System.err.println("Unable to open resources...");
         }
+    }
+
+    private void closeDiagram() {
+        diagramName.setText(null);
+        diagramTable.setCenter(null);
+        editTable.setCenter(null);
     }
 
     @FXML
@@ -55,7 +65,7 @@ public class Controller {
 
             App.setDiagram(new ClassDiagram(td.getEditor().getText()));
 
-            showAddComponent();
+            loadDiagram();
 
         } else {
             Alert alert = new Alert(AlertType.WARNING);
@@ -93,7 +103,7 @@ public class Controller {
             currentPath = selectedFile.toString();
             App.setDiagram(diagram);
 
-            showAddComponent();
+            loadDiagram();
         }
     }
 
@@ -114,7 +124,7 @@ public class Controller {
             alert.showAndWait().ifPresent(present -> {
                 if (present == ButtonType.OK) {
                     App.setDiagram(null);
-                    diagramTable.setCenter(null);
+                    closeDiagram();
                 }
             });
         }
