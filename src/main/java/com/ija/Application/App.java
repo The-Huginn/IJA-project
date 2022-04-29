@@ -4,6 +4,7 @@
  * @brief This file contains main function
  */
 package com.ija.Application;
+import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -22,6 +23,7 @@ public class App extends Application {
     private static Deque<undoInterface> undoStack = new ArrayDeque<>();
     private static boolean isSaved = true;
     private static Element selectedElement = null;
+    private static FXMLLoader loader;
     public static void main(String[] args) {
         launch(args);
     }
@@ -29,7 +31,8 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("/com/ija/GUI/WorkbenchWindow.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/com/ija/GUI/MainWindow.fxml"));
+        Parent root = loader.load();
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
@@ -47,6 +50,7 @@ public class App extends Application {
      */
     public static void setDiagram(ClassDiagram newDiagram) {
         currentDiagram = newDiagram;
+        selectedElement = newDiagram;
     }
 
     /**
@@ -64,6 +68,19 @@ public class App extends Application {
     }
 
     /**
+     * @brief Checks, whether selected Element contains method
+     * @param methodName name of the method
+     * @return true if contains
+     */
+    public static boolean containsMethod(String methodName) {
+        for (Method method : selectedElement.getClass().getMethods())
+            if (method.getName().equals(methodName))
+                return true;
+
+        return false;
+    }
+
+    /**
      * @brief Undo last action from diagram
      */
     public static void undo() {
@@ -76,12 +93,11 @@ public class App extends Application {
     }
 
     /**
-     * @brief Adds new action to undo stack
-     * @param item
+     * @brief Adds new action to undo stack from selected Element
      */
-    public static void addUndo(undoInterface item) {
+    public static void addUndo() {
         isSaved = false;
-        undoStack.addFirst(item);
+        undoStack.addFirst(selectedElement);
     }
 
     public static boolean isSaved() {
@@ -90,5 +106,9 @@ public class App extends Application {
 
     public static void save() {
         isSaved = true;
+    }
+
+    public static FXMLLoader getLoader() {
+        return loader;
     }
 }
