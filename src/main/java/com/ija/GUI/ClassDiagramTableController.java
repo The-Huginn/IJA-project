@@ -69,6 +69,7 @@ public class ClassDiagramTableController {
             newType.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
             newType.setText(null);
+            newType.setStyle(null);
         }
     }
 
@@ -78,6 +79,7 @@ public class ClassDiagramTableController {
             newSequence.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
             // TODO set Sequence diagram to window
+            newSequence.setStyle(null);
         }
     }
 
@@ -90,6 +92,7 @@ public class ClassDiagramTableController {
                     UMLObjectName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
                     // TODO add new UMLObject
+                    UMLObjectName.setStyle(null);
                 }
                 break;
 
@@ -98,6 +101,7 @@ public class ClassDiagramTableController {
                     UMLObjectName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
                     // TODO add new UMLObject
+                    UMLObjectName.setStyle(null);
                 }
                 break;
         }

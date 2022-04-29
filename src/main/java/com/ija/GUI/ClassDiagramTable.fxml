@@ -12,7 +12,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ija.GUI.ClassDiagramTableController">
    <children>
-      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ComboBox fx:id="typeComboBox" onHiding="#selectType" onMouseEntered="#fillTypes" prefWidth="150.0">
                <VBox.margin>
@@ -70,10 +70,18 @@
                   </RadioButton>
                </children>
             </VBox>
-            <Button mnemonicParsing="false" onMouseClicked="#addUMLObject" text="Add" />
+            <Button mnemonicParsing="false" onMouseClicked="#addUMLObject" text="Add">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Button>
          </children>
          <opaqueInsets>
-            <Insets />
+            <Insets bottom="5.0" />
+         </opaqueInsets>
+      </VBox>
+      <VBox layoutY="362.0" prefHeight="161.0" prefWidth="200.0" style="-fx-border-color: #b8b8b8; -fx-border-width: 3px 0 0 0; -fx-border-radius: 2px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="360.0">
+         <opaqueInsets>
+            <Insets top="5.0" />
          </opaqueInsets>
       </VBox>
    </children>
