@@ -5,6 +5,9 @@
  */
 package com.ija.GUI;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.ija.Application.App;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagramObject.Type;
@@ -26,13 +29,14 @@ public class ClassDiagramTableController {
     @FXML TextField newSequence;
     @FXML TextField UMLObjectName;
     @FXML ToggleGroup newUMLObject;
+    @FXML ComboBox<String> diagramComboBox;
 
     @FXML
     protected void fillTypes(Event event) {
 
         String original = typeComboBox.getValue();
 
-        if (App.getDiagram() != null) {
+        if (App.getClassDiagram() != null) {
             typeComboBox.setItems(FXCollections.observableArrayList(Type.getAllTypes()));
 
             if (Type.getAllTypes().contains(original))
@@ -75,7 +79,7 @@ public class ClassDiagramTableController {
 
     @FXML
     protected void addSequence(Event event) {
-        if (!App.getDiagram().addDiagram(new SeqDiagram(newSequence.getText(), App.getDiagram())))
+        if (!App.getClassDiagram().addDiagram(new SeqDiagram(newSequence.getText(), App.getClassDiagram())))
             newSequence.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
             // TODO set Sequence diagram to window
@@ -88,7 +92,7 @@ public class ClassDiagramTableController {
 
         switch (newUMLObject.getSelectedToggle().getUserData().toString()) {
             case "Class":
-                if (!App.getDiagram().addClass(new UMLClass(UMLObjectName.getText(), App.getDiagram())))
+                if (!App.getClassDiagram().addClass(new UMLClass(UMLObjectName.getText(), App.getClassDiagram())))
                     UMLObjectName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
                     // TODO add new UMLObject
@@ -97,13 +101,35 @@ public class ClassDiagramTableController {
                 break;
 
             case "Interface":
-                if (!App.getDiagram().addInterface(new UMLInterface(UMLObjectName.getText(), App.getDiagram())))
+                if (!App.getClassDiagram().addInterface(new UMLInterface(UMLObjectName.getText(), App.getClassDiagram())))
                     UMLObjectName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
                     // TODO add new UMLObject
                     UMLObjectName.setStyle(null);
                 }
                 break;
+        }
+    }
+
+    @FXML
+    protected void updateDiagrams(Event event) {
+        if (App.getClassDiagram() != null) {
+            List<SeqDiagram> diagrams = App.getClassDiagram().getDiagrams();
+            List<String> names = diagrams.stream()
+                                        .map(f -> f.getName())
+                                        .collect(Collectors.toList());
+            diagramComboBox.setItems(FXCollections.observableArrayList(names));
+        }
+    }
+
+    @FXML
+    protected void switchDiagram(Event event) {
+        if (App.getClassDiagram() != null) {
+            for (SeqDiagram diagram : App.getClassDiagram().getDiagrams())
+                if (diagram.getName().equals(diagramComboBox.getValue())) {
+                    App.setCurrentDiagram(diagram);
+                    break;
+                }
         }
     }
 

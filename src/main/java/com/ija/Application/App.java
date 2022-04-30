@@ -10,6 +10,7 @@ import java.util.Deque;
 
 import com.ija.backend.undoInterface;
 import com.ija.backend.diagram.ClassDiagram;
+import com.ija.backend.diagram.Diagram;
 import com.ija.backend.diagramObject.Element;
 
 import javafx.application.Application;
@@ -19,10 +20,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    private static ClassDiagram currentDiagram= null;
+    private static ClassDiagram classDiagram= null;
+    private static Diagram currentDiagram = null;
+    private static Element selectedElement = null;
     private static Deque<undoInterface> undoStack = new ArrayDeque<>();
     private static boolean isSaved = true;
-    private static Element selectedElement = null;
     private static FXMLLoader loader;
     public static void main(String[] args) {
         launch(args);
@@ -38,19 +40,35 @@ public class App extends Application {
     }
 
     /**
-     * @return Currently opened diagram
+     * @return Class diagram of current file
      */
-    public static ClassDiagram getDiagram() {
+    public static ClassDiagram getClassDiagram() {
 
-        return currentDiagram;
+        return classDiagram;
     }
 
     /**
      * @param newDiagram
      */
-    public static void setDiagram(ClassDiagram newDiagram) {
+    public static void setClassDiagram(ClassDiagram newDiagram) {
+        classDiagram = newDiagram;
         currentDiagram = newDiagram;
         selectedElement = newDiagram;
+    }
+
+    /**
+     * @return Currently opened diagram
+     */
+    public static Diagram getCurrentDiagram() {
+        return currentDiagram;
+    }
+
+    /**
+     * @brief Switches to new diagram
+     * @param newDiagram
+     */
+    public static void setCurrentDiagram(Diagram newDiagram) {
+        currentDiagram = newDiagram;
     }
 
     /**
