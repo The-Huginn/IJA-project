@@ -39,9 +39,9 @@ public class MainWindowController {
         try {
             Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/ClassDiagramTable.fxml"));
             diagramTable.setCenter(node);
-            Node edit = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/EditDiagramTable.fxml"));
+            Node edit = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/EditTable.fxml"));
             editTable.setCenter(edit);
-            diagramName.setText(App.getDiagram().getName());
+            diagramName.setText(App.getClassDiagram().getName());
         } catch (IOException e) {
             System.err.println(e);
             System.err.println("Unable to open resources...");
@@ -56,14 +56,14 @@ public class MainWindowController {
 
     @FXML
     protected void newDiagram(ActionEvent event) {
-        if (App.getDiagram() == null || App.isSaved()) {
+        if (App.getClassDiagram() == null || App.isSaved()) {
 
             TextInputDialog td = new TextInputDialog("Enter name of the diagram");
             td.setHeaderText("Enter name");
 
             td.showAndWait();
 
-            App.setDiagram(new ClassDiagram(td.getEditor().getText()));
+            App.setClassDiagram(new ClassDiagram(td.getEditor().getText()));
 
             loadDiagram();
 
@@ -101,7 +101,7 @@ public class MainWindowController {
             alert.show();
 
             currentPath = selectedFile.toString();
-            App.setDiagram(diagram);
+            App.setClassDiagram(diagram);
 
             loadDiagram();
         }
@@ -109,12 +109,12 @@ public class MainWindowController {
 
     @FXML
     protected void close(ActionEvent event) {
-        if (App.getDiagram() == null)
+        if (App.getClassDiagram() == null)
             return;
 
         // TODO probably clean "canvas"
         if (App.isSaved()) {
-            App.setDiagram(null);
+            App.setClassDiagram(null);
             diagramTable.setCenter(null);
         } else {
             Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -123,7 +123,7 @@ public class MainWindowController {
 
             alert.showAndWait().ifPresent(present -> {
                 if (present == ButtonType.OK) {
-                    App.setDiagram(null);
+                    App.setClassDiagram(null);
                     closeDiagram();
                 }
             });
@@ -138,21 +138,21 @@ public class MainWindowController {
             alert.setContentText("Please use option File -> Save As...");
 
             alert.show();
-        } else if (App.getDiagram() == null) {
+        } else if (App.getClassDiagram() == null) {
             Alert alert = new Alert(AlertType.ERROR);
 
             alert.setContentText("Missing diagram to save.");
 
             alert.show();
         } else {
-            Saver.save(App.getDiagram(), currentPath);
+            Saver.save(App.getClassDiagram(), currentPath);
         }
     }
 
     @FXML
     protected void saveFile(ActionEvent event) {
 
-        if (App.getDiagram() == null) {
+        if (App.getClassDiagram() == null) {
             Alert alert = new Alert(AlertType.ERROR);
 
             alert.setContentText("Missing diagram to save.");
@@ -167,7 +167,7 @@ public class MainWindowController {
             if (selectedFile == null)
                 return;
 
-            Saver.save(App.getDiagram(), selectedFile.toString());
+            Saver.save(App.getClassDiagram(), selectedFile.toString());
             currentPath = selectedFile.toString();
         }
     }
