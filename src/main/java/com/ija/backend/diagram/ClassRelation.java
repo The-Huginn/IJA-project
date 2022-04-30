@@ -7,7 +7,9 @@ package com.ija.backend.diagram;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -18,6 +20,7 @@ import javafx.util.Pair;
 
 public class ClassRelation extends Relation{
     private ClassRelEnum type = ClassRelEnum.ASSOCIATION;
+    private static String[] cardinalities = {"0..1", "0..n", "1..n"};
 
     public enum ClassRelEnum {
         ASSOCIATION,
@@ -86,6 +89,26 @@ public class ClassRelation extends Relation{
         // Overrides to correct type
         if ((firstClass instanceof UMLClass) && (secondClass instanceof UMLInterface))
             this.type = ClassRelEnum.IMPLEMENTS;
+    }
+
+    /**
+     * @brief This function determinates what cardinality integer means
+     * @param cardinality
+     * @return String represantation of the cardinality
+     */
+    public static String getCardinality(int cardinality) {
+        if (cardinality < 0 || cardinality >= cardinalities.length)
+            return "unknown";
+
+        return cardinalities[cardinality];
+    }
+
+    public static int getCardinality(String cardinality) {
+        return Arrays.asList(cardinalities).indexOf(cardinality);
+    }
+
+    public static List<String> getCardinalities() {
+        return Collections.unmodifiableList(Arrays.asList(cardinalities));
     }
 
     @Override

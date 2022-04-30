@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 
 import com.ija.Application.App;
 import com.ija.GUI.MainWindowController;
+import com.ija.backend.diagram.ClassRelation;
+import com.ija.backend.diagram.ClassRelation.ClassRelEnum;
 import com.ija.backend.diagramObject.Attribute;
 import com.ija.backend.diagramObject.Type;
+import com.ija.backend.diagramObject.UMLObject;
 import com.ija.backend.diagramObject.Attribute.Visibility;
 
 import javafx.collections.FXCollections;
@@ -16,12 +19,16 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.util.Pair;
 
 public class EditTableController {
     @FXML TextField newNameField;
     @FXML ComboBox<String> typeComboBox;
     @FXML ComboBox<String> visiComboBox;
     @FXML TextField newParamsField;
+    @FXML ComboBox<String> startComboBox;
+    @FXML ComboBox<String> endComboBox;
+    @FXML ComboBox<String> relationComboBox;
 
     public EditTableController() {
 
@@ -60,6 +67,31 @@ public class EditTableController {
                                         .map(f -> f.getName())
                                         .collect(Collectors.toList());
                 newParamsField.setText(String.join(",", params));
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                    | NoSuchMethodException | SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (App.containsMethod("setFirst")) {
+            startComboBox.setItems(FXCollections.observableArrayList(ClassRelation.getCardinalities()));
+            endComboBox.setItems(FXCollections.observableArrayList(ClassRelation.getCardinalities()));
+            try {
+                @SuppressWarnings("unchecked")
+                Pair<UMLObject, Integer> rel = (Pair<UMLObject, Integer>)App.getElement().getClass().getMethod("getFirst").invoke(App.getElement());
+                startComboBox.setValue(ClassRelation.getCardinality(rel.getValue()));
+
+                @SuppressWarnings("unchecked")
+                Pair<UMLObject, Integer> rel2 = (Pair<UMLObject, Integer>)App.getElement().getClass().getMethod("getSecond").invoke(App.getElement());
+                endComboBox.setValue(ClassRelation.getCardinality(rel2.getValue()));
+
+                List<String> relations = Arrays.asList(ClassRelation.ClassRelEnum.values())
+                                        .stream()
+                                        .map(f -> f.toString())
+                                        .collect(Collectors.toList());
+                relationComboBox.setItems(FXCollections.observableArrayList(relations));
+                String current = ((ClassRelEnum)App.getElement().getClass().getMethod("getType").invoke(App.getElement())).toString();
+                relationComboBox.setValue(current);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
                     | NoSuchMethodException | SecurityException e) {
                 e.printStackTrace();
@@ -125,6 +157,62 @@ public class EditTableController {
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void updateStart(Event event) {
+        if (!App.containsMethod("setFirst"))
+            return;
+
+        try {
+            @SuppressWarnings("unchecked")
+            Pair<UMLObject, Integer> rel = (Pair<UMLObject, Integer>) App.getElement().getClass().getMethod("getFirst").invoke(App.getElement());
+            if (!((ClassRelation) App.getElement()).setFirst(rel.getKey(), ClassRelation.getCardinality(startComboBox.getValue())))
+                startComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
+            else {
+                // TODO maybe
+                startComboBox.setStyle(null);
+                App.addUndo();
+            }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void updateEnd(Event event) {
+        if (!App.containsMethod("setSecond"))
+            return;
+
+        try {
+            @SuppressWarnings("unchecked")
+            Pair<UMLObject, Integer> rel = (Pair<UMLObject, Integer>) App.getElement().getClass().getMethod("getSecond").invoke(App.getElement());
+            if (!((ClassRelation) App.getElement()).setSecond(rel.getKey(), ClassRelation.getCardinality(endComboBox.getValue())))
+                endComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
+            else {
+                // TODO maybe
+                endComboBox.setStyle(null);
+                App.addUndo();
+            }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void updateRelation(Event event) {
+        if (!App.containsMethod("setType"))
+            return;
+
+        if (!((ClassRelation) App.getElement()).setType(ClassRelEnum.valueOf(relationComboBox.getValue())))
+            relationComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
+        else {
+            // TODO maybe
+            relationComboBox.setStyle(null);
+            App.addUndo();
         }
     }
 }
