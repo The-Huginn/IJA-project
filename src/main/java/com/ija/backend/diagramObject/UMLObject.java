@@ -65,7 +65,7 @@ public abstract class UMLObject extends Element{
     /**
      * @return True if everything is ok
      */
-    public  abstract boolean checkCorrect();
+    public abstract boolean checkCorrect();
 
     /**
      * @return Array with variables

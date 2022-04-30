@@ -1,4 +1,4 @@
-package com.ija.GUI;
+package com.ija.GUI.classDiagram;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ija.Application.App;
+import com.ija.GUI.MainWindowController;
 import com.ija.backend.diagramObject.Attribute;
 import com.ija.backend.diagramObject.Type;
 import com.ija.backend.diagramObject.Attribute.Visibility;
@@ -72,7 +73,8 @@ public class EditTableController {
             newNameField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
             newNameField.setStyle(null);
-            ((MainWindowController)App.getLoader().getController()).diagramName.setText(App.getElement().getName());
+            if (App.getElement() == App.getCurrentDiagram())
+                ((MainWindowController)App.getLoader().getController()).diagramName.setText(App.getElement().getName());
             App.addUndo();
         }
     }
@@ -118,6 +120,7 @@ public class EditTableController {
             else {
                 // TODO update params in GUI
                 newParamsField.setStyle(null);
+                App.addUndo();
             }
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {

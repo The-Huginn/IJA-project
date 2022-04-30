@@ -37,9 +37,9 @@ public class MainWindowController {
 
     private void loadDiagram() {
         try {
-            Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/ClassDiagramTable.fxml"));
+            Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/classDiagram/ClassDiagramTable.fxml"));
             diagramTable.setCenter(node);
-            Node edit = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/EditTable.fxml"));
+            Node edit = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/classDiagram/EditTable.fxml"));
             editTable.setCenter(edit);
             diagramName.setText(App.getClassDiagram().getName());
         } catch (IOException e) {

@@ -3,7 +3,7 @@
  * @author Rastislav Budinsky (xbudin05)
  * @brief This file contains controller for ClassDiagram edit tab
  */
-package com.ija.GUI;
+package com.ija.GUI.classDiagram;
 
 import java.util.List;
 import java.util.stream.Collectors;

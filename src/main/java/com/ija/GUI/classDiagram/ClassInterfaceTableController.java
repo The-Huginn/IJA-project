@@ -3,7 +3,7 @@
  * @author Rastislav Budinsky (xbudin05)
  * @brief This file contains controller for Class and Interface add tab
  */
-package com.ija.GUI;
+package com.ija.GUI.classDiagram;
 
 import com.ija.Application.App;
 import com.ija.backend.diagramObject.Attribute;
