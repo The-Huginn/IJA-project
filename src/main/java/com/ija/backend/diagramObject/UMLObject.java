@@ -54,18 +54,18 @@ public abstract class UMLObject extends Element{
      * @param variable
      * @return Success of the operation
      */
-    abstract boolean addVariable(Attribute variable);
+    public abstract boolean addVariable(Attribute variable);
 
     /**
      * @param method
      * @return Success of the operation
      */
-    abstract boolean addMethod(Method method);
+    public abstract boolean addMethod(Method method);
 
     /**
      * @return True if everything is ok
      */
-    abstract boolean checkCorrect();
+    public  abstract boolean checkCorrect();
 
     /**
      * @return Array with variables
