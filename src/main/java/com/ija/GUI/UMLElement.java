@@ -10,7 +10,7 @@ import com.ija.backend.diagramObject.Element;
 
 import javafx.scene.layout.VBox;
 
-public class UMLElement extends VBox implements undoInterface {
+public abstract class UMLElement extends VBox implements undoInterface {
     private Element entity;
     private final ElementType type;
 
@@ -35,12 +35,12 @@ public class UMLElement extends VBox implements undoInterface {
     /**
      * @brief Class gets notified it got selected
      */
-    public void select() {}
+    public abstract void select();
 
     /**
      * @brief Class gets notified it got unselected
      */
-    public void unselect() {}
+    public abstract void unselect();
 
     /**
      * @return
@@ -59,7 +59,7 @@ public class UMLElement extends VBox implements undoInterface {
     /**
      * @brief Call this function if method was called upon Element outside of UMLElement
      */
-    public void addUndo() {}
+    public abstract void addUndo();
 
     /**
      * @brief Calls undo upon it's @see entity

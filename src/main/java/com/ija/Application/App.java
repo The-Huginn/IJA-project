@@ -8,8 +8,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import com.ija.GUI.MainWindowController;
 import com.ija.GUI.UMLElement;
-import com.ija.GUI.UMLElement.ElementType;
+import com.ija.GUI.classDiagram.cUMLDiagram;
+import com.ija.GUI.seqDiagram.sUMLDiagram;
 import com.ija.backend.undoInterface;
 import com.ija.backend.diagram.ClassDiagram;
 import com.ija.backend.diagram.Diagram;
@@ -53,7 +55,7 @@ public class App extends Application {
      */
     public static void setClassDiagram(ClassDiagram newDiagram) {
         classDiagram = newDiagram;
-        currentDiagram = new UMLElement(newDiagram, ElementType.CLASS_DIAGRAM);
+        currentDiagram = new cUMLDiagram(newDiagram, ((MainWindowController)getLoader().getController()).diagramName);
         selectedElement = currentDiagram;
     }
 
@@ -70,9 +72,9 @@ public class App extends Application {
      */
     public static void setCurrentDiagram(Diagram newDiagram) {
         if (newDiagram instanceof ClassDiagram)
-            currentDiagram = new UMLElement(newDiagram, ElementType.CLASS_DIAGRAM);
+            currentDiagram = new cUMLDiagram(newDiagram, ((MainWindowController)getLoader().getController()).diagramName);
         else
-        currentDiagram = new UMLElement(newDiagram, ElementType.SEQ_DIAGRAM);
+        currentDiagram = new sUMLDiagram(newDiagram, ((MainWindowController)getLoader().getController()).diagramName);
     }
 
     /**
