@@ -4,23 +4,25 @@
  * @brief This file contains main function
  */
 package com.ija.Application;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 import com.ija.GUI.MainWindowController;
 import com.ija.GUI.UMLElement;
+import com.ija.GUI.classDiagram.UMLEntity;
 import com.ija.GUI.classDiagram.cUMLDiagram;
-import com.ija.GUI.seqDiagram.sUMLDiagram;
 import com.ija.backend.undoInterface;
 import com.ija.backend.diagram.ClassDiagram;
-import com.ija.backend.diagram.Diagram;
 import com.ija.backend.diagramObject.Element;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -44,6 +46,16 @@ public class App extends Application {
     }
 
     /**
+     * @brief This function should be called upon opening/creating new file
+     * @param newDiagram
+     */
+    public static void newClassDiagram(UMLElement newDiagram) {
+        classDiagram = (ClassDiagram)newDiagram.getElement();
+        currentDiagram = newDiagram;
+        selectedElement = newDiagram;
+    }
+
+    /**
      * @return Class diagram of current file
      */
     public static ClassDiagram getClassDiagram() {
@@ -51,30 +63,18 @@ public class App extends Application {
     }
 
     /**
-     * @param newDiagram
-     */
-    public static void setClassDiagram(ClassDiagram newDiagram) {
-        classDiagram = newDiagram;
-        currentDiagram = new cUMLDiagram(newDiagram, ((MainWindowController)getLoader().getController()).diagramName);
-        selectedElement = currentDiagram;
-    }
-
-    /**
      * @return Currently opened diagram
      */
-    public static Diagram getCurrentDiagram() {
-        return (Diagram)currentDiagram.getElement();
+    public static UMLElement getCurrentDiagram() {
+        return currentDiagram;
     }
 
     /**
      * @brief Switches to new diagram
      * @param newDiagram
      */
-    public static void setCurrentDiagram(Diagram newDiagram) {
-        if (newDiagram instanceof ClassDiagram)
-            currentDiagram = new cUMLDiagram(newDiagram, ((MainWindowController)getLoader().getController()).diagramName);
-        else
-        currentDiagram = new sUMLDiagram(newDiagram, ((MainWindowController)getLoader().getController()).diagramName);
+    public static void setCurrentDiagram(UMLElement newCurrent) {
+        currentDiagram = newCurrent;
     }
 
     /**
@@ -88,9 +88,13 @@ public class App extends Application {
      * @param newSelectedElement
      */
     public static void setSelected(UMLElement newSelectedElement) {
-        selectedElement.unselect();
+        if (selectedElement != null)
+            selectedElement.unselect();
+
         selectedElement = newSelectedElement;
         selectedElement.select();
+
+        updateEditPane();
     }
 
     /**
@@ -140,7 +144,7 @@ public class App extends Application {
      */
     public static void addClearUndo() {
         isSaved = false;
-        undoStack.add(selectedElement);
+        undoStack.addFirst(selectedElement);
     }
 
     public static boolean isSaved() {
@@ -153,5 +157,25 @@ public class App extends Application {
 
     public static FXMLLoader getLoader() {
         return loader;
+    }
+
+    private static void updateEditPane() {
+        BorderPane diagramTable = ((MainWindowController)getLoader().getController()).diagramTable;
+        BorderPane editTable = ((MainWindowController)getLoader().getController()).editTable;
+        try {
+            if (getSelected() instanceof cUMLDiagram) {
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/ClassDiagramTable.fxml"));
+                diagramTable.setCenter(node);
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditTable.fxml"));
+                editTable.setCenter(edit);
+            } else if (getSelected() instanceof UMLEntity) {
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/ClassInterfaceTable.fxml"));
+                diagramTable.setCenter(node);
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditTable.fxml"));
+                editTable.setCenter(edit);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

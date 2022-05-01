@@ -7,44 +7,74 @@ package com.ija.GUI;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import com.ija.Application.App;
 import com.ija.backend.diagram.ClassDiagram;
 import com.ija.backend.jsonHandler.Saver;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MainWindowController {
+public class MainWindowController implements Initializable {
     @FXML MenuBar myMenuBar;
     @FXML BorderPane view;
     @FXML public BorderPane diagramTable;
     @FXML public BorderPane editTable;
     @FXML public Label diagramName;
+    @FXML public BorderPane pane;
+    @FXML ScrollPane scrollPane;
+    private diagramHandler handler;
 
     private String currentPath = "";
 
-    private void loadDiagram() {
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        scrollPane.setOnMousePressed(e -> {
+            if (e.getButton() == MouseButton.SECONDARY)
+                scrollPane.setPannable(true);
+          });
+        scrollPane.setOnMouseReleased(e -> {
+            if (e.getButton() == MouseButton.SECONDARY)
+                scrollPane.setPannable(false);
+          });
+    }
+
+    private void setPane(UMLElement entity, Pane newPane) {
+        pane.setCenter(newPane);
+    }
+
+    private void loadDiagram(ClassDiagram diagram) {
         try {
+            handler = new diagramHandler(diagram, diagramName);
+            App.newClassDiagram(handler.getClassEntity());
+            setPane(handler.getClassEntity(), handler.getClassPane());
+
             Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/classDiagram/ClassDiagramTable.fxml"));
             diagramTable.setCenter(node);
             Node edit = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/classDiagram/EditTable.fxml"));
             editTable.setCenter(edit);
             diagramName.setText(App.getClassDiagram().getName());
         } catch (IOException e) {
-            System.err.println(e);
             System.err.println("Unable to open resources...");
+            e.printStackTrace();
         }
     }
 
@@ -52,6 +82,7 @@ public class MainWindowController {
         diagramName.setText(null);
         diagramTable.setCenter(null);
         editTable.setCenter(null);
+        handler = null;
     }
 
     @FXML
@@ -63,9 +94,7 @@ public class MainWindowController {
 
             td.showAndWait();
 
-            App.setClassDiagram(new ClassDiagram(td.getEditor().getText()));
-
-            loadDiagram();
+            loadDiagram(new ClassDiagram(td.getEditor().getText()));
 
         } else {
             Alert alert = new Alert(AlertType.WARNING);
@@ -101,9 +130,8 @@ public class MainWindowController {
             alert.show();
 
             currentPath = selectedFile.toString();
-            App.setClassDiagram(diagram);
 
-            loadDiagram();
+            loadDiagram(diagram);
         }
     }
 
@@ -114,8 +142,7 @@ public class MainWindowController {
 
         // TODO probably clean "canvas"
         if (App.isSaved()) {
-            App.setClassDiagram(null);
-            diagramTable.setCenter(null);
+            closeDiagram();
         } else {
             Alert alert = new Alert(AlertType.CONFIRMATION);
 
@@ -123,7 +150,6 @@ public class MainWindowController {
 
             alert.showAndWait().ifPresent(present -> {
                 if (present == ButtonType.OK) {
-                    App.setClassDiagram(null);
                     closeDiagram();
                 }
             });

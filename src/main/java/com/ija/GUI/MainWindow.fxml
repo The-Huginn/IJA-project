@@ -89,7 +89,7 @@
           <content>
             <AnchorPane id="Content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="10000.0" prefWidth="10000.0">
                      <children>
-                        <Pane fx:id="pane" prefHeight="10000.0" prefWidth="10000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <BorderPane fx:id="pane" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
           </content>
