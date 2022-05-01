@@ -23,7 +23,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 public class App extends Application {
     private static ClassDiagram classDiagram= null;
@@ -157,6 +159,14 @@ public class App extends Application {
 
     public static FXMLLoader getLoader() {
         return loader;
+    }
+
+    public static Pane getCurrentPane() {
+        return ((MainWindowController)getLoader().getController()).getCurrentPane();
+    }
+
+    public static Pair<Double, Double> getTopLeft() {
+        return ((MainWindowController)getLoader().getController()).getTopLeft();
     }
 
     private static void updateEditPane() {

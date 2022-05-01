@@ -97,6 +97,10 @@ public class ClassDiagramTableController {
                 else {
                     // TODO add new UMLObject
                     UMLObjectName.setStyle(null);
+                    new UMLEntity(App.getClassDiagram().getClasses().get(App.getClassDiagram().getClasses().size() - 1),
+                                App.getCurrentPane(),
+                                App.getTopLeft().getKey().intValue(),
+                                App.getTopLeft().getValue().intValue());
                 }
                 break;
 
@@ -106,6 +110,10 @@ public class ClassDiagramTableController {
                 else {
                     // TODO add new UMLObject
                     UMLObjectName.setStyle(null);
+                    new UMLEntity(App.getClassDiagram().getInterfaces().get(App.getClassDiagram().getInterfaces().size() - 1),
+                                App.getCurrentPane(),
+                                App.getTopLeft().getKey().intValue(),
+                                App.getTopLeft().getValue().intValue());
                 }
                 break;
         }

@@ -32,6 +32,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 public class MainWindowController implements Initializable {
     @FXML MenuBar myMenuBar;
@@ -42,6 +43,7 @@ public class MainWindowController implements Initializable {
     @FXML public BorderPane pane;
     @FXML ScrollPane scrollPane;
     private diagramHandler handler;
+    private Pane currentPane;
 
     private String currentPath = "";
 
@@ -57,8 +59,19 @@ public class MainWindowController implements Initializable {
           });
     }
 
+    public Pane getCurrentPane() {
+        return currentPane;
+    }
+
+    public Pair<Double, Double> getTopLeft() {
+        double y = scrollPane.getVvalue() * currentPane.getHeight() - scrollPane.getHeight() / 2;
+        double x = scrollPane.getHvalue() * currentPane.getWidth() - scrollPane.getWidth() / 2;
+        return new Pair<Double,Double>(y, x);
+    }
+
     private void setPane(UMLElement entity, Pane newPane) {
         pane.setCenter(newPane);
+        currentPane = newPane;
     }
 
     private void loadDiagram(ClassDiagram diagram) {
