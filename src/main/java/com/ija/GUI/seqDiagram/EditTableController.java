@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ija.Application.App;
-import com.ija.GUI.MainWindowController;
 import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagram.SeqRelation.SeqRelEnum;
 
@@ -36,7 +35,7 @@ public class EditTableController {
                                         .map(f -> f.toString())
                                         .collect(Collectors.toList());
                 relationComboBox.setItems(FXCollections.observableArrayList(relations));
-                String current = ((SeqRelEnum)App.getElement().getClass().getMethod("getType").invoke(App.getElement())).toString();
+                String current = ((SeqRelEnum)App.getSelected().getClass().getMethod("getType").invoke(App.getSelected())).toString();
                 relationComboBox.setValue(current);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
                     | NoSuchMethodException | SecurityException e) {
@@ -51,8 +50,6 @@ public class EditTableController {
             newNameField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
             newNameField.setStyle(null);
-            if (App.getElement() == App.getCurrentDiagram())
-                ((MainWindowController)App.getLoader().getController()).diagramName.setText(App.getElement().getName());
             App.addUndo();
         }
     }

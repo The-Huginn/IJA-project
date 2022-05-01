@@ -30,6 +30,7 @@ public class ClassInterfaceTableController {
                     else {
                         // TODO add new Variable
                         AttributeName.setStyle(null);
+                        App.addUndo();
                     }
                 }
                 break;
@@ -41,6 +42,7 @@ public class ClassInterfaceTableController {
                 else {
                     // TODO add new Variable
                     AttributeName.setStyle(null);
+                    App.addUndo();
                 }
             }
             break;

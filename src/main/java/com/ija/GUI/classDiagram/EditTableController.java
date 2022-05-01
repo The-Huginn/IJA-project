@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ija.Application.App;
-import com.ija.GUI.MainWindowController;
 import com.ija.backend.diagram.ClassRelation;
 import com.ija.backend.diagram.ClassRelation.ClassRelEnum;
 import com.ija.backend.diagramObject.Attribute;
@@ -110,8 +109,6 @@ public class EditTableController {
             newNameField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
             newNameField.setStyle(null);
-            if (App.getElement() == App.getCurrentDiagram())
-                ((MainWindowController)App.getLoader().getController()).diagramName.setText(App.getElement().getName());
             App.addUndo();
         }
     }
