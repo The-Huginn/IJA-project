@@ -1,3 +1,8 @@
+/**
+ * @file EditTableController.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file is used as controller for all Edit Component panes
+ */
 package com.ija.GUI.seqDiagram;
 
 import java.lang.reflect.InvocationTargetException;

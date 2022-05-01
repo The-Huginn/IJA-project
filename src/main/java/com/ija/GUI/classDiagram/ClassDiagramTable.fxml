@@ -45,21 +45,11 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Label text="Add Sequence Diagram">
+            <Separator prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="newSequence" alignment="CENTER" onKeyPressed="#clearStyle" promptText="New Sequence Diagram">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" onMouseClicked="#addSequence" text="Add">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Button>
+            </Separator>
             <Label text="Add Object">
                <VBox.margin>
                   <Insets bottom="10.0" />
@@ -94,6 +84,21 @@
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></Button>
+            <Label text="Add Sequence Diagram">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="newSequence" alignment="CENTER" onKeyPressed="#clearStyle" promptText="New Sequence Diagram">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" onMouseClicked="#addSequence" text="Add">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
             <Separator prefWidth="200.0" />
             <Label text="Switch Diagram">
                <VBox.margin>
