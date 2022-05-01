@@ -57,7 +57,7 @@ public class UMLInterface extends UMLObject{
         }
 
         for (UMLInterface interface1 : this.getParent().getInterfaces())
-            if (this.equals(interface1))
+            if (interface1.getName().equals(newName))
                 return false;
 
         undo_stack.addFirst(UndoType.others);
