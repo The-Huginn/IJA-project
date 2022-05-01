@@ -76,14 +76,20 @@ public class UMLEntity extends UMLElement {
                 dragDelta.y = getLayoutY() - mouseEvent.getSceneY();
                 setCursor(Cursor.MOVE);
                 undo_moves.addFirst(new Delta(getLayoutX(), getLayoutY()));
-                undo_stack.addFirst(UndoType.move);
                 App.setSelected(UMLEntity.this);
-                App.addClearUndo();
             }
         });
         setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+
+                // If we just selected we do not want to undo this move
+                if (undo_moves.getFirst().x == getLayoutX() && undo_moves.getFirst().y == getLayoutY()) {
+                    undo_moves.pop();
+                } else {
+                    undo_stack.addFirst(UndoType.move);
+                    App.addClearUndo();
+                }
                 setCursor(Cursor.HAND);
             }
         });
