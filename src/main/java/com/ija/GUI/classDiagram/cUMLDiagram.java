@@ -1,3 +1,8 @@
+/**
+ * @file cUMLDiagram.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains GUI class for Class Diagram representation.
+ */
 package com.ija.GUI.classDiagram;
 
 import java.util.ArrayDeque;

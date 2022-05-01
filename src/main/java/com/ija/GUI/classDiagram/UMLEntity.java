@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Deque;
 
 import com.ija.Application.App;
-import com.ija.GUI.MainWindowController;
 import com.ija.GUI.UMLElement;
 import com.ija.backend.diagramObject.UMLObject;
 
@@ -38,7 +37,7 @@ public class UMLEntity extends UMLElement {
         // TODO repaint variables and methods
     }
 
-    public UMLEntity(UMLObject entity, int y, int x) {
+    public UMLEntity(UMLObject entity, Pane parent, int y, int x) {
         super(entity, ElementType.CLASS);
 
         name = new Label();
@@ -65,7 +64,6 @@ public class UMLEntity extends UMLElement {
         setLayoutY(y);
         setLayoutX(x);
 
-        Pane parent = ((MainWindowController) App.getLoader().getController()).pane;
         parent.getChildren().add(this);
 
         // Inspired by https://stackoverflow.com/a/10689478
@@ -79,6 +77,7 @@ public class UMLEntity extends UMLElement {
                 setCursor(Cursor.MOVE);
                 undo_moves.addFirst(new Delta(getLayoutX(), getLayoutY()));
                 undo_stack.addFirst(UndoType.move);
+                App.setSelected(UMLEntity.this);
                 App.addClearUndo();
             }
         });

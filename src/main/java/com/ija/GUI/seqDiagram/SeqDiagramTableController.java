@@ -31,7 +31,7 @@ public class SeqDiagramTableController {
                                 .findAny()
                                 .orElse(null);
         
-        SeqDiagram diagram = (SeqDiagram)App.getCurrentDiagram();
+        SeqDiagram diagram = (SeqDiagram)App.getCurrentDiagram().getElement();
         if (!diagram.addInstance(instance, instanceNumber.getValue())) {
             instanceName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             instanceNumber.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
@@ -59,7 +59,7 @@ public class SeqDiagramTableController {
         if (App.getClassDiagram() != null) {
             for (SeqDiagram diagram : App.getClassDiagram().getDiagrams())
                 if (diagram.getName().equals(diagramComboBox.getValue())) {
-                    App.setCurrentDiagram(diagram);
+                    // TODO show new diagram and switch content
                     break;
                 }
         }

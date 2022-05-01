@@ -127,7 +127,7 @@ public class ClassDiagramTableController {
         if (App.getClassDiagram() != null) {
             for (SeqDiagram diagram : App.getClassDiagram().getDiagrams())
                 if (diagram.getName().equals(diagramComboBox.getValue())) {
-                    App.setCurrentDiagram(diagram);
+                    // TODO show new diagram and switch content
                     break;
                 }
         }

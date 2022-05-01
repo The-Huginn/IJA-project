@@ -1,3 +1,8 @@
+/**
+ * @file sUMLDiagram.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains GUI class for Sequence Diagram representation.
+ */
 package com.ija.GUI.seqDiagram;
 
 import java.util.ArrayDeque;
