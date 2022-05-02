@@ -9,9 +9,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import com.ija.GUI.GraphicInterface;
 import com.ija.GUI.MainWindowController;
 import com.ija.GUI.UMLElement;
-import com.ija.GUI.UMLElement.ElementType;
+import com.ija.GUI.GraphicInterface.ElementType;
 import com.ija.GUI.classDiagram.UMLAttribute;
 import com.ija.GUI.classDiagram.UMLEntity;
 import com.ija.GUI.classDiagram.cUMLDiagram;
@@ -32,7 +33,7 @@ import javafx.util.Pair;
 public class App extends Application {
     private static ClassDiagram classDiagram= null;
     private static UMLElement currentDiagram = null;
-    private static UMLElement selectedElement = null;
+    private static GraphicInterface selectedElement = null;
     private static Deque<undoInterface> undoStack = new ArrayDeque<>();
     private static boolean isSaved = true;
     private static FXMLLoader loader;
@@ -91,7 +92,7 @@ public class App extends Application {
     /**
      * @param newSelectedElement
      */
-    public static void setSelected(UMLElement newSelectedElement) {
+    public static void setSelected(GraphicInterface newSelectedElement) {
         if (selectedElement != null)
             selectedElement.unselect();
 
@@ -106,7 +107,7 @@ public class App extends Application {
      * @param methodName
      * @return
      */
-    public static UMLElement getSelected() {
+    public static GraphicInterface getSelected() {
         return selectedElement;
     }
 
