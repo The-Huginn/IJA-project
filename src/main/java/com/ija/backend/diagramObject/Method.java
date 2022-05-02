@@ -114,6 +114,7 @@ public class Method extends Attribute{
     @Override
     public String toString() {
         final String[] visibilities = {"- ", "+ ", "# ", "~ "};
+        String typeString = getType() == null ? "?" : getType().getName();
         
         String params = "";
         for (Type type : getParameters()) {
@@ -122,7 +123,7 @@ public class Method extends Attribute{
         if (!params.equals(""))
             params = params.substring(0, params.length() - 1);
 
-        return visibilities[getVisibility().ordinal()] + getName() + "(" + params + ") : " + getType().getName();
+        return visibilities[getVisibility().ordinal()] + getName() + "(" + params + ") : " + typeString;
     }
 
     /**

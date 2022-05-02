@@ -91,7 +91,8 @@ public class Attribute extends Element {
     @Override
     public String toString() {
         final String[] visibilities = {"- ", "+ ", "# ", "~ "};
-        return visibilities[getVisibility().ordinal()] + getName() + " : " + getType().getName();
+        String typeString = getType() == null ? "?" : getType().getName();
+        return visibilities[getVisibility().ordinal()] + getName() + " : " + typeString;
     }
 
     /**
