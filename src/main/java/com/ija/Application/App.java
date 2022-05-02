@@ -11,6 +11,8 @@ import java.util.Deque;
 
 import com.ija.GUI.MainWindowController;
 import com.ija.GUI.UMLElement;
+import com.ija.GUI.UMLElement.ElementType;
+import com.ija.GUI.classDiagram.UMLAttribute;
 import com.ija.GUI.classDiagram.UMLEntity;
 import com.ija.GUI.classDiagram.cUMLDiagram;
 import com.ija.backend.undoInterface;
@@ -182,6 +184,16 @@ public class App extends Application {
                 Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/ClassInterfaceTable.fxml"));
                 diagramTable.setCenter(node);
                 Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditTable.fxml"));
+                editTable.setCenter(edit);
+            } else if (getSelected() instanceof UMLAttribute && getSelected().getType() == ElementType.VARIABLE) {
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
+                diagramTable.setCenter(node);
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditAttributeTable.fxml"));
+                editTable.setCenter(edit);
+            } else if (getSelected() instanceof UMLAttribute && getSelected().getType() == ElementType.METHOD) {
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
+                diagramTable.setCenter(node);
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditMethodTable.fxml"));
                 editTable.setCenter(edit);
             }
         } catch (IOException e) {

@@ -6,35 +6,37 @@ import java.util.Deque;
 
 import com.ija.Application.App;
 import com.ija.GUI.UMLElement;
+import com.ija.backend.diagramObject.Attribute;
+import com.ija.backend.diagramObject.Method;
 import com.ija.backend.diagramObject.UMLObject;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
+import javafx.util.Pair;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
 public class UMLEntity extends UMLElement {
+    private Label name;
+    private ListView<Node> variables;
+    private ListView<Node> methods;
+    
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
     private Deque<Delta> undo_moves = new ArrayDeque<>();
-
-    private Label name;
-    private ListView<String> variables;
-    private ListView<String> methods;
-
+    private Deque<Pair<Integer, UMLAttribute>> undo_removes = new ArrayDeque<>();
+    
     private enum UndoType {
         move,
         changeName,
+        removeVariable,
+        removeMethod,
         others
-    }
-
-    private void updateContent() {
-        name.setText(getElement().getName());
-        // TODO repaint variables and methods
     }
 
     public UMLEntity(UMLObject entity, Pane parent, int y, int x) {
@@ -44,15 +46,39 @@ public class UMLEntity extends UMLElement {
         name.setPadding(new Insets(10, 10, 10, 10));
         name.setPrefHeight(30);
 
-        variables = new ListView<String>();
+        variables = new ListView<>();
         variables.setPadding(new Insets(0, 10, 10, 10));
-        variables.setPrefHeight(30);
-        variables.setPrefWidth(150);
+        variables.setPrefWidth(300);
+        variables.setPrefHeight(120);
+        variables.setStyle(".list-cell:filled:selected {-fx-background-color: -fx-background ;-fx-background-insets: 0 ;}");
+        for (Attribute var : entity.getVariables()) {
+            variables.getItems().add(new UMLAttribute(var, ElementType.VARIABLE, this));
+        }
+        variables.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            
+            @Override
+            public void handle(MouseEvent event) {
+                if (variables.getSelectionModel().getSelectedItem() != null)
+                    App.setSelected((UMLAttribute)variables.getSelectionModel().getSelectedItem());                
+            }
+        });
         
-        methods = new ListView<String>();
+        methods = new ListView<>();
         methods.setPadding(new Insets(0, 10, 10, 10));
-        methods.setPrefHeight(30);
-        methods.setPrefWidth(150);
+        methods.setPrefWidth(300);
+        methods.setPrefHeight(120);
+        methods.setStyle(".list-cell:filled:selected {-fx-background-color: -fx-background ;-fx-background-insets: 0 ;}");
+        for (Method var : entity.getMethods()) {
+            methods.getItems().add(new UMLAttribute(var, ElementType.METHOD, this));
+        }
+        methods.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            
+            @Override
+            public void handle(MouseEvent event) {
+                if (methods.getSelectionModel().getSelectedItem() != null)
+                    App.setSelected((UMLAttribute)methods.getSelectionModel().getSelectedItem());                
+            }
+        });
 
         updateContent();
         
@@ -119,6 +145,31 @@ public class UMLEntity extends UMLElement {
     }
 
     @Override
+    public void updateContent() {
+        name.setText(getElement().getName());        
+    }
+
+    /**
+     * @brief Removes Method on index
+     * @param index
+     */
+    public void removeVariable(int index) {
+        undo_stack.addFirst(UndoType.removeVariable);
+        undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)variables.getItems().get(index)));
+        variables.getItems().remove(index);
+    }
+
+    /**
+     * @brief Removes Method on index
+     * @param index
+     */
+    public void removeMethod(int index) {
+        undo_stack.addFirst(UndoType.removeMethod);
+        undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)methods.getItems().get(index)));
+        methods.getItems().remove(index);
+    }
+
+    @Override
     public void addUndo() {
         updateContent();
         undo_stack.addFirst(UndoType.others);
@@ -135,6 +186,12 @@ public class UMLEntity extends UMLElement {
             Delta delta = undo_moves.pop();
             setLayoutX(delta.x);
             setLayoutY(delta.y);
+        } else if (type == UndoType.removeMethod) {
+            Pair<Integer, UMLAttribute> top = undo_removes.pop();
+            methods.getItems().add(top.getKey(), top.getValue());
+        } else if (type == UndoType.removeVariable) {
+            Pair<Integer, UMLAttribute> top = undo_removes.pop();
+            variables.getItems().add(top.getKey(), top.getValue());
         } else if (type == UndoType.others) {
             super.undo();
             updateContent();
