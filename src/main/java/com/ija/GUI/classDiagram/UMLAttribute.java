@@ -11,9 +11,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public class UMLAttribute extends UMLElement {
-    private UMLEntity parent;
     private Label label;
     private Paint defaultPaint;
+    private final UMLEntity parent;
     
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
 
@@ -63,5 +63,13 @@ public class UMLAttribute extends UMLElement {
 
         undo_stack.pop();
         updateContent();
+    }
+
+    public void deleteMe() {
+        if (getType() == ElementType.VARIABLE) {
+            parent.removeVariable(this);
+        } else {
+            parent.removeMethod(this);
+        }
     }
 }

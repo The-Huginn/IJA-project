@@ -26,6 +26,7 @@ public class UMLEntity extends UMLElement {
     private Label name;
     private ListView<Node> variables;
     private ListView<Node> methods;
+    private final cUMLDiagram parent;
     
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
     private Deque<Delta> undo_moves = new ArrayDeque<>();
@@ -34,13 +35,17 @@ public class UMLEntity extends UMLElement {
     private enum UndoType {
         move,
         changeName,
+        addVariable,
+        addMethod,
         removeVariable,
         removeMethod,
         others
     }
 
-    public UMLEntity(UMLObject entity, Pane parent, int y, int x) {
+    public UMLEntity(UMLObject entity, Pane parentPane, cUMLDiagram parent, int y, int x) {
         super(entity, ElementType.CLASS);
+
+        this.parent = parent;
 
         name = new Label();
         name.setPadding(new Insets(10, 10, 10, 10));
@@ -90,7 +95,7 @@ public class UMLEntity extends UMLElement {
         setLayoutY(y);
         setLayoutX(x);
 
-        parent.getChildren().add(this);
+        parentPane.getChildren().add(this);
 
         // Inspired by https://stackoverflow.com/a/10689478
         final Delta dragDelta = new Delta();
@@ -150,23 +155,80 @@ public class UMLEntity extends UMLElement {
     }
 
     /**
-     * @brief Removes Method on index
-     * @param index
+     * @brief Adds new Variable to the GUI if allowed
+     * @param name
+     * @return
      */
-    public void removeVariable(int index) {
-        undo_stack.addFirst(UndoType.removeVariable);
-        undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)variables.getItems().get(index)));
-        variables.getItems().remove(index);
+    public boolean addVariable(String name) {
+        UMLObject elem = (UMLObject)getElement();
+        if (!elem.addVariable(new Attribute(name, elem)))
+            return false;
+
+        UMLAttribute newAttribute = new UMLAttribute(elem.getVariables().get(elem.getVariables().size() - 1), ElementType.VARIABLE, this);
+
+        variables.getItems().add(newAttribute);
+            
+        undo_stack.addFirst(UndoType.addVariable);
+        App.addClearUndo();
+
+        App.setSelected(newAttribute);
+
+        return true;
     }
 
     /**
-     * @brief Removes Method on index
-     * @param index
+     * @brief Adds new Method to the GUI if allowed
+     * @param name
+     * @return
      */
-    public void removeMethod(int index) {
+    public boolean addMethod(String name) {
+        UMLObject elem = (UMLObject)getElement();
+        if (!elem.addMethod(new Method(name, elem)))
+            return false;
+
+        UMLAttribute newAttribute = new UMLAttribute(elem.getMethods().get(elem.getMethods().size() - 1), ElementType.METHOD, this);
+        methods.getItems().add(newAttribute);
+        
+        undo_stack.addFirst(UndoType.addMethod);
+        App.addClearUndo();
+
+        App.setSelected(newAttribute);
+
+        return true;
+    }
+
+    /**
+     * @brief Removes Method by instance
+     * @param instance
+     */
+    public void removeVariable(UMLAttribute instance) {
+        undo_stack.addFirst(UndoType.removeVariable);
+        for (int index = 0; index < variables.getItems().size(); index++) {
+            if ((UMLAttribute)variables.getItems().get(index) == instance) {
+                undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)variables.getItems().get(index)));
+                variables.getItems().remove(index);
+                break;
+            }
+        }
+        App.setSelected(this);
+        App.addClearUndo();
+    }
+
+    /**
+     * @brief Removes Variable by instance
+     * @param instance
+     */
+    public void removeMethod(UMLAttribute instance) {
         undo_stack.addFirst(UndoType.removeMethod);
-        undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)methods.getItems().get(index)));
-        methods.getItems().remove(index);
+        for (int index = 0; index < methods.getItems().size(); index++) {
+            if ((UMLAttribute)methods.getItems().get(index) == instance) {
+                undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)methods.getItems().get(index)));
+                methods.getItems().remove(index);
+                break;
+            }
+        }
+        App.setSelected(this);
+        App.addClearUndo();
     }
 
     @Override
@@ -192,6 +254,10 @@ public class UMLEntity extends UMLElement {
         } else if (type == UndoType.removeVariable) {
             Pair<Integer, UMLAttribute> top = undo_removes.pop();
             variables.getItems().add(top.getKey(), top.getValue());
+        } else if (type == UndoType.addVariable) {
+            variables.getItems().remove(variables.getItems().size() - 1);
+        } else if (type == UndoType.addMethod) {
+            methods.getItems().remove(methods.getItems().size() - 1);
         } else if (type == UndoType.others) {
             super.undo();
             updateContent();
