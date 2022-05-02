@@ -23,7 +23,7 @@ public class cUMLDiagram extends UMLElement {
     }
 
     public cUMLDiagram(Diagram diagram, Label name) {
-        super(diagram, ElementType.CLASS_DIAGRAM);
+        super(diagram, null, ElementType.CLASS_DIAGRAM);
 
         this.name = name;
     }

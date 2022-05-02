@@ -26,7 +26,6 @@ public class UMLEntity extends UMLElement {
     private Label name;
     private ListView<Node> variables;
     private ListView<Node> methods;
-    private final cUMLDiagram parent;
     
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
     private Deque<Delta> undo_moves = new ArrayDeque<>();
@@ -43,9 +42,7 @@ public class UMLEntity extends UMLElement {
     }
 
     public UMLEntity(UMLObject entity, Pane parentPane, cUMLDiagram parent, int y, int x) {
-        super(entity, ElementType.CLASS);
-
-        this.parent = parent;
+        super(entity, parent, ElementType.CLASS);
 
         name = new Label();
         name.setPadding(new Insets(10, 10, 10, 10));
@@ -57,7 +54,7 @@ public class UMLEntity extends UMLElement {
         variables.setPrefHeight(120);
         variables.setStyle(".list-cell:filled:selected {-fx-background-color: -fx-background ;-fx-background-insets: 0 ;}");
         for (Attribute var : entity.getVariables()) {
-            variables.getItems().add(new UMLAttribute(var, ElementType.VARIABLE, this));
+            variables.getItems().add(new UMLAttribute(var, this, ElementType.VARIABLE));
         }
         variables.setOnMouseClicked(new EventHandler<MouseEvent>() {
             
@@ -74,7 +71,7 @@ public class UMLEntity extends UMLElement {
         methods.setPrefHeight(120);
         methods.setStyle(".list-cell:filled:selected {-fx-background-color: -fx-background ;-fx-background-insets: 0 ;}");
         for (Method var : entity.getMethods()) {
-            methods.getItems().add(new UMLAttribute(var, ElementType.METHOD, this));
+            methods.getItems().add(new UMLAttribute(var, this, ElementType.METHOD));
         }
         methods.setOnMouseClicked(new EventHandler<MouseEvent>() {
             
@@ -164,7 +161,7 @@ public class UMLEntity extends UMLElement {
         if (!elem.addVariable(new Attribute(name, elem)))
             return false;
 
-        UMLAttribute newAttribute = new UMLAttribute(elem.getVariables().get(elem.getVariables().size() - 1), ElementType.VARIABLE, this);
+        UMLAttribute newAttribute = new UMLAttribute(elem.getVariables().get(elem.getVariables().size() - 1), this, ElementType.VARIABLE);
 
         variables.getItems().add(newAttribute);
             
@@ -186,7 +183,7 @@ public class UMLEntity extends UMLElement {
         if (!elem.addMethod(new Method(name, elem)))
             return false;
 
-        UMLAttribute newAttribute = new UMLAttribute(elem.getMethods().get(elem.getMethods().size() - 1), ElementType.METHOD, this);
+        UMLAttribute newAttribute = new UMLAttribute(elem.getMethods().get(elem.getMethods().size() - 1), this, ElementType.METHOD);
         methods.getItems().add(newAttribute);
         
         undo_stack.addFirst(UndoType.addMethod);

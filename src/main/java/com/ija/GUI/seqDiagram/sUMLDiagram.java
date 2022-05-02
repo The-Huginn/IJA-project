@@ -22,8 +22,8 @@ public class sUMLDiagram extends UMLElement {
         others
     }
 
-    public sUMLDiagram(Diagram diagram, Label name) {
-        super(diagram, ElementType.SEQ_DIAGRAM);
+    public sUMLDiagram(Diagram diagram, UMLElement parent, Label name) {
+        super(diagram, parent, ElementType.SEQ_DIAGRAM);
 
         this.name = name;
     }

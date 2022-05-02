@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 public abstract class UMLElement extends VBox implements undoInterface {
     private Element entity;
     private final ElementType type;
+    private final UMLElement parent;
 
     public enum ElementType {
         VARIABLE,
@@ -25,11 +26,16 @@ public abstract class UMLElement extends VBox implements undoInterface {
         SEQ_RELATION
     }
 
-    public UMLElement(Element element, ElementType type) {
+    public UMLElement(Element element, UMLElement parent, ElementType type) {
         super();
 
         entity = element;
         this.type = type;
+        this.parent = parent;
+    }
+
+    public UMLElement getUMLParent() {
+        return parent;
     }
 
     /**

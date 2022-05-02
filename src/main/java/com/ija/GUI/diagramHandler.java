@@ -80,7 +80,7 @@ public class diagramHandler {
         }
 
         for (SeqDiagram seqDiagram : diagram.getDiagrams()) {
-            seqDiagrams.add(new Pair<sUMLDiagram,Pane>(new sUMLDiagram(seqDiagram, name), createDiagram(seqDiagram)));
+            seqDiagrams.add(new Pair<sUMLDiagram,Pane>(new sUMLDiagram(seqDiagram, classDiagram.getKey(), name), createDiagram(seqDiagram)));
         }
     }
 

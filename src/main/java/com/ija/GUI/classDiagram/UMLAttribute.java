@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import com.ija.GUI.UMLElement;
-import com.ija.backend.diagramObject.Element;
+import com.ija.backend.diagramObject.Attribute;
 
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -13,7 +13,6 @@ import javafx.scene.paint.Paint;
 public class UMLAttribute extends UMLElement {
     private Label label;
     private Paint defaultPaint;
-    private final UMLEntity parent;
     
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
 
@@ -21,10 +20,9 @@ public class UMLAttribute extends UMLElement {
         others
     }
 
-    public UMLAttribute(Element element, ElementType type, UMLEntity parent) {
-        super(element, type);
+    public UMLAttribute(Attribute element, UMLEntity parent, ElementType type) {
+        super(element, parent, type);
 
-        this.parent = parent;
         label = new Label();
         label.setWrapText(true);
         label.setPrefHeight(30);
@@ -67,9 +65,9 @@ public class UMLAttribute extends UMLElement {
 
     public void deleteMe() {
         if (getType() == ElementType.VARIABLE) {
-            parent.removeVariable(this);
+            ((UMLEntity)getUMLParent()).removeVariable(this);
         } else {
-            parent.removeMethod(this);
+            ((UMLEntity)getUMLParent()).removeMethod(this);
         }
     }
 }
