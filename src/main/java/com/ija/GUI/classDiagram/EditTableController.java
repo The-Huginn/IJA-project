@@ -45,7 +45,8 @@ public class EditTableController implements Initializable {
             typeComboBox.setItems(FXCollections.observableArrayList(Type.getAllTypes()));
             try {
                 Type current = (Type)App.getElement().getClass().getMethod("getType").invoke(App.getElement());
-                typeComboBox.setValue(current.getName());
+                if (current != null)
+                    typeComboBox.setValue(current.getName());
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
             | NoSuchMethodException | SecurityException e) {
                 e.printStackTrace();
@@ -228,5 +229,13 @@ public class EditTableController implements Initializable {
             App.getSelected().updateContent();
             App.addUndo();
         }
+    }
+
+    @FXML
+    protected void deleteAttribute(Event event) {
+        if (!(App.getSelected() instanceof UMLAttribute))
+            return;
+
+        ((UMLAttribute)App.getSelected()).deleteMe();
     }
 }

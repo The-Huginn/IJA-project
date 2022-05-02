@@ -65,12 +65,12 @@ public class diagramHandler {
 
         for (UMLClass item : diagram.getClasses()) {
             // TODO get [y,x]
-            new UMLEntity(item, classDiagram.getValue(), 5000, 5000);
+            new UMLEntity(item, classDiagram.getValue(), classDiagram.getKey(), 5000, 5000);
         }
 
         for (UMLInterface item : diagram.getInterfaces()) {
             // TODO get [y,x]
-            new UMLEntity(item, classDiagram.getValue(), 5300, 5300);
+            new UMLEntity(item, classDiagram.getValue(), classDiagram.getKey(), 5300, 5300);
         }
 
         for (Relation relation : diagram.getRelations()) {

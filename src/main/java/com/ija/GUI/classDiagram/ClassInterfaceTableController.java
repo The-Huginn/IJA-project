@@ -6,8 +6,6 @@
 package com.ija.GUI.classDiagram;
 
 import com.ija.Application.App;
-import com.ija.backend.diagramObject.Attribute;
-import com.ija.backend.diagramObject.Method;
 import com.ija.backend.diagramObject.UMLObject;
 
 import javafx.event.Event;
@@ -25,24 +23,20 @@ public class ClassInterfaceTableController {
         switch (newAttribute.getSelectedToggle().getUserData().toString()) {
             case "Variable":
                 if (App.getElement() instanceof UMLObject) {
-                    if (! ((UMLObject)App.getElement()).addVariable(new Attribute(AttributeName.getText(), (UMLObject)App.getElement())))
+                    if (! ((UMLEntity)App.getSelected()).addVariable(AttributeName.getText()))
                         AttributeName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                     else {
-                        // TODO add new Variable
                         AttributeName.setStyle(null);
-                        App.addUndo();
                     }
                 }
                 break;
 
             case "Method":
             if (App.getElement() instanceof UMLObject) {
-                if (! ((UMLObject)App.getElement()).addMethod(new Method(AttributeName.getText(), (UMLObject)App.getElement())))
+                if (! ((UMLEntity)App.getSelected()).addMethod(AttributeName.getText()))
                     AttributeName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
-                    // TODO add new Variable
                     AttributeName.setStyle(null);
-                    App.addUndo();
                 }
             }
             break;
