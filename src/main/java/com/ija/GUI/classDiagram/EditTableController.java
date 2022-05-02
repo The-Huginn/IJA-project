@@ -41,7 +41,7 @@ public class EditTableController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        if (App.containsMethod("setType")) {
+        if (App.containsMethod("setType") && (App.getElement() instanceof Attribute || App.getElement() instanceof Method)) {
             typeComboBox.setItems(FXCollections.observableArrayList(Type.getAllTypes()));
             try {
                 Type current = (Type)App.getElement().getClass().getMethod("getType").invoke(App.getElement());
@@ -87,23 +87,22 @@ public class EditTableController implements Initializable {
             startComboBox.setItems(FXCollections.observableArrayList(ClassRelation.getCardinalities()));
             endComboBox.setItems(FXCollections.observableArrayList(ClassRelation.getCardinalities()));
             try {
-                @SuppressWarnings("unchecked")
-                Pair<UMLObject, Integer> rel = (Pair<UMLObject, Integer>)App.getElement().getClass().getMethod("getFirst").invoke(App.getElement());
+                ClassRelation relation = (ClassRelation) ((cUMLRelation) App.getSelected()).getElement();
+
+                Pair<UMLObject, Integer> rel = relation.getSecond();
+                Pair<UMLObject, Integer> rel2 = relation.getSecond();
+                
                 startComboBox.setValue(ClassRelation.getCardinality(rel.getValue()));
-
-                @SuppressWarnings("unchecked")
-                Pair<UMLObject, Integer> rel2 = (Pair<UMLObject, Integer>)App.getElement().getClass().getMethod("getSecond").invoke(App.getElement());
                 endComboBox.setValue(ClassRelation.getCardinality(rel2.getValue()));
-
+                
                 List<String> relations = Arrays.asList(ClassRelation.ClassRelEnum.values())
                                         .stream()
                                         .map(f -> f.toString())
                                         .collect(Collectors.toList());
                 relationComboBox.setItems(FXCollections.observableArrayList(relations));
-                String current = ((ClassRelEnum)App.getElement().getClass().getMethod("getType").invoke(App.getElement())).toString();
+                String current = relation.getType().toString();
                 relationComboBox.setValue(current);
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                    | NoSuchMethodException | SecurityException e) {
+            } catch (IllegalArgumentException | SecurityException e) {
                 e.printStackTrace();
             }
         }
@@ -180,17 +179,16 @@ public class EditTableController implements Initializable {
             return;
 
         try {
-            @SuppressWarnings("unchecked")
-            Pair<UMLObject, Integer> rel = (Pair<UMLObject, Integer>) App.getElement().getClass().getMethod("getFirst").invoke(App.getElement());
-            if (!((ClassRelation) App.getElement()).setFirst(rel.getKey(), ClassRelation.getCardinality(startComboBox.getValue())))
+            ClassRelation relation = (ClassRelation) ((cUMLRelation)App.getSelected()).getElement();
+            Pair<UMLObject, Integer> rel = relation.getFirst();
+            if (!relation.setFirst(rel.getKey(), ClassRelation.getCardinality(startComboBox.getValue())))
                 startComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
             else {
                 startComboBox.setStyle(null);
                 App.getSelected().updateContent();
                 App.addUndo();
             }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
+        } catch (IllegalArgumentException | SecurityException e) {
             e.printStackTrace();
         }
     }
@@ -201,17 +199,16 @@ public class EditTableController implements Initializable {
             return;
 
         try {
-            @SuppressWarnings("unchecked")
-            Pair<UMLObject, Integer> rel = (Pair<UMLObject, Integer>) App.getElement().getClass().getMethod("getSecond").invoke(App.getElement());
-            if (!((ClassRelation) App.getElement()).setSecond(rel.getKey(), ClassRelation.getCardinality(endComboBox.getValue())))
-                endComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
+            ClassRelation relation = (ClassRelation) ((cUMLRelation) App.getSelected()).getElement();
+            Pair<UMLObject, Integer> rel = relation.getSecond();
+            if (!relation.setSecond(rel.getKey(), ClassRelation.getCardinality(startComboBox.getValue())))
+                startComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
             else {
-                endComboBox.setStyle(null);
+                startComboBox.setStyle(null);
                 App.getSelected().updateContent();
                 App.addUndo();
             }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
+        } catch (IllegalArgumentException | SecurityException e) {
             e.printStackTrace();
         }
     }
@@ -221,12 +218,17 @@ public class EditTableController implements Initializable {
         if (!App.containsMethod("setType"))
             return;
 
-        if (!((ClassRelation) App.getElement()).setType(ClassRelEnum.valueOf(relationComboBox.getValue())))
-            relationComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
-        else {
-            relationComboBox.setStyle(null);
-            App.getSelected().updateContent();
-            App.addUndo();
+        try {
+            ClassRelation relation = (ClassRelation) ((cUMLRelation) App.getSelected()).getElement();
+            if (!relation.setType(ClassRelEnum.valueOf(relationComboBox.getValue())))
+                relationComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
+            else {
+                relationComboBox.setStyle(null);
+                App.getSelected().updateContent();
+                App.addUndo();
+            }
+        } catch (IllegalArgumentException | SecurityException e) {
+            e.printStackTrace();
         }
     }
 

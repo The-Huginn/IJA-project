@@ -1,5 +1,8 @@
 package com.ija.GUI.classDiagram;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import com.ija.Application.App;
 import com.ija.GUI.GraphicInterface;
 import com.ija.GUI.UMLElement;
@@ -20,6 +23,11 @@ public class cUMLRelation implements GraphicInterface {
     private Line line;
     private Label name;
     private static final String[] colors = {" blue;", " cyan;", " orange;", " black;", " pink;"};
+
+    Deque<UndoType> undo_stack = new ArrayDeque<>();
+    private enum UndoType {
+        others
+    }
 
     public cUMLRelation(ClassRelation element, Pane parentPane, cUMLDiagram parent, double y, double x) {
 
@@ -92,21 +100,26 @@ public class cUMLRelation implements GraphicInterface {
 
     @Override
     public void unselect() {
-        updateContent();
-    }
-
-    @Override
-    public void updateContent() {
-        // TODO
         line.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         name.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
     }
 
     @Override
-    public void addUndo() {}
+    public void updateContent() {}
+
+    @Override
+    public void addUndo() {
+        undo_stack.addFirst(UndoType.others);
+    }
 
     @Override
     public void undo() {
+
+        if (undo_stack.isEmpty())
+            return;
+
+        undo_stack.pop();
+
         element.undo();
         updateContent();
     }
