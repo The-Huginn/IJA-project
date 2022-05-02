@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 import com.ija.Application.App;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagramObject.Type;
-import com.ija.backend.diagramObject.UMLClass;
-import com.ija.backend.diagramObject.UMLInterface;
 
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -92,30 +90,20 @@ public class ClassDiagramTableController {
 
         switch (newUMLObject.getSelectedToggle().getUserData().toString()) {
             case "Class":
-                if (!App.getClassDiagram().addClass(new UMLClass(UMLObjectName.getText(), App.getClassDiagram())))
+                // TODO another coordinates
+                if (!((cUMLDiagram)App.getCurrentDiagram()).addClass(UMLObjectName.getText(), 5000, 5000))
                     UMLObjectName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
-                    // TODO add new UMLObject
                     UMLObjectName.setStyle(null);
-                    new UMLEntity(App.getClassDiagram().getClasses().get(App.getClassDiagram().getClasses().size() - 1),
-                                App.getCurrentPane(),
-                                (cUMLDiagram)App.getCurrentDiagram(),
-                                App.getTopLeft().getKey().intValue(),
-                                App.getTopLeft().getValue().intValue());
                 }
                 break;
 
             case "Interface":
-                if (!App.getClassDiagram().addInterface(new UMLInterface(UMLObjectName.getText(), App.getClassDiagram())))
+                // TODO another coordiantes
+                if (!((cUMLDiagram)App.getCurrentDiagram()).addInterface(UMLObjectName.getText(), 5000, 5000))
                     UMLObjectName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
-                    // TODO add new UMLObject
                     UMLObjectName.setStyle(null);
-                    new UMLEntity(App.getClassDiagram().getInterfaces().get(App.getClassDiagram().getInterfaces().size() - 1),
-                                App.getCurrentPane(),
-                                (cUMLDiagram)App.getCurrentDiagram(),
-                                App.getTopLeft().getKey().intValue(),
-                                App.getTopLeft().getValue().intValue());
                 }
                 break;
         }

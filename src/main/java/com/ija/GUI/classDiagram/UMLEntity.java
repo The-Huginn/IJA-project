@@ -137,6 +137,22 @@ public class UMLEntity extends UMLElement {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (other == this)
+            return true;
+
+        if (!(other instanceof UMLEntity))
+            return false;
+
+        UMLEntity otherThis = (UMLEntity)other;
+
+        // We have the same references
+        return otherThis.name == this.name &&
+                otherThis.variables == this.variables &&
+                otherThis.methods == this.methods;
+    }
+
+    @Override
     public void select() {
         setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed;");
     }
