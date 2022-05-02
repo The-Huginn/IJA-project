@@ -5,26 +5,15 @@
  */
 package com.ija.GUI;
 
-import com.ija.backend.undoInterface;
 import com.ija.backend.diagramObject.Element;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public abstract class UMLElement extends VBox implements undoInterface {
+public abstract class UMLElement extends VBox implements GraphicInterface {
     private Element entity;
     private final ElementType type;
     private final UMLElement parent;
-
-    public enum ElementType {
-        VARIABLE,
-        METHOD,
-        CLASS,
-        INTERFACE,
-        CLASS_DIAGRAM,
-        SEQ_DIAGRAM,
-        CLASS_RELATION,
-        SEQ_RELATION
-    }
 
     public UMLElement(Element element, UMLElement parent, ElementType type) {
         super();
@@ -34,47 +23,41 @@ public abstract class UMLElement extends VBox implements undoInterface {
         this.parent = parent;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof UMLElement))
+            return false;
+
+        UMLElement objThis = (UMLElement)obj;
+
+        return objThis.entity == this.entity &&
+                objThis.type == this.type &&
+                objThis.parent == this.parent;
+    }
+    
     public UMLElement getUMLParent() {
         return parent;
     }
 
-    /**
-     * @brief Class gets notified it got selected
-     */
-    public abstract void select();
+    @Override
+    public void removeSelf(Pane fromPane) {
+        fromPane.getChildren().remove(this);
+    }
 
-    /**
-     * @brief Class gets notified it got unselected
-     */
-    public abstract void unselect();
-
-    /**
-     * @brief can get notified to update content
-     */
-    public abstract void updateContent();
-
-    /**
-     * @return
-     */
+    @Override
     public Element getElement() {
         return entity;
     }
 
-    /**
-     * @return
-     */
+    @Override
     public ElementType getType() {
         return type;
     }
 
-    /**
-     * @brief Call this function if method was called upon Element outside of UMLElement
-     */
-    public abstract void addUndo();
-
-    /**
-     * @brief Calls undo upon it's @see entity
-     */
+    @Override
     public void undo() {
         entity.undo();
     }
