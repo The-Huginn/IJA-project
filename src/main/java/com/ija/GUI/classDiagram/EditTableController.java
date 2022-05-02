@@ -86,6 +86,10 @@ public class EditTableController implements Initializable {
         if (App.containsMethod("setFirst")) {
             startComboBox.setItems(FXCollections.observableArrayList(ClassRelation.getCardinalities()));
             endComboBox.setItems(FXCollections.observableArrayList(ClassRelation.getCardinalities()));
+            List<String> values = Arrays.asList(ClassRelation.ClassRelEnum.values()).stream()
+                                .map(f -> f.toString())
+                                .collect(Collectors.toList());
+            relationComboBox.setItems(FXCollections.observableArrayList(values));
             try {
                 ClassRelation relation = (ClassRelation) ((cUMLRelation) App.getSelected()).getElement();
 
@@ -94,6 +98,7 @@ public class EditTableController implements Initializable {
                 
                 startComboBox.setValue(ClassRelation.getCardinality(rel.getValue()));
                 endComboBox.setValue(ClassRelation.getCardinality(rel2.getValue()));
+                relationComboBox.setValue(relation.getType().toString());
                 
                 List<String> relations = Arrays.asList(ClassRelation.ClassRelEnum.values())
                                         .stream()
