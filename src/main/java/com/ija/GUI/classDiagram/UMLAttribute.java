@@ -55,10 +55,10 @@ public class UMLAttribute extends UMLElement {
 
     @Override
     public void undo() {
-        super.undo();
-
         if (undo_stack.isEmpty())
             return;
+        
+        super.undo();
 
         undo_stack.pop();
         updateContent();

@@ -36,42 +36,6 @@ public class cUMLDiagram extends UMLElement {
     }
 
     /**
-     * @brief This function should be called upon loading as it is undoable
-     * @param name
-     * @param y
-     * @param x
-     * @return
-     */
-    public boolean addClass(String name, int y, int x) {
-        UMLClass var = new UMLClass(name, App.getClassDiagram());
-
-        if (!((ClassDiagram)getElement()).addClass(var))
-            return false;
-
-        new UMLEntity(var, App.getCurrentPane(), this, y, x);
-
-        return true;
-    }
-
-    /**
-     * @brief This function should be called upon loading as it is undoable
-     * @param name
-     * @param y
-     * @param x
-     * @return
-     */
-    public boolean addInterface(String name, int y, int x) {
-        UMLInterface var = new UMLInterface(name, App.getClassDiagram());
-
-        if (!((ClassDiagram)getElement()).addInterface(var))
-            return false;
-
-        new UMLEntity(var, App.getCurrentPane(), this, y, x);
-
-        return true;
-    }
-
-    /**
      * @brief This function should be called upon adding new class in the editor
      * @param name
      * @param y
@@ -133,7 +97,6 @@ public class cUMLDiagram extends UMLElement {
                 diagram.removeClass(i);
                 undo_stack.addFirst(UndoType.removeEntity);
                 undo_removes.addFirst(entity);
-                // TODO remove from canvas
                 App.getCurrentPane().getChildren().remove(entity);
             }
         }
@@ -151,7 +114,6 @@ public class cUMLDiagram extends UMLElement {
                 diagram.removeInterface(i);
                 undo_stack.addFirst(UndoType.removeEntity);
                 undo_removes.addFirst(entity);
-                // TODO remove from canvas
                 App.getCurrentPane().getChildren().remove(entity);
             }
         }
@@ -164,7 +126,9 @@ public class cUMLDiagram extends UMLElement {
     public void unselect() {}
 
     @Override
-    public void updateContent() {}
+    public void updateContent() {
+        name.setText(getElement().getName());
+    }
 
     @Override
     public void addUndo() {
@@ -181,10 +145,11 @@ public class cUMLDiagram extends UMLElement {
         UndoType type = undo_stack.pop();
 
         super.undo();
-        name.setText(getElement().getName());
 
         if (type == UndoType.removeEntity) {
             App.getCurrentPane().getChildren().add(undo_removes.pop());
+        } else if (type == UndoType.addEntity) {
+            App.getCurrentPane().getChildren().remove(undo_removes.pop());
         }
     }
 }

@@ -90,8 +90,7 @@ public class ClassDiagramTableController {
 
         switch (newUMLObject.getSelectedToggle().getUserData().toString()) {
             case "Class":
-                // TODO another coordinates
-                if (!((cUMLDiagram)App.getCurrentDiagram()).addClass(UMLObjectName.getText(), 5000, 5000))
+                if (!((cUMLDiagram)App.getCurrentDiagram()).addClass(UMLObjectName.getText()))
                     UMLObjectName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
                     UMLObjectName.setStyle(null);
@@ -99,8 +98,7 @@ public class ClassDiagramTableController {
                 break;
 
             case "Interface":
-                // TODO another coordiantes
-                if (!((cUMLDiagram)App.getCurrentDiagram()).addInterface(UMLObjectName.getText(), 5000, 5000))
+                if (!((cUMLDiagram)App.getCurrentDiagram()).addInterface(UMLObjectName.getText()))
                     UMLObjectName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 else {
                     UMLObjectName.setStyle(null);
