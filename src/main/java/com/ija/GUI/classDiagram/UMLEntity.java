@@ -19,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
 import javafx.util.Pair;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
@@ -96,27 +97,35 @@ public class UMLEntity extends UMLElement {
 
         // Inspired by https://stackoverflow.com/a/10689478
         final Delta dragDelta = new Delta();
+        final Valid valid = new Valid();
         setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                // record a delta distance for the drag and drop operation.
-                dragDelta.x = getLayoutX() - mouseEvent.getSceneX();
-                dragDelta.y = getLayoutY() - mouseEvent.getSceneY();
-                setCursor(Cursor.MOVE);
-                undo_moves.addFirst(new Delta(getLayoutX(), getLayoutY()));
-                App.setSelected(UMLEntity.this);
+
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    valid.valid = true;
+                    // record a delta distance for the drag and drop operation.
+                    dragDelta.x = getLayoutX() - mouseEvent.getSceneX();
+                    dragDelta.y = getLayoutY() - mouseEvent.getSceneY();
+                    setCursor(Cursor.MOVE);
+                    undo_moves.addFirst(new Delta(getLayoutX(), getLayoutY()));
+                    App.setSelected(UMLEntity.this);
+                }
             }
         });
         setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
 
-                // If we just selected we do not want to undo this move
-                if (undo_moves.getFirst().x == getLayoutX() && undo_moves.getFirst().y == getLayoutY()) {
-                    undo_moves.pop();
-                } else {
-                    undo_stack.addFirst(UndoType.move);
-                    App.addClearUndo();
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    valid.valid = false;
+                    // If we just selected we do not want to undo this move
+                    if (undo_moves.getFirst().x == getLayoutX() && undo_moves.getFirst().y == getLayoutY()) {
+                        undo_moves.pop();
+                    } else {
+                        undo_stack.addFirst(UndoType.move);
+                        App.addClearUndo();
+                    }
                 }
                 setCursor(Cursor.HAND);
             }
@@ -124,8 +133,10 @@ public class UMLEntity extends UMLElement {
         setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
-                setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+                if (valid.valid) {
+                    setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+                    setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+                }
             }
         });
         setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -293,3 +304,5 @@ class Delta {
     public Delta() {}
     public Delta(double x, double y) {this.x = x; this.y = y;}
 }
+
+class Valid {boolean valid = false;}
