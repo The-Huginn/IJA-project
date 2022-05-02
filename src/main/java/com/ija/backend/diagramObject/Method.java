@@ -111,6 +111,20 @@ public class Method extends Attribute{
                 method.getParameters().equals(this.getParameters());
     }
 
+    @Override
+    public String toString() {
+        final String[] visibilities = {"- ", "+ ", "# ", "~ "};
+        
+        String params = "";
+        for (Type type : getParameters()) {
+            params = params + type.getName() + ",";
+        }
+        if (!params.equals(""))
+            params = params.substring(0, params.length() - 1);
+
+        return visibilities[getVisibility().ordinal()] + getName() + "(" + params + ") : " + getType().getName();
+    }
+
     /**
      * @brief Allows to rename Method unless another Method with the very same signature exists
      */

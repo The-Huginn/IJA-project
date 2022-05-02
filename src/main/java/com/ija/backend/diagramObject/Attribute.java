@@ -88,6 +88,12 @@ public class Attribute extends Element {
         return ((Attribute)anotherObject).getName().equals(this.getName());
     }
 
+    @Override
+    public String toString() {
+        final String[] visibilities = {"- ", "+ ", "# ", "~ "};
+        return visibilities[getVisibility().ordinal()] + getName() + " : " + getType().getName();
+    }
+
     /**
      * @brief Checks for other attributes in parent if they have the same name or not
      */
