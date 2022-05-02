@@ -35,6 +35,9 @@ public class cUMLDiagram extends UMLElement {
     public void unselect() {}
 
     @Override
+    public void updateContent() {}
+
+    @Override
     public void addUndo() {
         undo_stack.addFirst(UndoType.others);
         name.setText(getElement().getName());

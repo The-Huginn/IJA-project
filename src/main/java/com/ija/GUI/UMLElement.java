@@ -43,6 +43,11 @@ public abstract class UMLElement extends VBox implements undoInterface {
     public abstract void unselect();
 
     /**
+     * @brief can get notified to update content
+     */
+    public abstract void updateContent();
+
+    /**
      * @return
      */
     public Element getElement() {
