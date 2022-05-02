@@ -199,9 +199,12 @@ public class UMLEntity extends UMLElement {
      * @param instance
      */
     public void removeVariable(UMLAttribute instance) {
+        UMLObject elem = (UMLObject)getElement();
+        
         undo_stack.addFirst(UndoType.removeVariable);
         for (int index = 0; index < variables.getItems().size(); index++) {
             if ((UMLAttribute)variables.getItems().get(index) == instance) {
+                elem.removeVariable(index);
                 undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)variables.getItems().get(index)));
                 variables.getItems().remove(index);
                 break;
@@ -216,10 +219,13 @@ public class UMLEntity extends UMLElement {
      * @param instance
      */
     public void removeMethod(UMLAttribute instance) {
+        UMLObject elem = (UMLObject)getElement();
+
         undo_stack.addFirst(UndoType.removeMethod);
         for (int index = 0; index < methods.getItems().size(); index++) {
             if ((UMLAttribute)methods.getItems().get(index) == instance) {
                 undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)methods.getItems().get(index)));
+                elem.removeMethod(index);
                 methods.getItems().remove(index);
                 break;
             }
@@ -236,10 +242,15 @@ public class UMLEntity extends UMLElement {
 
     @Override
     public void undo() {
+        
         if (undo_stack.isEmpty())
             return;
 
         UndoType type = undo_stack.pop();
+
+        if (type != UndoType.move) {
+            super.undo();
+        }
 
         if (type == UndoType.move) {
             Delta delta = undo_moves.pop();
@@ -256,7 +267,6 @@ public class UMLEntity extends UMLElement {
         } else if (type == UndoType.addMethod) {
             methods.getItems().remove(methods.getItems().size() - 1);
         } else if (type == UndoType.others) {
-            super.undo();
             updateContent();
         }
     }

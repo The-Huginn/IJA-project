@@ -124,6 +124,9 @@ public class EditTableController implements Initializable {
     protected void setNewType(Event event) {
         if (!App.containsMethod("setType"))
             return;
+
+        if (typeComboBox.getValue() == null)
+            return;
             
         try {
             App.getElement().getClass().getMethod("setType", Type.class).invoke(App.getElement(), Type.getType(typeComboBox.getValue()));

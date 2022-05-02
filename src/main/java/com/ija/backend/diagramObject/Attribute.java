@@ -111,7 +111,7 @@ public class Attribute extends Element {
         }
 
         for (Attribute tmpAttribute : parent.getVariables())
-            if (tmpAttribute.equals(this))
+            if (tmpAttribute.getName().equals(newName))
                 return false;
 
         undo_stack.addFirst(UndoType.setName);
@@ -136,8 +136,11 @@ public class Attribute extends Element {
         if (newType == null || this.getType() == newType)
             return;
         
-        undo_stack.addFirst(UndoType.setType);
-        undo_type.addFirst(this.getType());
+        // We do not allow to go back if type was null
+        if (this.getType() != null) {
+            undo_stack.addFirst(UndoType.setType);
+            undo_type.addFirst(this.getType());
+        }
 
         this.type = newType;
     }
