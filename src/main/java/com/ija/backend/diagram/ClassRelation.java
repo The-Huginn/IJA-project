@@ -129,8 +129,8 @@ public class ClassRelation extends Relation{
         ClassRelation object = (ClassRelation) anotherObject;
 
         return object.getName().equals(this.getName()) &&
-                object.getFirst().getKey().equals(this.getFirst().getKey()) &&
-                object.getSecond().getKey().equals(this.getSecond().getKey()) &&
+                object.getFirst() == this.getFirst() &&
+                object.getSecond() == this.getSecond() &&
                 object.getType() == this.getType() &&
                 object.getParent() == this.getParent();
     }
