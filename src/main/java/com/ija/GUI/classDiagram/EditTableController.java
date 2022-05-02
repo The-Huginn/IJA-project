@@ -165,7 +165,6 @@ public class EditTableController implements Initializable {
             if (! (boolean)method.setParameters(newParams))
                 newParamsField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             else {
-                // TODO update params in GUI
                 newParamsField.setStyle(null);
                 App.getSelected().updateContent();
                 App.addUndo();
@@ -186,7 +185,6 @@ public class EditTableController implements Initializable {
             if (!((ClassRelation) App.getElement()).setFirst(rel.getKey(), ClassRelation.getCardinality(startComboBox.getValue())))
                 startComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
             else {
-                // TODO maybe
                 startComboBox.setStyle(null);
                 App.getSelected().updateContent();
                 App.addUndo();
@@ -208,7 +206,6 @@ public class EditTableController implements Initializable {
             if (!((ClassRelation) App.getElement()).setSecond(rel.getKey(), ClassRelation.getCardinality(endComboBox.getValue())))
                 endComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
             else {
-                // TODO maybe
                 endComboBox.setStyle(null);
                 App.getSelected().updateContent();
                 App.addUndo();
@@ -227,7 +224,6 @@ public class EditTableController implements Initializable {
         if (!((ClassRelation) App.getElement()).setType(ClassRelEnum.valueOf(relationComboBox.getValue())))
             relationComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
         else {
-            // TODO maybe
             relationComboBox.setStyle(null);
             App.getSelected().updateContent();
             App.addUndo();

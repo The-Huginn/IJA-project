@@ -62,8 +62,8 @@ public class EditTableController {
         if (!((SeqRelation) App.getElement()).setType(SeqRelEnum.valueOf(relationComboBox.getValue())))
             relationComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
         else {
-            // TODO maybe
             relationComboBox.setStyle(null);
+            App.getSelected().updateContent();
             App.addUndo();
         }
     }

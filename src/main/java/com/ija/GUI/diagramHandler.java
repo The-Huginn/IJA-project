@@ -11,6 +11,7 @@ import java.util.List;
 import com.ija.Application.App;
 import com.ija.GUI.classDiagram.UMLEntity;
 import com.ija.GUI.classDiagram.cUMLDiagram;
+import com.ija.GUI.classDiagram.cUMLRelation;
 import com.ija.GUI.seqDiagram.sUMLDiagram;
 import com.ija.backend.diagram.ClassDiagram;
 import com.ija.backend.diagram.ClassRelation;
@@ -18,8 +19,10 @@ import com.ija.backend.diagram.Relation;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagramObject.UMLClass;
 import com.ija.backend.diagramObject.UMLInterface;
+import com.ija.backend.diagramObject.UMLObject;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -63,9 +66,11 @@ public class diagramHandler {
     public diagramHandler(ClassDiagram diagram, Label name) {
         classDiagram = new Pair<cUMLDiagram,Pane>(new cUMLDiagram(diagram, name), createPane());
 
+        int offset = 0;
         for (UMLClass item : diagram.getClasses()) {
             // TODO get [y,x]
-            new UMLEntity(item, classDiagram.getValue(), classDiagram.getKey(), 5000, 5000);
+            new UMLEntity(item, classDiagram.getValue(), classDiagram.getKey(), 5000 + offset, 5000 + offset);
+            offset -= 400;
         }
 
         for (UMLInterface item : diagram.getInterfaces()) {
@@ -74,9 +79,25 @@ public class diagramHandler {
         }
 
         for (Relation relation : diagram.getRelations()) {
-            // TODO paint relations
             ClassRelation item = (ClassRelation)relation;
-            item.checkCorrect();    // temporary for warnings
+            
+            cUMLRelation newRelation = new cUMLRelation(item, classDiagram.getValue(), classDiagram.getKey(), 0, 0);
+            classDiagram.getKey().addRelation(newRelation);
+            
+            for (Node node : classDiagram.getValue().getChildren()) {
+                if (!(node instanceof UMLEntity))
+                    continue;
+
+                UMLEntity entity = (UMLEntity)node;
+
+                if (((UMLObject)entity.getElement()) == item.getFirst().getKey()) {
+                    newRelation.drawStart(entity.getLayoutY() + entity.getHeight() / 2, entity.getLayoutX() + entity.getWidth() / 2);
+                }
+                
+                if (((UMLObject)entity.getElement()) == item.getSecond().getKey()) {
+                    newRelation.drawEnd(entity.getLayoutY() + entity.getHeight() / 2, entity.getLayoutX() + entity.getWidth() / 2);
+                }
+            }
         }
 
         for (SeqDiagram seqDiagram : diagram.getDiagrams()) {

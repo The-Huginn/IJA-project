@@ -6,6 +6,7 @@ import java.util.Deque;
 
 import com.ija.Application.App;
 import com.ija.GUI.UMLElement;
+import com.ija.backend.diagram.Relation;
 import com.ija.backend.diagramObject.Attribute;
 import com.ija.backend.diagramObject.Method;
 import com.ija.backend.diagramObject.UMLObject;
@@ -61,7 +62,7 @@ public class UMLEntity extends UMLElement {
             
             @Override
             public void handle(MouseEvent event) {
-                if (variables.getSelectionModel().getSelectedItem() != null)
+                if (variables.getSelectionModel().getSelectedItem() != null && event.getButton() == MouseButton.PRIMARY)
                     App.setSelected((UMLAttribute)variables.getSelectionModel().getSelectedItem());                
             }
         });
@@ -78,7 +79,7 @@ public class UMLEntity extends UMLElement {
             
             @Override
             public void handle(MouseEvent event) {
-                if (methods.getSelectionModel().getSelectedItem() != null)
+                if (methods.getSelectionModel().getSelectedItem() != null && event.getButton() == MouseButton.PRIMARY)
                     App.setSelected((UMLAttribute)methods.getSelectionModel().getSelectedItem());                
             }
         });
@@ -87,7 +88,7 @@ public class UMLEntity extends UMLElement {
         
         setSpacing(10);
         setAlignment(Pos.TOP_CENTER);
-        setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed;");
+        setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #99bbf2;");
         
         getChildren().addAll(Arrays.asList(name, new Separator(), variables, new Separator(), methods));
         setLayoutY(y);
@@ -134,6 +135,7 @@ public class UMLEntity extends UMLElement {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (valid.valid) {
+                    updateRelations();
                     setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
                     setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
                 }
@@ -165,12 +167,12 @@ public class UMLEntity extends UMLElement {
 
     @Override
     public void select() {
-        setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed;");
+        setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #7796c9;");
     }
 
     @Override
     public void unselect() {
-        setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed;");
+        setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #99bbf2;");
     }
 
     @Override
@@ -283,6 +285,7 @@ public class UMLEntity extends UMLElement {
             Delta delta = undo_moves.pop();
             setLayoutX(delta.x);
             setLayoutY(delta.y);
+            updateRelations();
         } else if (type == UndoType.removeMethod) {
             Pair<Integer, UMLAttribute> top = undo_removes.pop();
             methods.getItems().add(top.getKey(), top.getValue());
@@ -295,6 +298,18 @@ public class UMLEntity extends UMLElement {
             methods.getItems().remove(methods.getItems().size() - 1);
         } else if (type == UndoType.others) {
             updateContent();
+        }
+    }
+
+    private void updateRelations() {
+        for (cUMLRelation relation : ((cUMLDiagram)App.getCurrentDiagram()).getRelations()) {
+            if (((Relation)relation.getElement()).getFirst().getKey() == getElement()) {
+                relation.drawStart(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
+            }
+            
+            if (((Relation)relation.getElement()).getSecond().getKey() == getElement()) {
+                relation.drawEnd(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
+            }
         }
     }
 }

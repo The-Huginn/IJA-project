@@ -6,7 +6,10 @@
 package com.ija.GUI.classDiagram;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.List;
 
 import com.ija.Application.App;
 import com.ija.GUI.UMLElement;
@@ -22,10 +25,13 @@ public class cUMLDiagram extends UMLElement {
 
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
     private Deque<UMLEntity> undo_removes = new ArrayDeque<>();
+    private List<cUMLRelation> relations = new ArrayList<>();
 
     private enum UndoType {
         addEntity,
         removeEntity,
+        addRelation,
+        removeRelation,
         others
     }
 
@@ -33,6 +39,33 @@ public class cUMLDiagram extends UMLElement {
         super(diagram, null, ElementType.CLASS_DIAGRAM);
 
         this.name = name;
+    }
+
+    /**
+     * @brief Should be called upon adding an existing relation upon creation
+     * @param relation
+     */
+    public void addRelation(cUMLRelation relation) {
+        relations.add(relation);
+    }
+
+    /**
+     * Should be called upon adding new relation in the editor
+     * @param relation
+     */
+    public void addNewRelation(cUMLRelation relation) {
+        // TODO add to UMLdiagram
+        relations.add(relation);
+        undo_stack.addFirst(UndoType.addRelation);
+    }
+
+    public void removeRelation(cUMLRelation relation) {
+        // TODO problem with removal of UMLObject
+        relations.remove(relation);
+    }
+
+    public List<cUMLRelation> getRelations() {
+        return Collections.unmodifiableList(relations);
     }
 
     /**
@@ -128,6 +161,7 @@ public class cUMLDiagram extends UMLElement {
     @Override
     public void updateContent() {
         name.setText(getElement().getName());
+        // TODO repaint relations
     }
 
     @Override
