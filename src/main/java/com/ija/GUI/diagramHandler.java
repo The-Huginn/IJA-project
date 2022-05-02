@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ija.Application.App;
+import com.ija.GUI.GraphicInterface.ElementType;
 import com.ija.GUI.classDiagram.UMLEntity;
 import com.ija.GUI.classDiagram.cUMLDiagram;
 import com.ija.GUI.classDiagram.cUMLRelation;
@@ -66,16 +67,14 @@ public class diagramHandler {
     public diagramHandler(ClassDiagram diagram, Label name) {
         classDiagram = new Pair<cUMLDiagram,Pane>(new cUMLDiagram(diagram, name), createPane());
 
-        int offset = 0;
         for (UMLClass item : diagram.getClasses()) {
             // TODO get [y,x]
-            new UMLEntity(item, classDiagram.getValue(), classDiagram.getKey(), 5000 + offset, 5000 + offset);
-            offset -= 400;
+            new UMLEntity(item, classDiagram.getValue(), classDiagram.getKey(), ElementType.CLASS, 5000, 5000);
         }
 
         for (UMLInterface item : diagram.getInterfaces()) {
             // TODO get [y,x]
-            new UMLEntity(item, classDiagram.getValue(), classDiagram.getKey(), 5300, 5300);
+            new UMLEntity(item, classDiagram.getValue(), classDiagram.getKey(), ElementType.INTERFACE, 5300, 5300);
         }
 
         for (Relation relation : diagram.getRelations()) {

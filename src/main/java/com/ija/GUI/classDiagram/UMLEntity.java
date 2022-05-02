@@ -43,8 +43,8 @@ public class UMLEntity extends UMLElement {
         others
     }
 
-    public UMLEntity(UMLObject entity, Pane parentPane, cUMLDiagram parent, int y, int x) {
-        super(entity, parent, ElementType.CLASS);
+    public UMLEntity(UMLObject entity, Pane parentPane, cUMLDiagram parent, ElementType type, int y, int x) {
+        super(entity, parent, type);
 
         name = new Label();
         name.setPadding(new Insets(10, 10, 10, 10));
@@ -177,7 +177,12 @@ public class UMLEntity extends UMLElement {
 
     @Override
     public void updateContent() {
-        name.setText(getElement().getName());        
+        if (getType() == ElementType.INTERFACE) {
+            name.setText("<<" + getElement().getName() + ">>");        
+        }
+        else {
+            name.setText(getElement().getName());
+        }
     }
 
     /**

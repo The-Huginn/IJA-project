@@ -84,6 +84,7 @@ public class cUMLDiagram extends UMLElement {
         UMLEntity newEntity = new UMLEntity(var,
             App.getCurrentPane(),
             this,
+            ElementType.CLASS,
             App.getTopLeft().getKey().intValue(),
             App.getTopLeft().getValue().intValue());
 
@@ -109,6 +110,7 @@ public class cUMLDiagram extends UMLElement {
         UMLEntity newEntity = new UMLEntity(var,
             App.getCurrentPane(),
             this,
+            ElementType.INTERFACE,
             App.getTopLeft().getKey().intValue(),
             App.getTopLeft().getValue().intValue());
 
