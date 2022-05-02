@@ -6,14 +6,17 @@
 package com.ija.GUI.classDiagram;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import com.ija.Application.App;
 import com.ija.backend.diagram.ClassRelation;
 import com.ija.backend.diagram.ClassRelation.ClassRelEnum;
 import com.ija.backend.diagramObject.Attribute;
+import com.ija.backend.diagramObject.Method;
 import com.ija.backend.diagramObject.Type;
 import com.ija.backend.diagramObject.UMLObject;
 import com.ija.backend.diagramObject.Attribute.Visibility;
@@ -21,11 +24,12 @@ import com.ija.backend.diagramObject.Attribute.Visibility;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.util.Pair;
 
-public class EditTableController {
+public class EditTableController implements Initializable {
     @FXML TextField newNameField;
     @FXML ComboBox<String> typeComboBox;
     @FXML ComboBox<String> visiComboBox;
@@ -34,7 +38,8 @@ public class EditTableController {
     @FXML ComboBox<String> endComboBox;
     @FXML ComboBox<String> relationComboBox;
 
-    public EditTableController() {
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
 
         if (App.containsMethod("setType")) {
             typeComboBox.setItems(FXCollections.observableArrayList(Type.getAllTypes()));
@@ -109,6 +114,7 @@ public class EditTableController {
             newNameField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
             newNameField.setStyle(null);
+            App.getSelected().updateContent();
             App.addUndo();
         }
     }
@@ -119,7 +125,8 @@ public class EditTableController {
             return;
             
         try {
-            App.getElement().getClass().getMethod("setType").invoke(App.getElement(), Type.getType(typeComboBox.getValue()));
+            App.getElement().getClass().getMethod("setType", Type.class).invoke(App.getElement(), Type.getType(typeComboBox.getValue()));
+            App.getSelected().updateContent();
             App.addUndo();
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {
@@ -133,7 +140,8 @@ public class EditTableController {
             return;
 
         try {
-            App.getElement().getClass().getMethod("setVisibility").invoke(App.getElement(), Visibility.valueOf(visiComboBox.getValue()));
+            App.getElement().getClass().getMethod("setVisibility", Attribute.Visibility.class).invoke(App.getElement(), Visibility.valueOf(visiComboBox.getValue()));
+            App.getSelected().updateContent();
             App.addUndo();
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {
@@ -148,16 +156,17 @@ public class EditTableController {
 
         // Replace whitespaces and split by comma
         String[] newParams = newParamsField.getText().replaceAll("\\s+", "").split(",");
+        Method method = (Method)App.getElement();
         try {
-            if (! (boolean)App.getElement().getClass().getMethod("setParameters").invoke(App.getElement(), (Object[])newParams))
+            if (! (boolean)method.setParameters(newParams))
                 newParamsField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             else {
                 // TODO update params in GUI
                 newParamsField.setStyle(null);
+                App.getSelected().updateContent();
                 App.addUndo();
             }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-                | SecurityException e) {
+        } catch (IllegalArgumentException | SecurityException e) {
             e.printStackTrace();
         }
     }
@@ -175,6 +184,7 @@ public class EditTableController {
             else {
                 // TODO maybe
                 startComboBox.setStyle(null);
+                App.getSelected().updateContent();
                 App.addUndo();
             }
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -196,6 +206,7 @@ public class EditTableController {
             else {
                 // TODO maybe
                 endComboBox.setStyle(null);
+                App.getSelected().updateContent();
                 App.addUndo();
             }
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -214,6 +225,7 @@ public class EditTableController {
         else {
             // TODO maybe
             relationComboBox.setStyle(null);
+            App.getSelected().updateContent();
             App.addUndo();
         }
     }
