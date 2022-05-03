@@ -145,6 +145,16 @@ public class cUMLDiagram extends UMLElement {
         ClassDiagram diagram = ((ClassDiagram)getElement());
         for (int i = 0; i < diagram.getClasses().size(); i++) {
             if (diagram.getClasses().get(i) == entity.getElement()) {
+
+                List<cUMLRelation> remove_rels = new ArrayList<>();
+                for (cUMLRelation rel : relations) {
+                    if (((ClassRelation)rel.getElement()).getFirst().getKey() == entity.getElement() ||
+                    ((ClassRelation)rel.getElement()).getSecond().getKey() == entity.getElement()) {
+                        remove_rels.add(rel);
+                        rel.removeSelf(App.getCurrentPane());
+                    }
+                }
+
                 diagram.removeClass(i);
                 removeEntityWithRels(entity);
             }
@@ -160,6 +170,16 @@ public class cUMLDiagram extends UMLElement {
         ClassDiagram diagram = ((ClassDiagram)getElement());
         for (int i = 0; i < diagram.getInterfaces().size(); i++) {
             if (diagram.getInterfaces().get(i) == entity.getElement()) {
+                
+                List<cUMLRelation> remove_rels = new ArrayList<>();
+                for (cUMLRelation rel : relations) {
+                    if (((ClassRelation)rel.getElement()).getFirst().getKey() == entity.getElement() ||
+                    ((ClassRelation)rel.getElement()).getSecond().getKey() == entity.getElement()) {
+                        remove_rels.add(rel);
+                        rel.removeSelf(App.getCurrentPane());
+                    }
+                }
+                
                 diagram.removeInterface(i);
                 removeEntityWithRels(entity);
             }
