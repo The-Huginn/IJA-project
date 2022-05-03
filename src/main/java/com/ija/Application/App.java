@@ -177,6 +177,10 @@ public class App extends Application {
         return ((MainWindowController)getLoader().getController()).getTopLeft();
     }
 
+    public static void clearUndo() {
+        undoStack.clear();
+    }
+
     private static void updateEditPane() {
         BorderPane diagramTable = ((MainWindowController)getLoader().getController()).diagramTable;
         BorderPane editTable = ((MainWindowController)getLoader().getController()).editTable;

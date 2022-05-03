@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 import com.ija.Application.App;
 import com.ija.backend.diagram.ClassDiagram;
+import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.jsonHandler.Saver;
 
 import javafx.application.Platform;
@@ -69,6 +70,7 @@ public class MainWindowController implements Initializable {
     }
 
     private void setPane(UMLElement entity, Pane newPane) {
+        App.clearUndo();
         App.setCurrentDiagram(entity);
         pane.setCenter(newPane);
         entity.updateContent();
@@ -96,6 +98,15 @@ public class MainWindowController implements Initializable {
         diagramTable.setCenter(null);
         editTable.setCenter(null);
         handler = null;
+    }
+
+    public void addSequence(String name) {
+        SeqDiagram diagram = App.getClassDiagram().getDiagrams().stream()
+                                                                .filter(f -> f.getName().equals(name))
+                                                                .findAny()
+                                                                .orElse(null);
+        handler.addSequence(diagram, diagramName);
+        switchSeqDiagram(name);
     }
 
     @FXML

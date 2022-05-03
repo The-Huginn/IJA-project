@@ -78,11 +78,15 @@ public class ClassDiagramTableController {
 
     @FXML
     protected void addSequence(Event event) {
+        if (newSequence.getText() == null) {
+            newSequence.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        }
+
         if (!App.getClassDiagram().addDiagram(new SeqDiagram(newSequence.getText(), App.getClassDiagram())))
             newSequence.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
-            // TODO set Sequence diagram to window
             newSequence.setStyle(null);
+            ((MainWindowController)App.getLoader().getController()).addSequence(newSequence.getText());
         }
     }
 
@@ -121,7 +125,7 @@ public class ClassDiagramTableController {
 
     @FXML
     protected void switchDiagram(Event event) {
-        if (App.getClassDiagram() != null) {
+        if (diagramComboBox.getValue()!= null) {
             ((MainWindowController) App.getLoader().getController()).switchSeqDiagram(diagramComboBox.getValue());
         }
     }

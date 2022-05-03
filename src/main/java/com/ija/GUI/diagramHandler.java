@@ -52,17 +52,6 @@ public class diagramHandler {
 
         return newPane;
     }
-
-    // /**
-    //  * @brief Creates Pane and fills with diagram entities ready for use.
-    //  * @param diagram
-    //  * @return
-    //  */
-    // private Pane createDiagram(SeqDiagram diagram) {
-    //     Pane umlDiagram = createPane();
-
-    //     return umlDiagram;
-    // }
     
     public diagramHandler(ClassDiagram diagram, Label name) {
         classDiagram = new Pair<cUMLDiagram,Pane>(new cUMLDiagram(diagram, name), createPane());
@@ -115,6 +104,11 @@ public class diagramHandler {
                 sPane.getKey().addRelation(newRelation);
             }
         }
+    }
+
+    public void addSequence(SeqDiagram diagram, Label name) {
+        Pane newPane = createPane();
+        seqDiagrams.add(new Pair<sUMLDiagram,Pane>(new sUMLDiagram(diagram, classDiagram.getKey(), name, newPane), newPane));
     }
 
     public Pane getClassPane() {
