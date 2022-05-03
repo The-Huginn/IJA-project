@@ -17,6 +17,7 @@ import com.ija.GUI.classDiagram.UMLAttribute;
 import com.ija.GUI.classDiagram.UMLEntity;
 import com.ija.GUI.classDiagram.cUMLDiagram;
 import com.ija.GUI.classDiagram.cUMLRelation;
+import com.ija.GUI.seqDiagram.sUMLDiagram;
 import com.ija.GUI.seqDiagram.sUMLRelation;
 import com.ija.backend.undoInterface;
 import com.ija.backend.diagram.ClassDiagram;
@@ -77,11 +78,12 @@ public class App extends Application {
     }
 
     /**
-     * @brief Switches to new diagram
+     * @brief Switches to new diagram and makes it selected
      * @param newDiagram
      */
     public static void setCurrentDiagram(UMLElement newCurrent) {
         currentDiagram = newCurrent;
+        setSelected(newCurrent);
     }
 
     /**
@@ -207,6 +209,11 @@ public class App extends Application {
                 Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
                 diagramTable.setCenter(node);
                 Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/EditRelationTable.fxml"));
+                editTable.setCenter(edit);
+            } else if (getSelected() instanceof sUMLDiagram) {
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/SeqDiagramTable.fxml"));
+                diagramTable.setCenter(node);
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/EditTable.fxml"));
                 editTable.setCenter(edit);
             }
         } catch (IOException e) {

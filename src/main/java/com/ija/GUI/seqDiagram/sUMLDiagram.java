@@ -118,16 +118,8 @@ public class sUMLDiagram extends UMLElement {
      * @param x
      * @return
      */
-    public boolean addNewInstance(String name, int number) {
-        UMLClass var = App.getClassDiagram().getClasses().stream()
-                                                        .filter(f -> f.getName().equals(name))
-                                                        .findAny()
-                                                        .orElse(null);
-
-        if (!((SeqDiagram)getElement()).addInstance(var, number))
-            return false;
-
-        UMLInstance newEntity = new UMLInstance(var, this, number);
+    public boolean addNewInstance(UMLClass instance, int number) {
+        UMLInstance newEntity = new UMLInstance(instance, this, number);
 
         header.getChildren().add(newEntity);
         header.setLayoutX(0);
@@ -222,7 +214,7 @@ public class sUMLDiagram extends UMLElement {
         updateContent();
 
         if (type == UndoType.removeInstance) {
-            App.getCurrentPane().getChildren().add(undo_removes.pop());
+            header.getChildren().add(undo_removes.pop());
             List<sUMLRelation> top = undo_relations.pop();
 
             for (sUMLRelation rel : top) {
@@ -230,7 +222,7 @@ public class sUMLDiagram extends UMLElement {
                 relations.add(rel);
             }
         } else if (type == UndoType.addInstance) {
-            App.getCurrentPane().getChildren().remove(undo_removes.pop());
+            header.getChildren().remove(undo_removes.pop());
         } else if (type == UndoType.removeRelation) {
             sUMLRelation top = (undo_relations.pop()).get(0);
             top.addToPane(App.getCurrentPane());

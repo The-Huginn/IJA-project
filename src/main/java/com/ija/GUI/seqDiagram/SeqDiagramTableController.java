@@ -17,29 +17,32 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
 
 public class SeqDiagramTableController {
-    @FXML TextField instanceName;
     @FXML Spinner<Integer> instanceNumber;
     @FXML ComboBox<String> diagramComboBox;
+    @FXML ComboBox<String> classesComboBox;
 
     @FXML
     protected void addInstance(Event event) {
+        if (classesComboBox.getValue() == null) {
+            classesComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            return;
+        }
+
         UMLClass instance = App.getClassDiagram().getClasses().stream()
-                                .filter(f -> f.getName().equals(instanceName.getText()))
+                                .filter(f -> f.getName().equals(classesComboBox.getValue()))
                                 .findAny()
                                 .orElse(null);
         
         SeqDiagram diagram = (SeqDiagram)App.getCurrentDiagram().getElement();
         if (!diagram.addInstance(instance, instanceNumber.getValue())) {
-            instanceName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            classesComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             instanceNumber.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         } else {
-            // TODO show in GUI
-            instanceName.setStyle(null);
+            classesComboBox.setStyle(null);
             instanceNumber.setStyle(null);
-            App.addUndo();
+            ((sUMLDiagram)App.getCurrentDiagram()).addNewInstance(instance, instanceNumber.getValue());
         }
     }
 
@@ -67,9 +70,15 @@ public class SeqDiagramTableController {
 
     @FXML
     protected void clearStyle(Event event) {
-        if (event.getTarget() instanceof TextField)
-            ((TextField)event.getTarget()).setStyle(null);
-        else if (event.getTarget() instanceof Spinner<?>)
+        if (event.getTarget() instanceof Spinner<?>)
             ((Spinner<?>)event.getTarget()).setStyle(null);
+    }
+
+    @FXML
+    protected void updateClasses(Event event) {
+        List<String> classes = App.getClassDiagram().getClasses().stream()
+                                    .map(f -> f.getName())
+                                    .collect(Collectors.toList());
+            classesComboBox.setItems(FXCollections.observableArrayList(classes));
     }
 }

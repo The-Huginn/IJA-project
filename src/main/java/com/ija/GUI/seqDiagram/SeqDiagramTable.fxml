@@ -5,7 +5,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-<!-- <?import javafx.scene.control.Spinner?> -->
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,17 +21,17 @@
                   <Insets bottom="10.0" top="20.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="instanceName" alignment="CENTER" onKeyPressed="#clearStyle" promptText="Name">
+            <ComboBox fx:id="classesComboBox" onMouseEntered="#updateClasses" prefWidth="150.0">
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
+                  <Insets bottom="10.0" />
                </VBox.margin>
-            </TextField>
+            </ComboBox>
             <Spinner fx:id="instanceNumber" onMouseClicked="#clearStyle">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin>
                <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="99" initialValue="0" amountToStepBy="1"/>
+                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="99" initialValue="0" amountToStepBy="1"/>
                </valueFactory>
             </Spinner>
                <Button mnemonicParsing="false" onMouseClicked="#addInstance" text="Add">
