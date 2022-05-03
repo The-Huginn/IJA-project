@@ -17,6 +17,7 @@ import com.ija.GUI.classDiagram.UMLAttribute;
 import com.ija.GUI.classDiagram.UMLEntity;
 import com.ija.GUI.classDiagram.cUMLDiagram;
 import com.ija.GUI.classDiagram.cUMLRelation;
+import com.ija.GUI.seqDiagram.UMLInstance;
 import com.ija.GUI.seqDiagram.sUMLDiagram;
 import com.ija.GUI.seqDiagram.sUMLRelation;
 import com.ija.backend.undoInterface;
@@ -209,6 +210,11 @@ public class App extends Application {
                 Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
                 diagramTable.setCenter(node);
                 Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/EditRelationTable.fxml"));
+                editTable.setCenter(edit);
+            } else if (getSelected() instanceof UMLInstance) {
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/InstanceTable.fxml"));
+                diagramTable.setCenter(node);
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
                 editTable.setCenter(edit);
             } else if (getSelected() instanceof sUMLDiagram) {
                 Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/SeqDiagramTable.fxml"));
