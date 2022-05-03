@@ -138,9 +138,13 @@ public class cUMLRelation implements GraphicInterface {
 
     @Override
     public void removeSelf(Pane fromPane) {
+        removeFromPane(fromPane);
+        ((cUMLDiagram)getUMLParent()).removeRelation(this);
+    }
+
+    public void removeFromPane(Pane fromPane) {
         fromPane.getChildren().remove(line);
         fromPane.getChildren().remove(name);
-        
     }
 
     @Override

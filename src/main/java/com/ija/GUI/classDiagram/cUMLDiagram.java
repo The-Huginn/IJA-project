@@ -56,14 +56,26 @@ public class cUMLDiagram extends UMLElement {
      * @param relation
      */
     public void addNewRelation(cUMLRelation relation) {
-        // TODO add to UMLdiagram
         relations.add(relation);
         undo_stack.addFirst(UndoType.addRelation);
+        List<cUMLRelation> list = new ArrayList<>();
+        list.add(relation);
+        undo_relations.addFirst(list);
+
+        App.setSelected(this);
+        App.addClearUndo();
+        App.setSelected(relation);
     }
 
     public void removeRelation(cUMLRelation relation) {
-        // TODO problem with removal of UMLObject
         relations.remove(relation);
+        undo_stack.addFirst(UndoType.removeRelation);
+        List<cUMLRelation> list = new ArrayList<>();
+        list.add(relation);
+        undo_relations.addFirst(list);
+
+        App.setSelected(this);
+        App.addClearUndo();
     }
 
     public List<cUMLRelation> getRelations() {
@@ -157,11 +169,15 @@ public class cUMLDiagram extends UMLElement {
     private void removeEntityWithRels(UMLEntity entity) {
 
         List<cUMLRelation> remove_rels = new ArrayList<>();
-        for (cUMLRelation rel : relations) {
+        for (int i = 0; i < relations.size(); i++) {
+            cUMLRelation rel = relations.get(i);
+
             if (((ClassRelation) rel.getElement()).getFirst().getKey() == entity.getElement() ||
                     ((ClassRelation) rel.getElement()).getSecond().getKey() == entity.getElement()) {
                 remove_rels.add(rel);
-                rel.removeSelf(App.getCurrentPane());
+                rel.removeFromPane(App.getCurrentPane());
+                relations.remove(i);
+                i--;
             }
         }
 
@@ -206,9 +222,18 @@ public class cUMLDiagram extends UMLElement {
 
             for (cUMLRelation rel : top) {
                 rel.addToPane(App.getCurrentPane());
+                relations.add(rel);
             }
         } else if (type == UndoType.addEntity) {
             App.getCurrentPane().getChildren().remove(undo_removes.pop());
+        } else if (type == UndoType.removeRelation) {
+            cUMLRelation top = (undo_relations.pop()).get(0);
+            top.addToPane(App.getCurrentPane());
+            relations.add(top);
+        } else if (type == UndoType.addRelation) {
+            cUMLRelation top = (undo_relations.pop()).get(0);
+            top.removeFromPane(App.getCurrentPane());
+            relations.remove(top);
         }
     }
 }

@@ -57,6 +57,12 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </ComboBox>
+            <Label text="Remove Relation" textFill="RED">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Button mnemonicParsing="false" onMouseClicked="#deleteAttribute" text="Remove" />
          </children>
       </VBox>
    </children>
