@@ -24,6 +24,8 @@ import javafx.scene.control.TextField;
 
 public class EditTableController implements Initializable{
     @FXML TextField newNameField;
+    @FXML TextField methodTextField;
+    @FXML TextField noteTextField;
     @FXML ComboBox<String> startComboBox;
     @FXML ComboBox<String> endComboBox;
     @FXML ComboBox<String> relationComboBox;
@@ -68,6 +70,30 @@ public class EditTableController implements Initializable{
             App.getSelected().updateContent();
             App.addUndo();
         }
+    }
+
+    @FXML
+    protected void updateMethod(Event event) {
+        if (!App.containsMethod("setMethod"))
+            return;
+
+        if (!((SeqRelation)App.getElement()).setMethod(methodTextField.getText())) {
+            methodTextField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        } else {
+            methodTextField.setStyle(null);
+            App.getSelected().updateContent();
+            App.addUndo();
+        }
+    }
+
+    @FXML
+    protected void updateNote(Event event) {
+        if (!App.containsMethod("setNote"))
+            return;
+
+        ((SeqRelation)App.getElement()).setNote(noteTextField.getText());
+        App.getSelected().updateContent();
+        App.addUndo();
     }
 
     @FXML

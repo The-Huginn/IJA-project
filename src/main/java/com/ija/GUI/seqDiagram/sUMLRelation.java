@@ -178,7 +178,7 @@ public class sUMLRelation implements GraphicInterface {
 
     @Override
     public void updateContent() {
-        name.setText(element.getName() + " - " + element.getMethod());
+        name.setText(element.getName() + " - " + element.getMethodString());
         note.setText(element.getNote());
         line.setStyle("-fx-stroke:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
         name.setStyle("-fx-text-fill:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
