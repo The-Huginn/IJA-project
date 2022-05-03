@@ -23,7 +23,7 @@ public class SeqRelation extends Relation{
     private SeqRelEnum type = SeqRelEnum.SYNCHROUNOUS;
     private String methodName = "Missing method name";
     private String methodParams = "Missing method params";
-    private String note = "Missing note";
+    private String note = "";
 
     public enum SeqRelEnum {
         SYNCHROUNOUS,
