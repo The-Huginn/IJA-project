@@ -3,6 +3,7 @@ package com.ija.GUI.classDiagram;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.Random;
 
 import com.ija.Application.App;
 import com.ija.GUI.UMLElement;
@@ -315,15 +316,17 @@ public class UMLEntity extends UMLElement {
     }
 
     private void updateRelations() {
+        final Random rnd = new Random();
+
         for (cUMLRelation relation : ((cUMLDiagram)App.getCurrentDiagram()).getRelations()) {
             if (((Relation)relation.getElement()).getFirst().getKey() == getElement()) {
                 // relation.drawStart(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
-                relation.drawStart(getLayoutY(), getLayoutX());
+                relation.drawStart(getLayoutY() + rnd.nextInt((int)getHeight()), getLayoutX() + rnd.nextInt((int)getWidth()));
             }
             
             if (((Relation)relation.getElement()).getSecond().getKey() == getElement()) {
                 // relation.drawEnd(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
-                relation.drawEnd(getLayoutY(), getLayoutX());
+                relation.drawEnd(getLayoutY() + rnd.nextInt((int)getHeight()), getLayoutX() + rnd.nextInt((int)getWidth()));
             }
         }
     }
