@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 
 public class sUMLRelation implements GraphicInterface {
@@ -23,6 +24,7 @@ public class sUMLRelation implements GraphicInterface {
     private final sUMLDiagram parent;
 
     private Line line;
+    private Ellipse ellipse;
     private Label name;
     private Label note;
     private static final String[] colors = {" blue;", " cyan;", " orange;", " black;", " pink;"};
@@ -42,10 +44,13 @@ public class sUMLRelation implements GraphicInterface {
         
         line = new Line();
 
+        ellipse = new Ellipse(0, 0, 10, 5);
+
         name = new Label();
         note = new Label();
 
         setListeners(line);
+        setListeners(ellipse);
         setListeners(name);
         setListeners(note);
 
@@ -120,6 +125,7 @@ public class sUMLRelation implements GraphicInterface {
                 int index = parent.getHeader().getChildren().indexOf(node);
                 int x = index * (sUMLDiagram.SPACING + UMLInstance.WIDTH) + UMLInstance.WIDTH / 2;
                 line.setEndX(x);
+                ellipse.setCenterX(x);
             }
         }
 
@@ -129,6 +135,7 @@ public class sUMLRelation implements GraphicInterface {
     public void drawEnd(double y) {
         line.setStartY(y);
         line.setEndY(y);
+        ellipse.setCenterY(y);
         name.setLayoutY((line.getEndY() + line.getStartY()) / 2 - 20);
         name.setLayoutX((line.getEndX() + line.getStartX()) / 2 - name.getWidth() / 2);
         note.setLayoutY((line.getEndY() + line.getStartY()) / 2);
@@ -150,13 +157,14 @@ public class sUMLRelation implements GraphicInterface {
     }
 
     public void removeFromPane(Pane fromPane) {
-        fromPane.getChildren().removeAll(Arrays.asList(line, name, note));
+        fromPane.getChildren().removeAll(Arrays.asList(line, name, note, ellipse));
     }
 
     public void addToPane(Pane toPane) {
-        toPane.getChildren().addAll(line, name, note);
+        toPane.getChildren().addAll(line, name, note, ellipse);
         
         line.toBack();
+        ellipse.toBack();
         name.toBack();
         note.toBack();
     }
@@ -168,9 +176,10 @@ public class sUMLRelation implements GraphicInterface {
 
     @Override
     public void select() {
-        line.setStyle("-fx-stroke: #c3de49");
-        name.setStyle("-fx-text-fill: #c3de49");
-        note.setStyle("-fx-text-fill: #c3de49");
+        line.setStyle("-fx-stroke: #c3de49;");
+        ellipse.setStyle("-fx-stroke: #c3de49; -fx-fill: #c3de49;");
+        name.setStyle("-fx-text-fill: #c3de49;");
+        note.setStyle("-fx-text-fill: #c3de49;");
     }
 
     @Override
@@ -183,6 +192,7 @@ public class sUMLRelation implements GraphicInterface {
         name.setText(element.getName() + " - " + element.getMethodString());
         note.setText(element.getNote());
         line.setStyle("-fx-stroke:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
+        ellipse.setStyle("-fx-stroke:" + colors[((SeqRelation)getElement()).getType().ordinal()] + "-fx-fill:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
         name.setStyle("-fx-text-fill:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
         note.setStyle("-fx-text-fill:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
         drawEnd(line.getEndY());
