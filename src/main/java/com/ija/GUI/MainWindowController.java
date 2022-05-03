@@ -109,6 +109,11 @@ public class MainWindowController implements Initializable {
         switchSeqDiagram(name);
     }
 
+    public void removeSeqDiagram(SeqDiagram diagram) {
+        handler.removeSeqDiagram(diagram);
+        setPane(handler.getClassEntity(), handler.getClassPane());
+    }
+
     @FXML
     protected void newDiagram(ActionEvent event) {
         if (App.getClassDiagram() == null || App.isSaved()) {

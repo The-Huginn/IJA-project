@@ -12,6 +12,7 @@ import java.util.Deque;
 import java.util.List;
 
 import com.ija.Application.App;
+import com.ija.GUI.MainWindowController;
 import com.ija.GUI.UMLElement;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagram.SeqRelation;
@@ -187,6 +188,18 @@ public class sUMLDiagram extends UMLElement {
     @Override
     public void updateContent() {
         name.setText(getElement().getName());
+    }
+
+    @Override
+    public void removeSelf(Pane newPane) {
+        for (int i = 0; i < App.getClassDiagram().getDiagrams().size(); i++) {
+            SeqDiagram var = App.getClassDiagram().getDiagrams().get(i);
+            if (var.equals(getElement())) {
+                App.getClassDiagram().removeDiagram(i);
+                ((MainWindowController)App.getLoader().getController()).removeSeqDiagram((SeqDiagram)getElement());
+                break;
+            }
+        }
     }
 
     @Override

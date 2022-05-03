@@ -111,6 +111,10 @@ public class diagramHandler {
         seqDiagrams.add(new Pair<sUMLDiagram,Pane>(new sUMLDiagram(diagram, classDiagram.getKey(), name, newPane), newPane));
     }
 
+    public void removeSeqDiagram(SeqDiagram diagram) {
+        seqDiagrams.removeIf(pair -> pair.getKey().getElement().equals(diagram));
+    }
+
     public Pane getClassPane() {
         return classDiagram.getValue();
     }

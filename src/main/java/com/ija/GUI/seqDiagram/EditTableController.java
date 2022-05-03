@@ -19,8 +19,11 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 public class EditTableController implements Initializable{
     @FXML TextField newNameField;
@@ -98,6 +101,18 @@ public class EditTableController implements Initializable{
 
     @FXML
     protected void deleteAttribute(Event event) {
-        App.getSelected().removeSelf(App.getCurrentPane());
+        if (App.getSelected() == App.getCurrentDiagram()) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+
+            alert.setContentText("Are you sure you want to delete this diagram [undo is not possible]?");
+
+            alert.showAndWait().ifPresent(present -> {
+                if (present == ButtonType.OK) {
+                    App.getSelected().removeSelf(App.getCurrentPane());
+                }
+            });
+        } else {
+            App.getSelected().removeSelf(App.getCurrentPane());
+        }
     }
 }
