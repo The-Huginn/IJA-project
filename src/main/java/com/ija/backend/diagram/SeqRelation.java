@@ -70,6 +70,11 @@ public class SeqRelation extends Relation{
         super(name, parent, firstInstance, firstInstanceNumber, secondInstance, secondInstanceNumber);
     }
 
+    public SeqRelation(String name, Diagram parent, UMLClass firstInstance, int firstInstanceNumber, UMLClass secondInstance, int secondInstanceNumber, SeqRelEnum type) {
+        super(name, parent, firstInstance, firstInstanceNumber, secondInstance, secondInstanceNumber);
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object anotherObject) {
 
@@ -232,6 +237,13 @@ public class SeqRelation extends Relation{
      */
     public String getMethod() {
         return this.methodName;
+    }
+
+    /**
+     * @return String with method call
+     */
+    public String getMethodString() {
+        return this.methodName + "(" + this.methodParams + ")";
     }
 
     /**

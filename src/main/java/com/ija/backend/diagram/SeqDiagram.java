@@ -69,6 +69,20 @@ public class SeqDiagram extends Diagram {
             if (relation.equals(relation2))
                 return false;
 
+        Pair<Boolean, Boolean> contains = new Pair<Boolean,Boolean>(false, false);
+        for (Pair<UMLClass, Integer> pair : getInstances()) {
+            if (pair.getKey() == relation.getFirst().getKey() && pair.getValue() == relation.getFirst().getValue()) {
+                contains = new Pair<Boolean,Boolean>(true, contains.getValue());
+            }
+
+            if (pair.getKey() == relation.getSecond().getKey() && pair.getValue() == relation.getSecond().getValue()) {
+                contains = new Pair<Boolean,Boolean>(contains.getKey(), true);
+            }
+        }
+
+        if (!contains.getKey() || !contains.getValue())
+            return false;
+
         undo_stack.addFirst(UndoType.addRelation);
 
         this.relations.add(relation);
