@@ -14,6 +14,7 @@ import java.util.List;
 import com.ija.Application.App;
 import com.ija.GUI.UMLElement;
 import com.ija.backend.diagram.ClassDiagram;
+import com.ija.backend.diagram.ClassRelation;
 import com.ija.backend.diagram.Diagram;
 import com.ija.backend.diagramObject.UMLClass;
 import com.ija.backend.diagramObject.UMLInterface;
@@ -25,6 +26,7 @@ public class cUMLDiagram extends UMLElement {
 
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
     private Deque<UMLEntity> undo_removes = new ArrayDeque<>();
+    private Deque<List<cUMLRelation>> undo_relations = new ArrayDeque<>();
     private List<cUMLRelation> relations = new ArrayList<>();
 
     private enum UndoType {
@@ -90,12 +92,13 @@ public class cUMLDiagram extends UMLElement {
 
         undo_stack.addFirst(UndoType.addEntity);
         undo_removes.addFirst(newEntity);
+        App.addClearUndo();
 
         return true;
     }
 
     /**
-     * @brief This function should be called upon adding new class in the editor
+     * @brief This function should be called upon adding new interface in the editor
      * @param name
      * @param y
      * @param x
@@ -116,6 +119,7 @@ public class cUMLDiagram extends UMLElement {
 
         undo_stack.addFirst(UndoType.addEntity);
         undo_removes.addFirst(newEntity);
+        App.addClearUndo();
 
         return true;
     }
@@ -130,9 +134,7 @@ public class cUMLDiagram extends UMLElement {
         for (int i = 0; i < diagram.getClasses().size(); i++) {
             if (diagram.getClasses().get(i) == entity.getElement()) {
                 diagram.removeClass(i);
-                undo_stack.addFirst(UndoType.removeEntity);
-                undo_removes.addFirst(entity);
-                App.getCurrentPane().getChildren().remove(entity);
+                removeEntityWithRels(entity);
             }
         }
     }
@@ -147,11 +149,28 @@ public class cUMLDiagram extends UMLElement {
         for (int i = 0; i < diagram.getInterfaces().size(); i++) {
             if (diagram.getInterfaces().get(i) == entity.getElement()) {
                 diagram.removeInterface(i);
-                undo_stack.addFirst(UndoType.removeEntity);
-                undo_removes.addFirst(entity);
-                App.getCurrentPane().getChildren().remove(entity);
+                removeEntityWithRels(entity);
             }
         }
+    }
+
+    private void removeEntityWithRels(UMLEntity entity) {
+
+        List<cUMLRelation> remove_rels = new ArrayList<>();
+        for (cUMLRelation rel : relations) {
+            if (((ClassRelation) rel.getElement()).getFirst().getKey() == entity.getElement() ||
+                    ((ClassRelation) rel.getElement()).getSecond().getKey() == entity.getElement()) {
+                remove_rels.add(rel);
+                rel.removeSelf(App.getCurrentPane());
+            }
+        }
+
+        undo_stack.addFirst(UndoType.removeEntity);
+        undo_removes.addFirst(entity);
+        undo_relations.addFirst(remove_rels);
+        App.getCurrentPane().getChildren().remove(entity);
+        App.setSelected(this);
+        App.addClearUndo();
     }
 
     @Override
@@ -163,13 +182,12 @@ public class cUMLDiagram extends UMLElement {
     @Override
     public void updateContent() {
         name.setText(getElement().getName());
-        // TODO repaint relations
     }
 
     @Override
     public void addUndo() {
         undo_stack.addFirst(UndoType.others);
-        name.setText(getElement().getName());
+        updateContent();
     }
 
     @Override
@@ -184,6 +202,11 @@ public class cUMLDiagram extends UMLElement {
 
         if (type == UndoType.removeEntity) {
             App.getCurrentPane().getChildren().add(undo_removes.pop());
+            List<cUMLRelation> top = undo_relations.pop();
+
+            for (cUMLRelation rel : top) {
+                rel.addToPane(App.getCurrentPane());
+            }
         } else if (type == UndoType.addEntity) {
             App.getCurrentPane().getChildren().remove(undo_removes.pop());
         }

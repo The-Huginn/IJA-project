@@ -239,9 +239,6 @@ public class EditTableController implements Initializable {
 
     @FXML
     protected void deleteAttribute(Event event) {
-        if (!(App.getSelected() instanceof UMLAttribute))
-            return;
-
-        ((UMLAttribute)App.getSelected()).deleteMe();
+        App.getSelected().removeSelf(App.getCurrentPane());
     }
 }
