@@ -15,7 +15,8 @@ public interface GraphicInterface extends undoInterface {
         CLASS_DIAGRAM,
         SEQ_DIAGRAM,
         CLASS_RELATION,
-        SEQ_RELATION
+        SEQ_RELATION,
+        INSTANCE
     }
 
     /**

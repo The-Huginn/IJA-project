@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ija.Application.App;
+import com.ija.GUI.MainWindowController;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagramObject.Type;
 
@@ -121,11 +122,7 @@ public class ClassDiagramTableController {
     @FXML
     protected void switchDiagram(Event event) {
         if (App.getClassDiagram() != null) {
-            for (SeqDiagram diagram : App.getClassDiagram().getDiagrams())
-                if (diagram.getName().equals(diagramComboBox.getValue())) {
-                    // TODO show new diagram and switch content
-                    break;
-                }
+            ((MainWindowController) App.getLoader().getController()).switchSeqDiagram(diagramComboBox.getValue());
         }
     }
 

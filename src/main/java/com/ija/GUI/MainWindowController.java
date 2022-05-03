@@ -221,4 +221,8 @@ public class MainWindowController implements Initializable {
     protected void undo(ActionEvent event) {
         App.undo();
     }
+
+    public void switchSeqDiagram(String name) {
+        pane.setCenter(handler.getSeqPane(name));
+    }
 }

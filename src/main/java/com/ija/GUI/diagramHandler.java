@@ -14,10 +14,12 @@ import com.ija.GUI.classDiagram.UMLEntity;
 import com.ija.GUI.classDiagram.cUMLDiagram;
 import com.ija.GUI.classDiagram.cUMLRelation;
 import com.ija.GUI.seqDiagram.sUMLDiagram;
+import com.ija.GUI.seqDiagram.sUMLRelation;
 import com.ija.backend.diagram.ClassDiagram;
 import com.ija.backend.diagram.ClassRelation;
 import com.ija.backend.diagram.Relation;
 import com.ija.backend.diagram.SeqDiagram;
+import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagramObject.UMLClass;
 import com.ija.backend.diagramObject.UMLInterface;
 import com.ija.backend.diagramObject.UMLObject;
@@ -51,18 +53,16 @@ public class diagramHandler {
         return newPane;
     }
 
-    /**
-     * @brief Creates Pane and fills with diagram entities ready for use.
-     * @param diagram
-     * @return
-     */
-    private Pane createDiagram(SeqDiagram diagram) {
-        Pane umlDiagram = createPane();
+    // /**
+    //  * @brief Creates Pane and fills with diagram entities ready for use.
+    //  * @param diagram
+    //  * @return
+    //  */
+    // private Pane createDiagram(SeqDiagram diagram) {
+    //     Pane umlDiagram = createPane();
 
-        // TODO create Sequence diagram
-
-        return umlDiagram;
-    }
+    //     return umlDiagram;
+    // }
     
     public diagramHandler(ClassDiagram diagram, Label name) {
         classDiagram = new Pair<cUMLDiagram,Pane>(new cUMLDiagram(diagram, name), createPane());
@@ -100,7 +100,21 @@ public class diagramHandler {
         }
 
         for (SeqDiagram seqDiagram : diagram.getDiagrams()) {
-            seqDiagrams.add(new Pair<sUMLDiagram,Pane>(new sUMLDiagram(seqDiagram, classDiagram.getKey(), name), createDiagram(seqDiagram)));
+            Pane newPane = createPane();
+            Pair<sUMLDiagram, Pane> sPane = new Pair<sUMLDiagram,Pane>(new sUMLDiagram(seqDiagram, classDiagram.getKey(), name, newPane), newPane);
+            seqDiagrams.add(sPane);
+            for (Pair<UMLClass, Integer> pair : seqDiagram.getInstances()) {
+                sPane.getKey().addInstance(pair.getKey(), pair.getValue());
+                // new UMLInstance(pair.getKey(), sPane.getKey(), pair.getValue());
+            }
+
+            for (Relation relation : seqDiagram.getRelations()) {
+                // TODO finish this
+                SeqRelation item = (SeqRelation)relation;
+                sUMLRelation newRelation = new sUMLRelation(item, sPane.getValue(), sPane.getKey(), 100, 100);
+                newRelation.drawEnd(200, 200);
+                sPane.getKey().addRelation(newRelation);
+            }
         }
     }
 
@@ -112,11 +126,19 @@ public class diagramHandler {
         return classDiagram.getKey();
     }
 
-    public Pane getSeqPane(int index) {
-        if (index < 0 || index >= seqDiagrams.size())
-            return null;
+    /**
+     * @brief Finds Seq diagram with name
+     * @param name
+     * @return
+     */
+    public Pane getSeqPane(String name) {
+        
+        for (Pair<sUMLDiagram, Pane> diagram : seqDiagrams) {
+            if (diagram.getKey().getElement().getName().equals(name))
+                return diagram.getValue();
+        }
 
-        return seqDiagrams.get(index).getValue();
+        return null;
     }
 
     public UMLElement getSeqEntity(int index) {
