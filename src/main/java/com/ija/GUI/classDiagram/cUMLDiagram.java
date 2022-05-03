@@ -12,6 +12,7 @@ import java.util.Deque;
 import java.util.List;
 
 import com.ija.Application.App;
+import com.ija.GUI.MainWindowController;
 import com.ija.GUI.UMLElement;
 import com.ija.backend.diagram.ClassDiagram;
 import com.ija.backend.diagram.ClassRelation;
@@ -20,6 +21,7 @@ import com.ija.backend.diagramObject.UMLClass;
 import com.ija.backend.diagramObject.UMLInterface;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 
 public class cUMLDiagram extends UMLElement {
     private Label name;
@@ -198,6 +200,11 @@ public class cUMLDiagram extends UMLElement {
     @Override
     public void updateContent() {
         name.setText(getElement().getName());
+    }
+
+    @Override
+    public void removeSelf(Pane fromPane) {
+        ((MainWindowController)App.getLoader().getController()).removeClassDiagram();
     }
 
     @Override

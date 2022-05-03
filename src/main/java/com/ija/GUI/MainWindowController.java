@@ -97,6 +97,7 @@ public class MainWindowController implements Initializable {
         diagramName.setText(null);
         diagramTable.setCenter(null);
         editTable.setCenter(null);
+        pane.setCenter(null);
         handler = null;
     }
 
@@ -107,6 +108,11 @@ public class MainWindowController implements Initializable {
                                                                 .orElse(null);
         handler.addSequence(diagram, diagramName);
         switchSeqDiagram(name);
+    }
+
+    public void removeClassDiagram() {
+        handler = null;
+        closeDiagram();
     }
 
     public void removeSeqDiagram(SeqDiagram diagram) {
@@ -169,7 +175,6 @@ public class MainWindowController implements Initializable {
         if (App.getClassDiagram() == null)
             return;
 
-        // TODO probably clean "canvas"
         if (App.isSaved()) {
             closeDiagram();
         } else {
