@@ -181,6 +181,14 @@ public class App extends Application {
         undoStack.clear();
     }
 
+    public static void closeDiagram() {
+        classDiagram= null;
+        currentDiagram = null;
+        selectedElement = null;
+        undoStack = new ArrayDeque<>();
+        isSaved = true;
+    }
+
     private static void updateEditPane() {
         BorderPane diagramTable = ((MainWindowController)getLoader().getController()).diagramTable;
         BorderPane editTable = ((MainWindowController)getLoader().getController()).editTable;

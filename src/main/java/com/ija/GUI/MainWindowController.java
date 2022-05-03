@@ -17,6 +17,7 @@ import com.ija.backend.jsonHandler.Saver;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -94,6 +95,7 @@ public class MainWindowController implements Initializable {
     }
 
     private void closeDiagram() {
+        App.closeDiagram();
         diagramName.setText(null);
         diagramTable.setCenter(null);
         editTable.setCenter(null);
@@ -241,6 +243,14 @@ public class MainWindowController implements Initializable {
     @FXML
     protected void undo(ActionEvent event) {
         App.undo();
+    }
+
+    @FXML
+    protected void openClassDiagram(Event event) {
+        if (App.getClassDiagram() == null)
+            return;
+
+        setPane(handler.getClassEntity(), handler.getClassPane());
     }
 
     public void switchSeqDiagram(String name) {
