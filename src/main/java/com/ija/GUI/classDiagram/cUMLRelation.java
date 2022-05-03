@@ -124,8 +124,11 @@ public class cUMLRelation implements GraphicInterface {
         updateContent();
     }
     
-    public void deleteMe() {
-        
+    public void addToPane(Pane toPane) {
+        toPane.getChildren().add(line);
+        toPane.getChildren().add(name);
+        line.toBack();
+        name.toBack();
     }
 
     @Override

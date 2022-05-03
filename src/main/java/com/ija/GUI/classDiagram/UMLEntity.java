@@ -269,6 +269,14 @@ public class UMLEntity extends UMLElement {
     }
 
     @Override
+    public void removeSelf(Pane fromPane) {
+        if (getType() == ElementType.CLASS)
+            ((cUMLDiagram)getUMLParent()).removeClass(this);
+        else
+            ((cUMLDiagram)getUMLParent()).removeInterface(this);
+    }
+
+    @Override
     public void addUndo() {
         updateContent();
         undo_stack.addFirst(UndoType.others);

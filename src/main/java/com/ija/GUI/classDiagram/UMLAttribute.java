@@ -7,6 +7,7 @@ import com.ija.GUI.UMLElement;
 import com.ija.backend.diagramObject.Attribute;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
@@ -64,7 +65,8 @@ public class UMLAttribute extends UMLElement {
         updateContent();
     }
 
-    public void deleteMe() {
+    @Override
+    public void removeSelf(Pane fromPane) {
         if (getType() == ElementType.VARIABLE) {
             ((UMLEntity)getUMLParent()).removeVariable(this);
         } else {
