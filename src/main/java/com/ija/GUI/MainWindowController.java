@@ -43,7 +43,6 @@ public class MainWindowController implements Initializable {
     @FXML public BorderPane pane;
     @FXML ScrollPane scrollPane;
     private diagramHandler handler;
-    private Pane currentPane;
 
     private String currentPath = "";
 
@@ -60,18 +59,19 @@ public class MainWindowController implements Initializable {
     }
 
     public Pane getCurrentPane() {
-        return currentPane;
+        return (Pane)pane.getCenter();
     }
 
     public Pair<Double, Double> getTopLeft() {
-        double y = scrollPane.getVvalue() * currentPane.getHeight() - scrollPane.getHeight() / 2;
-        double x = scrollPane.getHvalue() * currentPane.getWidth() - scrollPane.getWidth() / 2;
+        double y = scrollPane.getVvalue() * getCurrentPane().getHeight() - scrollPane.getHeight() / 2;
+        double x = scrollPane.getHvalue() * getCurrentPane().getWidth() - scrollPane.getWidth() / 2;
         return new Pair<Double,Double>(y, x);
     }
 
     private void setPane(UMLElement entity, Pane newPane) {
+        App.setCurrentDiagram(entity);
         pane.setCenter(newPane);
-        currentPane = newPane;
+        entity.updateContent();
     }
 
     private void loadDiagram(ClassDiagram diagram) {
@@ -223,6 +223,6 @@ public class MainWindowController implements Initializable {
     }
 
     public void switchSeqDiagram(String name) {
-        pane.setCenter(handler.getSeqPane(name));
+        setPane(handler.getSeqEntity(name), handler.getSeqPane(name));
     }
 }

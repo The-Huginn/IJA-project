@@ -141,10 +141,12 @@ public class diagramHandler {
         return null;
     }
 
-    public UMLElement getSeqEntity(int index) {
-        if (index < 0 || index >= seqDiagrams.size())
-            return null;
+    public UMLElement getSeqEntity(String name) {
+        for (Pair<sUMLDiagram, Pane> diagram : seqDiagrams) {
+            if (diagram.getKey().getElement().getName().equals(name))
+                return diagram.getKey();
+        }
 
-        return seqDiagrams.get(index).getKey();
+        return null;
     }
 }
