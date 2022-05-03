@@ -25,6 +25,7 @@ public class cUMLRelation implements GraphicInterface {
     private static final String[] colors = {" blue;", " cyan;", " orange;", " black;", " pink;"};
 
     Deque<UndoType> undo_stack = new ArrayDeque<>();
+    
     private enum UndoType {
         others
     }
@@ -100,12 +101,15 @@ public class cUMLRelation implements GraphicInterface {
 
     @Override
     public void unselect() {
-        line.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
-        name.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
+        updateContent();
     }
 
     @Override
-    public void updateContent() {}
+    public void updateContent() {
+        line.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
+        name.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
+        name.setText(element.getName());
+    }
 
     @Override
     public void addUndo() {

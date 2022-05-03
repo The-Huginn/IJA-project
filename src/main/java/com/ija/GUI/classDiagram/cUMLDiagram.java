@@ -235,6 +235,7 @@ public class cUMLDiagram extends UMLElement {
         UndoType type = undo_stack.pop();
 
         super.undo();
+        updateContent();
 
         if (type == UndoType.removeEntity) {
             App.getCurrentPane().getChildren().add(undo_removes.pop());

@@ -187,7 +187,7 @@ public class EditTableController implements Initializable {
             ClassRelation relation = (ClassRelation) ((cUMLRelation)App.getSelected()).getElement();
             Pair<UMLObject, Integer> rel = relation.getFirst();
             if (!relation.setFirst(rel.getKey(), ClassRelation.getCardinality(startComboBox.getValue())))
-                startComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
+                startComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             else {
                 startComboBox.setStyle(null);
                 App.getSelected().updateContent();
@@ -207,7 +207,7 @@ public class EditTableController implements Initializable {
             ClassRelation relation = (ClassRelation) ((cUMLRelation) App.getSelected()).getElement();
             Pair<UMLObject, Integer> rel = relation.getSecond();
             if (!relation.setSecond(rel.getKey(), ClassRelation.getCardinality(startComboBox.getValue())))
-                startComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
+                startComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             else {
                 startComboBox.setStyle(null);
                 App.getSelected().updateContent();
@@ -226,7 +226,7 @@ public class EditTableController implements Initializable {
         try {
             ClassRelation relation = (ClassRelation) ((cUMLRelation) App.getSelected()).getElement();
             if (!relation.setType(ClassRelEnum.valueOf(relationComboBox.getValue())))
-                relationComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;"); // TODO test if this works
+                relationComboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             else {
                 relationComboBox.setStyle(null);
                 App.getSelected().updateContent();
