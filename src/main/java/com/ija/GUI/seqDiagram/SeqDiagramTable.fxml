@@ -26,7 +26,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </ComboBox>
-            <Spinner fx:id="instanceNumber" onMouseClicked="#clearStyle">
+            <Spinner fx:id="instanceNumber">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin>
