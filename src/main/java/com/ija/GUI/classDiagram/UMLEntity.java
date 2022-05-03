@@ -317,11 +317,13 @@ public class UMLEntity extends UMLElement {
     private void updateRelations() {
         for (cUMLRelation relation : ((cUMLDiagram)App.getCurrentDiagram()).getRelations()) {
             if (((Relation)relation.getElement()).getFirst().getKey() == getElement()) {
-                relation.drawStart(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
+                // relation.drawStart(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
+                relation.drawStart(getLayoutY(), getLayoutX());
             }
             
             if (((Relation)relation.getElement()).getSecond().getKey() == getElement()) {
-                relation.drawEnd(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
+                // relation.drawEnd(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
+                relation.drawEnd(getLayoutY(), getLayoutX());
             }
         }
     }

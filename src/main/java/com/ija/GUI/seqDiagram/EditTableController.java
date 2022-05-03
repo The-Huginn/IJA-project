@@ -57,6 +57,7 @@ public class EditTableController implements Initializable{
             newNameField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         else {
             newNameField.setStyle(null);
+            App.getSelected().updateContent();
             App.addUndo();
         }
     }

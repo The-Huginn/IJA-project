@@ -10,6 +10,7 @@ import com.ija.backend.diagram.ClassRelation;
 import com.ija.backend.diagramObject.Element;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +23,8 @@ public class cUMLRelation implements GraphicInterface {
 
     private Line line;
     private Label name;
+    private Label start;
+    private Label end;
     private static final String[] colors = {" blue;", " cyan;", " orange;", " black;", " pink;"};
 
     Deque<UndoType> undo_stack = new ArrayDeque<>();
@@ -39,30 +42,28 @@ public class cUMLRelation implements GraphicInterface {
         line.setStartX(x);
         line.setStartY(y);
 
-        name = new Label(element.getName());
+        name = new Label();
+        start = new Label();
+        end = new Label();
 
-        line.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY)
-                    App.setSelected(cUMLRelation.this);
-            }
-        });
+        setListener(line);
+        setListener(name);
+        setListener(start);
+        setListener(end);
 
-        name.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY)
-                    App.setSelected(cUMLRelation.this);
-            }
-        });
-
-        parentPane.getChildren().add(line);
-        parentPane.getChildren().addAll(name);        
-        name.toBack();
-        line.toBack();
+        addToPane(parentPane);
 
         updateContent();
+    }
+
+    private void setListener(Node node) {
+        node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY)
+                    App.setSelected(cUMLRelation.this);
+            }
+        });
     }
 
     public void drawEnd(double y, double x) {
@@ -70,6 +71,8 @@ public class cUMLRelation implements GraphicInterface {
         line.setEndX(x);
         name.setLayoutY((line.getEndY() + line.getStartY()) / 2);
         name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
+        end.setLayoutY(y);
+        end.setLayoutX(x);
     }
 
     public void drawStart(double y, double x) {
@@ -77,6 +80,8 @@ public class cUMLRelation implements GraphicInterface {
         line.setStartX(x);
         name.setLayoutY((line.getEndY() + line.getStartY()) / 2);
         name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
+        start.setLayoutX(x);
+        start.setLayoutY(y);
     }
 
     @Override
@@ -97,6 +102,8 @@ public class cUMLRelation implements GraphicInterface {
     public void select() {
         line.setStyle("-fx-stroke: yellow");
         name.setStyle("-fx-text-fill: yellow");
+        start.setStyle("-fx-text-fill: yellow");
+        end.setStyle("-fx-text-fill: yellow");
     }
 
     @Override
@@ -108,7 +115,11 @@ public class cUMLRelation implements GraphicInterface {
     public void updateContent() {
         line.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         name.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
+        start.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
+        end.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         name.setText(element.getName());
+        start.setText(ClassRelation.getCardinality(element.getFirst().getValue()));
+        end.setText(ClassRelation.getCardinality(element.getSecond().getValue()));
     }
 
     @Override
@@ -129,10 +140,11 @@ public class cUMLRelation implements GraphicInterface {
     }
     
     public void addToPane(Pane toPane) {
-        toPane.getChildren().add(line);
-        toPane.getChildren().add(name);
+        toPane.getChildren().addAll(line, name, start, end);
         line.toBack();
         name.toBack();
+        start.toFront();
+        end.toFront();
     }
 
     @Override
@@ -147,8 +159,7 @@ public class cUMLRelation implements GraphicInterface {
     }
 
     public void removeFromPane(Pane fromPane) {
-        fromPane.getChildren().remove(line);
-        fromPane.getChildren().remove(name);
+        fromPane.getChildren().removeAll(line, name, start, end);
     }
 
     @Override
