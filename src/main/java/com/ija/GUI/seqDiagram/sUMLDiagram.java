@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.util.Pair;
 
 public class sUMLDiagram extends UMLElement {
     private Label name;
@@ -29,7 +30,7 @@ public class sUMLDiagram extends UMLElement {
     public static int SPACING = 50;
 
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
-    private Deque<UMLInstance> undo_removes = new ArrayDeque<>();
+    private Deque<Pair<UMLInstance, Integer>> undo_removes = new ArrayDeque<>();
     private Deque<List<sUMLRelation>> undo_relations = new ArrayDeque<>();
     private List<sUMLRelation> relations = new ArrayList<>();
 
@@ -126,7 +127,7 @@ public class sUMLDiagram extends UMLElement {
         header.setLayoutY(0);
 
         undo_stack.addFirst(UndoType.addInstance);
-        undo_removes.addFirst(newEntity);
+        undo_removes.addFirst(new Pair<UMLInstance,Integer>(newEntity, header.getChildren().indexOf(newEntity)));
         App.addClearUndo();
 
         return true;
@@ -138,21 +139,10 @@ public class sUMLDiagram extends UMLElement {
      */
     public void removeInstance(UMLInstance entity) {
 
-        header.getChildren().add(entity);
-
         SeqDiagram diagram = ((SeqDiagram)getElement());
         for (int i = 0; i < diagram.getInstances().size(); i++) {
             if (diagram.getInstances().get(i).getKey() == entity.getElement() &&
                 diagram.getInstances().get(i).getValue() == entity.getInstanceNumber()) {
-
-                List<sUMLRelation> remove_rels = new ArrayList<>();
-                for (sUMLRelation rel : relations) {
-                    if (((SeqRelation)rel.getElement()).getFirst().getKey() == entity.getElement() ||
-                    ((SeqRelation)rel.getElement()).getSecond().getKey() == entity.getElement()) {
-                        remove_rels.add(rel);
-                        rel.removeSelf(App.getCurrentPane());
-                    }
-                }
 
                 diagram.removeInstance(i);
                 removeEntityWithRels(entity);
@@ -178,8 +168,11 @@ public class sUMLDiagram extends UMLElement {
         }
 
         undo_stack.addFirst(UndoType.removeInstance);
-        undo_removes.addFirst(entity);
+        undo_removes.addFirst(new Pair<UMLInstance,Integer>(entity, header.getChildren().indexOf(entity)));
         undo_relations.addFirst(remove_rels);
+
+        header.getChildren().remove(entity);
+
         App.getCurrentPane().getChildren().remove(entity);
         App.setSelected(this);
         App.addClearUndo();
@@ -214,7 +207,8 @@ public class sUMLDiagram extends UMLElement {
         updateContent();
 
         if (type == UndoType.removeInstance) {
-            header.getChildren().add(undo_removes.pop());
+            Pair<UMLInstance, Integer> pair = undo_removes.pop();
+            header.getChildren().add(pair.getValue(), pair.getKey());
             List<sUMLRelation> top = undo_relations.pop();
 
             for (sUMLRelation rel : top) {
@@ -222,7 +216,7 @@ public class sUMLDiagram extends UMLElement {
                 relations.add(rel);
             }
         } else if (type == UndoType.addInstance) {
-            header.getChildren().remove(undo_removes.pop());
+            header.getChildren().remove(undo_removes.pop().getKey());
         } else if (type == UndoType.removeRelation) {
             sUMLRelation top = (undo_relations.pop()).get(0);
             top.addToPane(App.getCurrentPane());
