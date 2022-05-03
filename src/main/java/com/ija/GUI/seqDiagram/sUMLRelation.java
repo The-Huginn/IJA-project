@@ -1,6 +1,7 @@
 package com.ija.GUI.seqDiagram;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 import com.ija.Application.App;
@@ -75,7 +76,7 @@ public class sUMLRelation implements GraphicInterface {
     public void drawEnd(double y, double x) {
         line.setEndY(y);
         line.setEndX(x);
-        name.setLayoutY((line.getEndY() + line.getStartY()) / 2 - 50);
+        name.setLayoutY((line.getEndY() + line.getStartY()) / 2 - 20);
         name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
         note.setLayoutY((line.getEndY() + line.getStartY()) / 2);
         note.setLayoutX((line.getEndX() + line.getStartX()) / 2);
@@ -84,7 +85,7 @@ public class sUMLRelation implements GraphicInterface {
     public void drawStart(double y, double x) {
         line.setStartY(y);
         line.setStartX(x);
-        name.setLayoutY((line.getEndY() + line.getStartY()) / 2 - 50);
+        name.setLayoutY((line.getEndY() + line.getStartY()) / 2 - 20);
         name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
         note.setLayoutY((line.getEndY() + line.getStartY()) / 2);
         note.setLayoutX((line.getEndX() + line.getStartX()) / 2);
@@ -105,15 +106,11 @@ public class sUMLRelation implements GraphicInterface {
     }
 
     public void removeFromPane(Pane fromPane) {
-        fromPane.getChildren().remove(line);
-        fromPane.getChildren().remove(name);
-        fromPane.getChildren().remove(note);
+        fromPane.getChildren().removeAll(Arrays.asList(line, name, note));
     }
 
     public void addToPane(Pane toPane) {
-        toPane.getChildren().add(line);
-        toPane.getChildren().addAll(name);
-        toPane.getChildren().addAll(note);
+        toPane.getChildren().addAll(Arrays.asList(line, name, note));
         
         name.toBack();
         line.toBack();

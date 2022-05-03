@@ -5,9 +5,10 @@
  */
 package com.ija.GUI.seqDiagram;
 
-import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import com.ija.Application.App;
@@ -17,28 +18,29 @@ import com.ija.backend.diagram.SeqRelation.SeqRelEnum;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-public class EditTableController {
+public class EditTableController implements Initializable{
     @FXML TextField newNameField;
     @FXML ComboBox<String> startComboBox;
     @FXML ComboBox<String> endComboBox;
     @FXML ComboBox<String> relationComboBox;
 
-    public EditTableController() {
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {   
+        
         if (App.containsMethod("setFirst")) {
             try {
                 List<String> relations = Arrays.asList(SeqRelEnum.values())
-                                        .stream()
-                                        .map(f -> f.toString())
-                                        .collect(Collectors.toList());
+                        .stream()
+                        .map(f -> f.toString())
+                        .collect(Collectors.toList());
                 relationComboBox.setItems(FXCollections.observableArrayList(relations));
-                String current = ((SeqRelEnum)App.getSelected().getClass().getMethod("getType").invoke(App.getSelected())).toString();
+                String current = ((SeqRelation)App.getSelected().getElement()).getType().toString();
                 relationComboBox.setValue(current);
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                    | NoSuchMethodException | SecurityException e) {
+            } catch (IllegalArgumentException | SecurityException e) {
                 e.printStackTrace();
             }
         }
@@ -66,5 +68,10 @@ public class EditTableController {
             App.getSelected().updateContent();
             App.addUndo();
         }
+    }
+
+    @FXML
+    protected void deleteAttribute(Event event) {
+        App.getSelected().removeSelf(App.getCurrentPane());
     }
 }
