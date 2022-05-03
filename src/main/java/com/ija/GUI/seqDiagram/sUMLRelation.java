@@ -28,8 +28,10 @@ public class sUMLRelation implements GraphicInterface {
     private static final String[] colors = {" blue;", " cyan;", " orange;", " black;", " pink;"};
 
     Deque<UndoType> undo_stack = new ArrayDeque<>();
-    // TODO add moving of the line
+    private Deque<Double> undo_moves = new ArrayDeque<>();
+
     private enum UndoType {
+        move,
         others
     }
 
@@ -39,45 +41,66 @@ public class sUMLRelation implements GraphicInterface {
         this.parent = parent;
         
         line = new Line();
-        line.setStartY(y);
-        line.setEndY(y);
 
         name = new Label();
         note = new Label();
 
-        line.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY)
-                    App.setSelected(sUMLRelation.this);
-            }
-        });
-
-        name.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY)
-                    App.setSelected(sUMLRelation.this);
-            }
-        });
-
-        note.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY)
-                    App.setSelected(sUMLRelation.this);
-            }
-        });
+        setListeners(line);
+        setListeners(name);
+        setListeners(note);
 
         addToPane(parentPane);
 
         updatePosition();
+        drawEnd(y);
+    }
+
+    private void setListeners(Node node) {
+        // Inspired by https://stackoverflow.com/a/10689478
+        final Valid valid = new Valid();
+        node.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    valid.valid = true;
+                    undo_moves.addFirst(line.getStartY());
+                    App.setSelected(sUMLRelation.this);
+                }
+            }
+        });
+        node.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    valid.valid = false;
+                    // If we just selected we do not want to undo this move
+                    if (undo_moves.getFirst() == line.getStartY()) {
+                        undo_moves.pop();
+                    } else {
+                        undo_stack.addFirst(UndoType.move);
+                        App.addClearUndo();
+                    }
+                }
+            }
+        });
+        node.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                int offset = 80;
+                if (valid.valid) {
+                    drawEnd(Math.min(Math.max(mouseEvent.getSceneY(), offset), ((Pane)line.getParent()).getHeight()));
+                }
+            }
+        });
     }
 
     /**
      * @note calls @see updateContent
      */
     public void updatePosition() {
+
         for (Node node : parent.getHeader()) {
             if (!(node instanceof UMLInstance))
                 continue;
@@ -102,11 +125,12 @@ public class sUMLRelation implements GraphicInterface {
     }
 
     public void drawEnd(double y) {
+        line.setStartY(y);
         line.setEndY(y);
         name.setLayoutY((line.getEndY() + line.getStartY()) / 2 - 20);
-        name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
+        name.setLayoutX((line.getEndX() + line.getStartX()) / 2 - name.getWidth() / 2);
         note.setLayoutY((line.getEndY() + line.getStartY()) / 2);
-        note.setLayoutX((line.getEndX() + line.getStartX()) / 2);
+        note.setLayoutX((line.getEndX() + line.getStartX()) / 2 - note.getWidth() / 2);
     }
 
     @Override
@@ -128,10 +152,10 @@ public class sUMLRelation implements GraphicInterface {
     }
 
     public void addToPane(Pane toPane) {
-        toPane.getChildren().addAll(Arrays.asList(line, name, note));
+        toPane.getChildren().addAll(line, name, note);
         
-        name.toBack();
         line.toBack();
+        name.toBack();
         note.toBack();
     }
 
@@ -183,9 +207,16 @@ public class sUMLRelation implements GraphicInterface {
         if (undo_stack.isEmpty())
             return;
 
-        undo_stack.pop();
+        UndoType type = undo_stack.pop();
 
-        element.undo();
+        if (type != UndoType.move) {
+            element.undo();
+        }
+
+        if (type == UndoType.move) {
+            drawEnd(undo_moves.pop());
+        }
+
         updateContent();
     }
 
@@ -194,4 +225,5 @@ public class sUMLRelation implements GraphicInterface {
         return ElementType.SEQ_RELATION;
     }
     
+    class Valid {boolean valid = false;}
 }

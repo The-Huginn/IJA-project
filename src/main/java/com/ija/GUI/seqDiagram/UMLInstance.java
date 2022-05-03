@@ -78,7 +78,6 @@ public class UMLInstance extends Label implements GraphicInterface {
 
     @Override
     public ElementType getType() {
-        // TODO Auto-generated method stub
         return ElementType.INSTANCE;
     }
     
