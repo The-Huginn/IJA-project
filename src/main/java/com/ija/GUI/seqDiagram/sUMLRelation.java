@@ -97,25 +97,27 @@ public class sUMLRelation implements GraphicInterface {
     }
 
     /**
-     * @note calls @see updateContent
+     * @note calls @see updateContent. This function searches for Label from UMLInstance
      */
     public void updatePosition() {
 
-        for (Node node : parent.getHeader()) {
-            if (!(node instanceof UMLInstance))
+        for (Node node : parent.getHeader().getChildren()) {
+            if (!(node instanceof Label))   // we are searching for label from UMLInstance
                 continue;
 
-            UMLInstance instance = (UMLInstance)node;
+            Label instance = (Label)node;
+            int instanceNumber = Integer.parseInt(instance.getText().substring(instance.getText().lastIndexOf(':') + 2));
+            String name = instance.getText().substring(0, instance.getText().lastIndexOf(':') - 1);
 
             // starts here
-            if (element.getFirst().getKey() == instance.getElement() && element.getFirst().getValue() == instance.getInstanceNumber()) {
-                int index = parent.getHeader().indexOf(node);
+            if (element.getFirst().getKey().getName().equals(name) && element.getFirst().getValue() == instanceNumber) {
+                int index = parent.getHeader().getChildren().indexOf(node);
                 int x = index * (sUMLDiagram.SPACING + UMLInstance.WIDTH) + UMLInstance.WIDTH / 2;
                 line.setStartX(x);
             }
             
-            if (element.getSecond().getKey() == instance.getElement() && element.getSecond().getValue() == instance.getInstanceNumber()) {
-                int index = parent.getHeader().indexOf(node);
+            if (element.getSecond().getKey().getName().equals(name) && element.getSecond().getValue() == instanceNumber) {
+                int index = parent.getHeader().getChildren().indexOf(node);
                 int x = index * (sUMLDiagram.SPACING + UMLInstance.WIDTH) + UMLInstance.WIDTH / 2;
                 line.setEndX(x);
             }
@@ -166,9 +168,9 @@ public class sUMLRelation implements GraphicInterface {
 
     @Override
     public void select() {
-        line.setStyle("-fx-stroke: yellow");
-        name.setStyle("-fx-text-fill: yellow");
-        note.setStyle("-fx-text-fill: yellow");
+        line.setStyle("-fx-stroke: #c3de49");
+        name.setStyle("-fx-text-fill: #c3de49");
+        note.setStyle("-fx-text-fill: #c3de49");
     }
 
     @Override
@@ -183,6 +185,7 @@ public class sUMLRelation implements GraphicInterface {
         line.setStyle("-fx-stroke:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
         name.setStyle("-fx-text-fill:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
         note.setStyle("-fx-text-fill:" + colors[((SeqRelation)getElement()).getType().ordinal()]);
+        drawEnd(line.getEndY());
     }
 
     @Override

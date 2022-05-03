@@ -11,25 +11,41 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
-public class UMLInstance extends Label implements GraphicInterface {
+public class UMLInstance implements GraphicInterface {
     private Element element;
+    private Label label;
+    private Line line;
     private int instanceNumber;
     public static int WIDTH = 200;
+    private static int HEIGHT = 50;
     private final sUMLDiagram parent;
     
-    public UMLInstance(Element element, sUMLDiagram parent, int number) {
-        super(element.getName() + " : " + number);
+    public UMLInstance(Element element, sUMLDiagram parent, Pane parentPane, int number, int x) {
+        label = new Label(element.getName() + " : " + number);
+        line = new Line();
 
         this.parent = parent;
         this.element = element;
         this.instanceNumber = number;
-        setPrefWidth(WIDTH);
-        setPadding(new Insets(10, 10, 10, 10));
-        setAlignment(Pos.TOP_CENTER);
-        setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #99bbf2;");
+        
+        line.setStartX(x);
+        line.setStartY(HEIGHT);
+        line.setEndX(x);
+        line.setEndY(parentPane.getPrefHeight());
+        line.toBack();
+        
+        parent.getHeader().getChildren().add(label);
+        parentPane.getChildren().add(line);
 
-        setOnMouseClicked(new EventHandler<MouseEvent>() {
+        label.setPrefSize(WIDTH, HEIGHT);
+        label.setPadding(new Insets(10, 10, 10, 10));
+        label.setAlignment(Pos.TOP_CENTER);
+        label.setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #99bbf2; -fx-opacity: 1;");
+        label.toFront();
+
+        label.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 App.setSelected(UMLInstance.this);
@@ -43,12 +59,12 @@ public class UMLInstance extends Label implements GraphicInterface {
 
     @Override
     public void select() {
-        setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #7796c9;");
+        label.setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #7796c9;");
     }
 
     @Override
     public void unselect() {
-        setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #99bbf2;");
+        label.setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #99bbf2;");
         
     }
 
@@ -69,6 +85,20 @@ public class UMLInstance extends Label implements GraphicInterface {
     @Override
     public void removeSelf(Pane fromPane) {
         parent.removeInstance(this);
+    }
+
+    public void removeFromPane() {
+        parent.getHeader().getChildren().remove(label);
+        App.getCurrentPane().getChildren().remove(line);
+    }
+
+    public void addToPane(int index) {
+        parent.getHeader().getChildren().add(index, label);
+        App.getCurrentPane().getChildren().add(line);
+    }
+
+    public Label getLabel() {
+        return label;
     }
 
     @Override

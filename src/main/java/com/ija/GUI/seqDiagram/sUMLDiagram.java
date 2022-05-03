@@ -18,8 +18,6 @@ import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagramObject.UMLClass;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -34,6 +32,7 @@ public class sUMLDiagram extends UMLElement {
     private Deque<Pair<UMLInstance, Integer>> undo_removes = new ArrayDeque<>();
     private Deque<List<sUMLRelation>> undo_relations = new ArrayDeque<>();
     private List<sUMLRelation> relations = new ArrayList<>();
+    private final Pane parentPane;
 
     private enum UndoType {
         addInstance,
@@ -47,12 +46,23 @@ public class sUMLDiagram extends UMLElement {
         super(diagram, parent, ElementType.SEQ_DIAGRAM);
 
         this.name = name;
+        this.parentPane = parentPane;
         header = new HBox();
         header.setLayoutX(0);
         header.setLayoutY(0);
         header.setSpacing(SPACING);
+        header.toFront();
 
         parentPane.getChildren().add(header);
+    }
+
+    /**
+     * @brief Calculates the offset of Instance on index place
+     * @param index
+     * @return
+     */
+    private int getX(int index) {
+        return index * (sUMLDiagram.SPACING + UMLInstance.WIDTH) + UMLInstance.WIDTH / 2;
     }
 
     /**
@@ -63,8 +73,8 @@ public class sUMLDiagram extends UMLElement {
         relations.add(relation);
     }
 
-    public ObservableList<Node> getHeader() {
-        return header.getChildren();
+    public HBox getHeader() {
+        return header;
     }
 
     /**
@@ -100,15 +110,12 @@ public class sUMLDiagram extends UMLElement {
 
     /**
      * @brief This function should be called upon adding existing instance
+     * @param instance
      * @param name
-     * @param y
-     * @param x
      * @return
      */
     public boolean addInstance(UMLClass instance, int number) {
-        UMLInstance newEntity = new UMLInstance(instance, this, number);
-
-        header.getChildren().add(newEntity);
+        new UMLInstance(instance, this, parentPane, number, getX(header.getChildren().size()));
 
         return true;
     }
@@ -121,14 +128,10 @@ public class sUMLDiagram extends UMLElement {
      * @return
      */
     public boolean addNewInstance(UMLClass instance, int number) {
-        UMLInstance newEntity = new UMLInstance(instance, this, number);
-
-        header.getChildren().add(newEntity);
-        header.setLayoutX(0);
-        header.setLayoutY(0);
+        UMLInstance newEntity = new UMLInstance(instance, this, parentPane, number, getX(header.getChildren().size()));
 
         undo_stack.addFirst(UndoType.addInstance);
-        undo_removes.addFirst(new Pair<UMLInstance,Integer>(newEntity, header.getChildren().indexOf(newEntity)));
+        undo_removes.addFirst(new Pair<UMLInstance,Integer>(newEntity, header.getChildren().indexOf(newEntity.getLabel())));
         App.addClearUndo();
 
         return true;
@@ -169,12 +172,11 @@ public class sUMLDiagram extends UMLElement {
         }
 
         undo_stack.addFirst(UndoType.removeInstance);
-        undo_removes.addFirst(new Pair<UMLInstance,Integer>(entity, header.getChildren().indexOf(entity)));
+        undo_removes.addFirst(new Pair<UMLInstance,Integer>(entity, header.getChildren().indexOf(entity.getLabel())));
         undo_relations.addFirst(remove_rels);
 
-        header.getChildren().remove(entity);
+        entity.removeFromPane();
 
-        App.getCurrentPane().getChildren().remove(entity);
         App.setSelected(this);
         App.addClearUndo();
     }
@@ -221,7 +223,7 @@ public class sUMLDiagram extends UMLElement {
 
         if (type == UndoType.removeInstance) {
             Pair<UMLInstance, Integer> pair = undo_removes.pop();
-            header.getChildren().add(pair.getValue(), pair.getKey());
+            pair.getKey().addToPane(pair.getValue());
             List<sUMLRelation> top = undo_relations.pop();
 
             for (sUMLRelation rel : top) {
@@ -229,7 +231,7 @@ public class sUMLDiagram extends UMLElement {
                 relations.add(rel);
             }
         } else if (type == UndoType.addInstance) {
-            header.getChildren().remove(undo_removes.pop().getKey());
+            undo_removes.pop().getKey().removeFromPane();
         } else if (type == UndoType.removeRelation) {
             sUMLRelation top = (undo_relations.pop()).get(0);
             top.addToPane(App.getCurrentPane());

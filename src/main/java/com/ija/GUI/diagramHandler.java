@@ -41,7 +41,7 @@ public class diagramHandler {
      */
     private Pane createPane() {
         Pane newPane = new Pane();
-        newPane.setPrefSize(1000, 1000);
+        newPane.setPrefSize(10000, 10000);
         newPane.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -94,7 +94,6 @@ public class diagramHandler {
             seqDiagrams.add(sPane);
             for (Pair<UMLClass, Integer> pair : seqDiagram.getInstances()) {
                 sPane.getKey().addInstance(pair.getKey(), pair.getValue());
-                // new UMLInstance(pair.getKey(), sPane.getKey(), pair.getValue());
             }
 
             for (Relation relation : seqDiagram.getRelations()) {
