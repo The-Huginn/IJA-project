@@ -6,6 +6,7 @@
 package com.ija.backend.jsonHandler;
 
 import com.ija.backend.diagram.ClassDiagram;
+import com.ija.backend.diagramObject.Type;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -63,6 +64,7 @@ public class Saver {
         JSONObject json = new JSONObject(content);
 
         ClassDiagram diagram = new ClassDiagram("");
+        Type.setParent(diagram);
 
         if (diagram.setJSON(json))
             return diagram;

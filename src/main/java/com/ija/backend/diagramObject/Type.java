@@ -36,9 +36,7 @@ public class Type extends Element{
         removeType
     }
 
-    public Type() {
-        
-    }
+    public Type() {}
 
     /**
      * @param name of new Type
@@ -67,6 +65,10 @@ public class Type extends Element{
         instances.put(newName, this);
 
         return super.setName(newName);
+    }
+
+    public static void setParent(ClassDiagram newParent) {
+        parent = newParent;
     }
 
     /**

@@ -133,11 +133,10 @@ public class EditTableController implements Initializable {
             return;
             
         try {
-            App.getElement().getClass().getMethod("setType", Type.class).invoke(App.getElement(), Type.getType(typeComboBox.getValue()));
+            ((Attribute)App.getElement()).setType(Type.getType(typeComboBox.getValue()));
             App.getSelected().updateContent();
             App.addUndo();
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-                | SecurityException e) {
+        } catch (IllegalArgumentException | SecurityException e) {
             e.printStackTrace();
         }
     }

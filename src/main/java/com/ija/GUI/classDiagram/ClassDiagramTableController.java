@@ -62,8 +62,12 @@ public class ClassDiagramTableController {
 
     @FXML
     protected void removeType(Event event) {
-        Type.removeType(typeComboBox.getValue());
-        fillTypes(event);
+        if (!Type.removeType(typeComboBox.getValue())) {
+            removeButton.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        } else {
+            removeButton.setStyle(null);
+            fillTypes(event);
+        }
     }
 
     @FXML
