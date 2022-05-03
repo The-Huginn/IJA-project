@@ -12,13 +12,14 @@ import javafx.scene.layout.Pane;
 public class UMLInstance extends Label implements GraphicInterface {
     private Element element;
     private int instanceNumber;
+    public static int WIDTH = 200;
     
     public UMLInstance(Element element, UMLElement parent, int number) {
         super(element.getName() + " : " + number);
 
         this.element = element;
         this.instanceNumber = number;
-        setPrefWidth(200);
+        setPrefWidth(WIDTH);
         setPadding(new Insets(10, 10, 10, 10));
         setAlignment(Pos.TOP_CENTER);
         setStyle("-fx-border-color: grey; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #99bbf2;");

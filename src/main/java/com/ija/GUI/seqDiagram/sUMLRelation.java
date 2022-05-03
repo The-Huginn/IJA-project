@@ -11,6 +11,7 @@ import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagramObject.Element;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -32,14 +33,14 @@ public class sUMLRelation implements GraphicInterface {
         others
     }
 
-    public sUMLRelation(SeqRelation element, Pane parentPane, sUMLDiagram parent, double y, double x) {
+    public sUMLRelation(SeqRelation element, Pane parentPane, sUMLDiagram parent, double y) {
 
         this.element = element;
         this.parent = parent;
         
         line = new Line();
-        line.setStartX(x);
         line.setStartY(y);
+        line.setEndY(y);
 
         name = new Label();
         note = new Label();
@@ -70,21 +71,38 @@ public class sUMLRelation implements GraphicInterface {
 
         addToPane(parentPane);
 
+        updatePosition();
+    }
+
+    /**
+     * @note calls @see updateContent
+     */
+    public void updatePosition() {
+        for (Node node : parent.getHeader()) {
+            if (!(node instanceof UMLInstance))
+                continue;
+
+            UMLInstance instance = (UMLInstance)node;
+
+            // starts here
+            if (element.getFirst().getKey() == instance.getElement() && element.getFirst().getValue() == instance.getInstanceNumber()) {
+                int index = parent.getHeader().indexOf(node);
+                int x = index * (sUMLDiagram.SPACING + UMLInstance.WIDTH) + UMLInstance.WIDTH / 2;
+                line.setStartX(x);
+            }
+            
+            if (element.getSecond().getKey() == instance.getElement() && element.getSecond().getValue() == instance.getInstanceNumber()) {
+                int index = parent.getHeader().indexOf(node);
+                int x = index * (sUMLDiagram.SPACING + UMLInstance.WIDTH) + UMLInstance.WIDTH / 2;
+                line.setEndX(x);
+            }
+        }
+
         updateContent();
     }
 
-    public void drawEnd(double y, double x) {
+    public void drawEnd(double y) {
         line.setEndY(y);
-        line.setEndX(x);
-        name.setLayoutY((line.getEndY() + line.getStartY()) / 2 - 20);
-        name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
-        note.setLayoutY((line.getEndY() + line.getStartY()) / 2);
-        note.setLayoutX((line.getEndX() + line.getStartX()) / 2);
-    }
-
-    public void drawStart(double y, double x) {
-        line.setStartY(y);
-        line.setStartX(x);
         name.setLayoutY((line.getEndY() + line.getStartY()) / 2 - 20);
         name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
         note.setLayoutY((line.getEndY() + line.getStartY()) / 2);

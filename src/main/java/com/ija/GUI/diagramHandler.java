@@ -111,8 +111,7 @@ public class diagramHandler {
             for (Relation relation : seqDiagram.getRelations()) {
                 // TODO finish this
                 SeqRelation item = (SeqRelation)relation;
-                sUMLRelation newRelation = new sUMLRelation(item, sPane.getValue(), sPane.getKey(), 100, 100);
-                newRelation.drawEnd(200, 200);
+                sUMLRelation newRelation = new sUMLRelation(item, sPane.getValue(), sPane.getKey(), 100);
                 sPane.getKey().addRelation(newRelation);
             }
         }

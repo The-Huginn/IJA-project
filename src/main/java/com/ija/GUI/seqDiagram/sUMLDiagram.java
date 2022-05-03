@@ -17,6 +17,8 @@ import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagramObject.UMLClass;
 
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -24,6 +26,7 @@ import javafx.scene.layout.Pane;
 public class sUMLDiagram extends UMLElement {
     private Label name;
     private HBox header;
+    public static int SPACING = 50;
 
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
     private Deque<UMLInstance> undo_removes = new ArrayDeque<>();
@@ -45,7 +48,7 @@ public class sUMLDiagram extends UMLElement {
         header = new HBox();
         header.setLayoutX(0);
         header.setLayoutY(0);
-        header.setSpacing(50);
+        header.setSpacing(SPACING);
 
         parentPane.getChildren().add(header);
     }
@@ -56,6 +59,10 @@ public class sUMLDiagram extends UMLElement {
      */
     public void addRelation(sUMLRelation relation) {
         relations.add(relation);
+    }
+
+    public ObservableList<Node> getHeader() {
+        return header.getChildren();
     }
 
     /**
@@ -159,6 +166,8 @@ public class sUMLDiagram extends UMLElement {
                 removeEntityWithRels(entity);
             }
         }
+
+        updateRelations();
     }
 
     private void removeEntityWithRels(UMLInstance entity) {
@@ -226,10 +235,18 @@ public class sUMLDiagram extends UMLElement {
             sUMLRelation top = (undo_relations.pop()).get(0);
             top.addToPane(App.getCurrentPane());
             relations.add(top);
+            
+            updateRelations();
         } else if (type == UndoType.addRelation) {
             sUMLRelation top = (undo_relations.pop()).get(0);
             top.removeFromPane(App.getCurrentPane());
             relations.remove(top);
+        }
+    }
+
+    private void updateRelations() {
+        for (sUMLRelation rel : relations) {
+            rel.updatePosition();
         }
     }
 }
