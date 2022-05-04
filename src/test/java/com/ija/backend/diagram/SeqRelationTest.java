@@ -106,7 +106,7 @@ public class SeqRelationTest {
 
     @Test
     public void setMethodTest() {
-        SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
+        SeqRelation relation = new SeqRelation("relation", null, classes.get(1), 0, classes.get(0), 0);
         assertTrue(relation.setMethod("method(10, \"string\")"));
         assertTrue(relation.getMethod().equals("method"));
         assertTrue(relation.checkCorrect());
@@ -145,14 +145,14 @@ public class SeqRelationTest {
     @Test
     public void oneParamTest() {
         method.setParameters(new String[] {"int"});
-        SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
+        SeqRelation relation = new SeqRelation("relation", null, classes.get(1), 0, classes.get(0), 0);
         assertTrue(relation.setMethod("method(10)"));
     }
 
     @Test
     public void zeroParamTest() {
         method.setParameters(new String[] {});
-        SeqRelation relation = new SeqRelation("relation", null, classes.get(0), 0, classes.get(1), 0);
+        SeqRelation relation = new SeqRelation("relation", null, classes.get(1), 0, classes.get(0), 0);
         assertFalse(relation.setMethod("method(10)"));   // there should be nothing between parenthesis except white spaces
         assertTrue(relation.setMethod("method(   )"));
     }

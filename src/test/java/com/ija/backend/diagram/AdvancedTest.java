@@ -197,7 +197,7 @@ public class AdvancedTest {
         seqDiagram.addInstance(thirdUmlClass, 0);
         seqDiagram.addInstance(classes.get(3), 0);
 
-        SeqRelation seqRelation = new SeqRelation("first relation", seqDiagram, thirdUmlClass, 0, classes.get(3), 0);
+        SeqRelation seqRelation = new SeqRelation("first relation", seqDiagram, classes.get(3), 0, thirdUmlClass, 0);
         seqDiagram.addRelation(seqRelation);
         
         assertTrue(seqRelation.setMethod("method(10)")); // inherited method
@@ -231,7 +231,7 @@ public class AdvancedTest {
         seqDiagram.addInstance(secondUmlClass, 0);
         seqDiagram.addInstance(classes.get(2), 0);
 
-        SeqRelation seqRelation = new SeqRelation("first relation", seqDiagram, secondUmlClass, 0, classes.get(2), 0);
+        SeqRelation seqRelation = new SeqRelation("first relation", seqDiagram, classes.get(2), 0, secondUmlClass, 0);
         seqDiagram.addRelation(seqRelation);
 
         assertTrue(seqRelation.setMethod("method(10)")); // inherited method

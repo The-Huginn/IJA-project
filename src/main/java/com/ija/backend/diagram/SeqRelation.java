@@ -389,7 +389,7 @@ public class SeqRelation extends Relation{
         int paramCount = parameters.length == 1 && parameters[0].length() == 0 ? 0 : parameters.length;
         
         if (type == SeqRelEnum.ASYNCHRONOUS || type == SeqRelEnum.SYNCHROUNOUS) {
-            return findMethod(grandParent, firstInstance, methodName, paramCount);
+            return findMethod(grandParent, secondInstance, methodName, paramCount);
         }
 
         return true;
