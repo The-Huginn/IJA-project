@@ -246,11 +246,11 @@ public class SeqRelation extends Relation{
      */
     public String getMethodString() {
         if (getType() == SeqRelEnum.CREATION) {
-            return "<<create>>";
+            return "<<create>>" + "(" + methodName + ")";
         } else if (getType() == SeqRelEnum.DESTRUCTION) {
-            return "<<destroy>>";
+            return "<<destroy>>" + "(" + methodName + ")";
         } else if (getType() == SeqRelEnum.RETURN) {
-            return "";
+            return "<<return>>" + "(" + methodName + ")";
         } else {
             return this.methodName + "(" + this.methodParams + ")";
         }
@@ -263,6 +263,13 @@ public class SeqRelation extends Relation{
      * @implNote No syntax analysis is made, operator "," cannot be passed into function
      */
     public boolean setMethod(String methodCall) {
+
+        if (getType() == SeqRelEnum.CREATION ||
+            getType() == SeqRelEnum.DESTRUCTION ||
+            getType() == SeqRelEnum.RETURN) {
+                methodName = methodCall;
+                return true;
+        }
 
         if (methodCall.charAt(methodCall.length() - 1) != ')' || methodCall.indexOf("(") == -1)
             return false;
