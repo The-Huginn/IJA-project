@@ -245,7 +245,15 @@ public class SeqRelation extends Relation{
      * @return String with method call
      */
     public String getMethodString() {
-        return this.methodName + "(" + this.methodParams + ")";
+        if (getType() == SeqRelEnum.CREATION) {
+            return "<<create>>";
+        } else if (getType() == SeqRelEnum.DESTRUCTION) {
+            return "<<destroy>>";
+        } else if (getType() == SeqRelEnum.RETURN) {
+            return "";
+        } else {
+            return this.methodName + "(" + this.methodParams + ")";
+        }
     }
 
     /**
