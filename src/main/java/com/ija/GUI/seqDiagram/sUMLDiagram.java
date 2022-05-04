@@ -14,6 +14,7 @@ import java.util.List;
 import com.ija.Application.App;
 import com.ija.GUI.MainWindowController;
 import com.ija.GUI.UMLElement;
+import com.ija.backend.diagram.Diagram;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagramObject.UMLClass;
@@ -182,7 +183,9 @@ public class sUMLDiagram extends UMLElement {
     }
 
     @Override
-    public void select() {}
+    public void select() {
+        name.setStyle(null);
+    }
 
     @Override
     public void unselect() {}
@@ -243,6 +246,14 @@ public class sUMLDiagram extends UMLElement {
             top.removeFromPane(App.getCurrentPane());
             relations.remove(top);
         }
+    }
+
+    @Override
+    public void checkCorrect() {
+        if (((Diagram)getElement()).checkCorrect())
+            return;
+
+        name.setStyle("-fx-text-fill: red;");
     }
 
     private void updateRelations() {

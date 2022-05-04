@@ -73,4 +73,7 @@ public class UMLAttribute extends UMLElement {
             ((UMLEntity)getUMLParent()).removeMethod(this);
         }
     }
+
+    @Override
+    public void checkCorrect() {}
 }

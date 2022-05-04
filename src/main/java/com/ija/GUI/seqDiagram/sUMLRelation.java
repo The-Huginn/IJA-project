@@ -7,6 +7,7 @@ import java.util.Deque;
 import com.ija.Application.App;
 import com.ija.GUI.GraphicInterface;
 import com.ija.GUI.UMLElement;
+import com.ija.backend.diagram.Relation;
 import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagramObject.Element;
 
@@ -240,6 +241,17 @@ public class sUMLRelation implements GraphicInterface {
     @Override
     public ElementType getType() {
         return ElementType.SEQ_RELATION;
+    }
+
+    @Override
+    public void checkCorrect() {
+        if (((Relation)getElement()).checkCorrect())
+            return;
+
+        line.setStyle("-fx-stroke: red;");
+        ellipse.setStyle("-fx-stroke: red; -fx-fill: red;");
+        name.setStyle("-fx-text-fill: red;");
+        note.setStyle("-fx-text-fill: red;");
     }
     
     class Valid {boolean valid = false;}

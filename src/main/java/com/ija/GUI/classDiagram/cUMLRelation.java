@@ -7,6 +7,7 @@ import com.ija.Application.App;
 import com.ija.GUI.GraphicInterface;
 import com.ija.GUI.UMLElement;
 import com.ija.backend.diagram.ClassRelation;
+import com.ija.backend.diagram.Relation;
 import com.ija.backend.diagramObject.Element;
 
 import javafx.event.EventHandler;
@@ -108,10 +109,10 @@ public class cUMLRelation implements GraphicInterface {
 
     @Override
     public void select() {
-        line.setStyle("-fx-stroke: yellow");
-        name.setStyle("-fx-text-fill: yellow");
-        start.setStyle("-fx-text-fill: yellow");
-        end.setStyle("-fx-text-fill: yellow");
+        line.setStyle("-fx-stroke: #c3de49;");
+        name.setStyle("-fx-text-fill: #c3de49;");
+        start.setStyle("-fx-text-fill: #c3de49;");
+        end.setStyle("-fx-text-fill: #c3de49;");
     }
 
     @Override
@@ -178,5 +179,16 @@ public class cUMLRelation implements GraphicInterface {
     @Override
     public ElementType getType() {
         return ElementType.CLASS_RELATION;
+    }
+
+    @Override
+    public void checkCorrect() {
+        if (((Relation)getElement()).checkCorrect())
+            return;
+
+        line.setStyle("-fx-stroke: red;");
+        name.setStyle("-fx-text-fill: red;");
+        start.setStyle("-fx-text-fill: red;");
+        end.setStyle("-fx-text-fill: red;");
     }
 }

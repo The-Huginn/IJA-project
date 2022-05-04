@@ -58,4 +58,9 @@ public interface GraphicInterface extends undoInterface {
      * @return
      */
     public ElementType getType();
+
+    /**
+     * @brief Checks if current Element or subElements are correct
+     */
+    public void checkCorrect();
 }

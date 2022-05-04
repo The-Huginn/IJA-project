@@ -111,4 +111,6 @@ public class UMLInstance implements GraphicInterface {
         return ElementType.INSTANCE;
     }
     
+    @Override
+    public void checkCorrect() {}
 }

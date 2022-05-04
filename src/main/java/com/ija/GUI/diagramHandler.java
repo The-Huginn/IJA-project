@@ -300,4 +300,14 @@ public class diagramHandler {
 
         return true;
     }
+
+    public boolean checkCorrect() {
+
+        if (App.getClassDiagram().checkCorrect())
+            return true;
+
+        
+            
+        return false;
+    }
 }

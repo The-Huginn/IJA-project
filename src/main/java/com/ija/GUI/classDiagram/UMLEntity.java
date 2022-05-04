@@ -352,6 +352,14 @@ public class UMLEntity extends UMLElement {
             }
         }
     }
+
+    @Override
+    public void checkCorrect() {
+        if (((UMLObject)getElement()).checkCorrect())
+            return;
+
+            setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: red;");
+    }
 }
 
 class Delta {

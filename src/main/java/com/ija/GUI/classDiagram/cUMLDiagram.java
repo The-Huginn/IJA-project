@@ -192,7 +192,9 @@ public class cUMLDiagram extends UMLElement {
     }
 
     @Override
-    public void select() {}
+    public void select() {
+        name.setStyle(null);
+    }
 
     @Override
     public void unselect() {}
@@ -243,5 +245,13 @@ public class cUMLDiagram extends UMLElement {
             top.removeFromPane(App.getCurrentPane());
             relations.remove(top);
         }
+    }
+
+    @Override
+    public void checkCorrect() {
+        if (((Diagram)getElement()).checkCorrect())
+            return;
+
+        name.setStyle("-fx-text-fill: red;");
     }
 }
