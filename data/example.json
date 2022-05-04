@@ -19,8 +19,170 @@
             }
         ],
         "name": "Main Sequence",
-        "coordinates": [],
-        "relations": []
+        "coordinates": [
+            132,
+            189,
+            259,
+            340,
+            414,
+            494,
+            579,
+            659,
+            739,
+            819
+        ],
+        "relations": [
+            {
+                "relationType": 0,
+                "note": "",
+                "methodParams": "\"c1\"",
+                "name": "",
+                "methodName": "createClass",
+                "first": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                },
+                "second": {
+                    "instance": "ClassDiagram",
+                    "instanceNumber": 0
+                }
+            },
+            {
+                "relationType": 3,
+                "note": "",
+                "methodParams": "\"c1\"",
+                "name": "",
+                "methodName": "c1",
+                "first": {
+                    "instance": "ClassDiagram",
+                    "instanceNumber": 0
+                },
+                "second": {
+                    "instance": "UMLCLass",
+                    "instanceNumber": 1
+                }
+            },
+            {
+                "relationType": 2,
+                "note": "",
+                "methodParams": "Missing method params",
+                "name": "",
+                "methodName": "c1",
+                "first": {
+                    "instance": "ClassDiagram",
+                    "instanceNumber": 0
+                },
+                "second": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                }
+            },
+            {
+                "relationType": 0,
+                "note": "",
+                "methodParams": "\"int\"",
+                "name": "",
+                "methodName": "classifierForName",
+                "first": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                },
+                "second": {
+                    "instance": "ClassDiagram",
+                    "instanceNumber": 0
+                }
+            },
+            {
+                "relationType": 2,
+                "note": "",
+                "methodParams": "Missing method params",
+                "name": "",
+                "methodName": "cInt",
+                "first": {
+                    "instance": "ClassDiagram",
+                    "instanceNumber": 0
+                },
+                "second": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                }
+            },
+            {
+                "relationType": 3,
+                "note": "",
+                "methodParams": "Missing method params",
+                "name": "",
+                "methodName": "\"a1\", cInt",
+                "first": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                },
+                "second": {
+                    "instance": "UMLAttribute",
+                    "instanceNumber": 1
+                }
+            },
+            {
+                "relationType": 0,
+                "note": "",
+                "methodParams": "a1",
+                "name": "",
+                "methodName": "addAttribute",
+                "first": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                },
+                "second": {
+                    "instance": "UMLCLass",
+                    "instanceNumber": 1
+                }
+            },
+            {
+                "relationType": 2,
+                "note": "",
+                "methodParams": "Missing method params",
+                "name": "",
+                "methodName": "true",
+                "first": {
+                    "instance": "UMLCLass",
+                    "instanceNumber": 1
+                },
+                "second": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                }
+            },
+            {
+                "relationType": 0,
+                "note": "",
+                "methodParams": "",
+                "name": "",
+                "methodName": "getName",
+                "first": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                },
+                "second": {
+                    "instance": "UMLAttribute",
+                    "instanceNumber": 1
+                }
+            },
+            {
+                "relationType": 2,
+                "note": "",
+                "methodParams": "Missing method params",
+                "name": "",
+                "methodName": "false",
+                "first": {
+                    "instance": "UMLAttribute",
+                    "instanceNumber": 1
+                },
+                "second": {
+                    "instance": "Main",
+                    "instanceNumber": 0
+                }
+            }
+        ]
     }],
     "interfaces": [],
     "types": [
@@ -114,7 +276,7 @@
             ],
             "name": "Element",
             "coordinates": {
-                "x": 5054,
+                "x": 5050,
                 "y": 4471
             }
         },
@@ -134,7 +296,7 @@
             }],
             "name": "UMLAttribute",
             "coordinates": {
-                "x": 4486,
+                "x": 4489,
                 "y": 4887
             }
         },
@@ -158,8 +320,8 @@
             ],
             "name": "UMLClassifier",
             "coordinates": {
-                "x": 5049,
-                "y": 4900
+                "x": 5055,
+                "y": 4898
             }
         },
         {
@@ -187,8 +349,8 @@
             ],
             "name": "ClassDiagram",
             "coordinates": {
-                "x": 5550,
-                "y": 4904
+                "x": 5542,
+                "y": 4901
             }
         },
         {
@@ -216,8 +378,8 @@
             ],
             "name": "UMLCLass",
             "coordinates": {
-                "x": 5051,
-                "y": 5312
+                "x": 5015,
+                "y": 5315
             }
         },
         {
@@ -225,7 +387,7 @@
             "methods": [],
             "name": "Main",
             "coordinates": {
-                "x": 4487,
+                "x": 4488,
                 "y": 4518
             }
         }

@@ -87,7 +87,13 @@ public class sUMLDiagram extends UMLElement {
         if (!((SeqDiagram)getElement()).addRelation(relation))
             return false;
 
-        sUMLRelation newRelation = new sUMLRelation(relation, App.getCurrentPane(), this, 100);
+        double maxY = 0;
+        for (sUMLRelation rel : relations) {
+            maxY = Math.max(maxY, rel.getY());
+        }
+        maxY += sUMLRelation.OFFSET;
+
+        sUMLRelation newRelation = new sUMLRelation(relation, App.getCurrentPane(), this, maxY);
 
         relations.add(newRelation);
         undo_stack.addFirst(UndoType.addRelation);

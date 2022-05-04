@@ -28,7 +28,9 @@ public class sUMLRelation implements GraphicInterface {
     private Ellipse ellipse;
     private Label name;
     private Label note;
+
     private static final String[] colors = {" blue;", " cyan;", " orange;", " black;", " pink;"};
+    public static int OFFSET = 80;
 
     Deque<UndoType> undo_stack = new ArrayDeque<>();
     private Deque<Double> undo_moves = new ArrayDeque<>();
@@ -94,9 +96,8 @@ public class sUMLRelation implements GraphicInterface {
         node.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                int offset = 80;
                 if (valid.valid) {
-                    drawEnd(Math.min(Math.max(mouseEvent.getSceneY(), offset), ((Pane)line.getParent()).getHeight()));
+                    drawEnd(Math.min(Math.max(mouseEvent.getSceneY(), OFFSET), ((Pane)line.getParent()).getHeight()));
                 }
             }
         });
