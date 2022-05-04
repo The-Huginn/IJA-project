@@ -283,6 +283,17 @@ public class MainWindowController implements Initializable {
         setPane(handler.getClassEntity(), handler.getClassPane());
     }
 
+    @FXML
+    protected void checkCorrect(Event event) {
+        if (!handler.checkCorrect()) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+
+            alert.setContentText("The diagram has inconsistencies. All are marked with red color.");
+
+            alert.show();
+        }
+    }
+
     public void switchSeqDiagram(String name) {
         setPane(handler.getSeqEntity(name), handler.getSeqPane(name));
     }

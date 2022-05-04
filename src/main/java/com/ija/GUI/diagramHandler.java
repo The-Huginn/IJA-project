@@ -306,8 +306,22 @@ public class diagramHandler {
         if (App.getClassDiagram().checkCorrect())
             return true;
 
-        
-            
+        classDiagram.getKey().checkCorrect();
+        for (Node node : classDiagram.getValue().getChildren()) {
+            if (node instanceof GraphicInterface) {
+                ((GraphicInterface)node).checkCorrect();
+            }
+        }
+
+        for (Pair<sUMLDiagram, Pane> pair : seqDiagrams) {
+            pair.getKey().checkCorrect();
+            for (Node node : pair.getValue().getChildren()) {
+                if (node instanceof GraphicInterface) {
+                    ((GraphicInterface)node).checkCorrect();
+                }
+            }
+        }
+
         return false;
     }
 }
