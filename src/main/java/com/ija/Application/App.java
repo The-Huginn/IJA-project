@@ -53,7 +53,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        loader = new FXMLLoader(getClass().getResource("/com/ija/GUI/MainWindow.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/MainWindow.fxml"));
         Parent root = loader.load();
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -219,44 +219,44 @@ public class App extends Application {
         BorderPane editTable = ((MainWindowController)getLoader().getController()).editTable;
         try {
             if (getSelected() instanceof cUMLDiagram) {
-                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/ClassDiagramTable.fxml"));
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/ClassDiagramTable.fxml"));
                 diagramTable.setCenter(node);
-                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditTable.fxml"));
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/EditTable.fxml"));
                 editTable.setCenter(edit);
             } else if (getSelected() instanceof UMLEntity) {
-                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/ClassInterfaceTable.fxml"));
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/ClassInterfaceTable.fxml"));
                 diagramTable.setCenter(node);
-                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditTable.fxml"));
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/EditTable.fxml"));
                 editTable.setCenter(edit);
             } else if (getSelected() instanceof UMLAttribute && getSelected().getType() == ElementType.VARIABLE) {
-                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/EmptyTable.fxml"));
                 diagramTable.setCenter(node);
-                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditAttributeTable.fxml"));
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/EditAttributeTable.fxml"));
                 editTable.setCenter(edit);
             } else if (getSelected() instanceof UMLAttribute && getSelected().getType() == ElementType.METHOD) {
-                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/EmptyTable.fxml"));
                 diagramTable.setCenter(node);
-                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditMethodTable.fxml"));
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/EditMethodTable.fxml"));
                 editTable.setCenter(edit);
             } else if (getSelected() instanceof cUMLRelation) {
-                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/EmptyTable.fxml"));
                 diagramTable.setCenter(node);
-                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/classDiagram/EditRelationTable.fxml"));
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/EditRelationTable.fxml"));
                 editTable.setCenter(edit);
             } else if (getSelected() instanceof sUMLRelation) {
-                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/EmptyTable.fxml"));
                 diagramTable.setCenter(node);
-                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/EditRelationTable.fxml"));
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/sEditRelationTable.fxml"));
                 editTable.setCenter(edit);
             } else if (getSelected() instanceof UMLInstance) {
-                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/InstanceTable.fxml"));
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/InstanceTable.fxml"));
                 diagramTable.setCenter(node);
-                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/EmptyTable.fxml"));
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/EmptyTable.fxml"));
                 editTable.setCenter(edit);
             } else if (getSelected() instanceof sUMLDiagram) {
-                Node node = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/SeqDiagramTable.fxml"));
+                Node node = (Node)FXMLLoader.load(App.class.getResource("/SeqDiagramTable.fxml"));
                 diagramTable.setCenter(node);
-                Node edit = (Node)FXMLLoader.load(App.class.getResource("/com/ija/GUI/seqDiagram/EditTable.fxml"));
+                Node edit = (Node)FXMLLoader.load(App.class.getResource("/sEditTable.fxml"));
                 editTable.setCenter(edit);
             }
         } catch (IOException e) {
