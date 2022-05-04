@@ -6,7 +6,6 @@
 package com.ija.GUI;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -23,9 +22,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -91,32 +88,22 @@ public class MainWindowController implements Initializable {
 
     /**
      * @param diagram
-     * @param path if set to null then we do not load from the memory and create epmty Class Diagram
+     * @param path    if set to null then we do not load from the memory and create
+     *                epmty Class Diagram
      */
     private void loadDiagram(ClassDiagram diagram, String path) {
-        try {
-            if (path == null) {
-                // Default Types
-                TreeSet<String> set = new TreeSet<String> ();
-                set.addAll(Arrays.asList("int", "boolean", "float", "string", "long", "byte", "short", "char", "void"));
-                Type.initTypes(set.toArray(new String[set.size()]), diagram);
-                handler = new diagramHandler(diagram, diagramName);
-            }
-            else {
-                handler = new diagramHandler(diagram, diagramName, path);
-            }
-            App.newClassDiagram(handler.getClassEntity());
-            setPane(handler.getClassEntity(), handler.getClassPane());
-
-            Node node = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/classDiagram/ClassDiagramTable.fxml"));
-            diagramTable.setCenter(node);
-            Node edit = (Node)FXMLLoader.load(getClass().getResource("/com/ija/GUI/classDiagram/EditTable.fxml"));
-            editTable.setCenter(edit);
-            diagramName.setText(App.getClassDiagram().getName());
-        } catch (IOException e) {
-            System.err.println("Unable to open resources...");
-            e.printStackTrace();
+        if (path == null) {
+            // Default Types
+            TreeSet<String> set = new TreeSet<String>();
+            set.addAll(Arrays.asList("int", "boolean", "float", "string", "long", "byte", "short", "char", "void"));
+            Type.initTypes(set.toArray(new String[set.size()]), diagram);
+            handler = new diagramHandler(diagram, diagramName);
+        } else {
+            handler = new diagramHandler(diagram, diagramName, path);
         }
+
+        App.newClassDiagram(handler.getClassEntity());
+        setPane(handler.getClassEntity(), handler.getClassPane());
     }
 
     private void closeDiagram() {

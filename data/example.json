@@ -1,0 +1,320 @@
+{
+    "seqDiagrams": [{
+        "instances": [
+            {
+                "instance": "Main",
+                "instanceNumber": 0
+            },
+            {
+                "instance": "ClassDiagram",
+                "instanceNumber": 0
+            },
+            {
+                "instance": "UMLCLass",
+                "instanceNumber": 1
+            },
+            {
+                "instance": "UMLAttribute",
+                "instanceNumber": 1
+            }
+        ],
+        "name": "Main Sequence",
+        "coordinates": [],
+        "relations": []
+    }],
+    "interfaces": [],
+    "types": [
+        {
+            "name": "Element",
+            "isUserDefined": true
+        },
+        {
+            "name": "List<UMLClassifier>",
+            "isUserDefined": true
+        },
+        {
+            "name": "UMLAttribute",
+            "isUserDefined": true
+        },
+        {
+            "name": "UMLClass",
+            "isUserDefined": true
+        },
+        {
+            "name": "UMLClassifier",
+            "isUserDefined": true
+        },
+        {
+            "name": "boolean",
+            "isUserDefined": false
+        },
+        {
+            "name": "byte",
+            "isUserDefined": false
+        },
+        {
+            "name": "char",
+            "isUserDefined": false
+        },
+        {
+            "name": "float",
+            "isUserDefined": false
+        },
+        {
+            "name": "int",
+            "isUserDefined": false
+        },
+        {
+            "name": "long",
+            "isUserDefined": false
+        },
+        {
+            "name": "short",
+            "isUserDefined": false
+        },
+        {
+            "name": "string",
+            "isUserDefined": false
+        },
+        {
+            "name": "void",
+            "isUserDefined": false
+        }
+    ],
+    "classes": [
+        {
+            "variables": [{
+                "visibility": 1,
+                "isVisibilityChangable": true,
+                "name": "name",
+                "type": "string"
+            }],
+            "methods": [
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "Element",
+                    "type": "Element",
+                    "parameters": ["string"]
+                },
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "getName",
+                    "type": "string",
+                    "parameters": []
+                },
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "rename",
+                    "type": "void",
+                    "parameters": ["string"]
+                }
+            ],
+            "name": "Element",
+            "coordinates": {
+                "x": 5054,
+                "y": 4471
+            }
+        },
+        {
+            "variables": [{
+                "visibility": 1,
+                "isVisibilityChangable": true,
+                "name": "type",
+                "type": "UMLClassifier"
+            }],
+            "methods": [{
+                "visibility": 1,
+                "isVisibilityChangable": true,
+                "name": "getType",
+                "type": "UMLClassifier",
+                "parameters": []
+            }],
+            "name": "UMLAttribute",
+            "coordinates": {
+                "x": 4486,
+                "y": 4887
+            }
+        },
+        {
+            "variables": [],
+            "methods": [
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "UMLClassifier",
+                    "type": "UMLClassifier",
+                    "parameters": ["string"]
+                },
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "isUserDefined",
+                    "type": "boolean",
+                    "parameters": []
+                }
+            ],
+            "name": "UMLClassifier",
+            "coordinates": {
+                "x": 5049,
+                "y": 4900
+            }
+        },
+        {
+            "variables": [{
+                "visibility": 1,
+                "isVisibilityChangable": true,
+                "name": "classes",
+                "type": "List<UMLClassifier>"
+            }],
+            "methods": [
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "createClass",
+                    "type": "UMLClass",
+                    "parameters": ["string"]
+                },
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "classifierForName",
+                    "type": "UMLClassifier",
+                    "parameters": ["string"]
+                }
+            ],
+            "name": "ClassDiagram",
+            "coordinates": {
+                "x": 5550,
+                "y": 4904
+            }
+        },
+        {
+            "variables": [{
+                "visibility": 1,
+                "isVisibilityChangable": true,
+                "name": "attributes",
+                "type": "List<UMLClassifier>"
+            }],
+            "methods": [
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "addAttribute",
+                    "type": "boolean",
+                    "parameters": ["UMLAttribute"]
+                },
+                {
+                    "visibility": 1,
+                    "isVisibilityChangable": true,
+                    "name": "getAttrPosition",
+                    "type": "int",
+                    "parameters": ["UMLAttribute"]
+                }
+            ],
+            "name": "UMLCLass",
+            "coordinates": {
+                "x": 5051,
+                "y": 5312
+            }
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "Main",
+            "coordinates": {
+                "x": 4487,
+                "y": 4518
+            }
+        }
+    ],
+    "name": "Main",
+    "relations": [
+        {
+            "relationType": 3,
+            "name": "inherits",
+            "first": {
+                "instance": "UMLAttribute",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "Element",
+                "instanceNumber": 0
+            }
+        },
+        {
+            "relationType": 3,
+            "name": "inherits",
+            "first": {
+                "instance": "UMLClassifier",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "Element",
+                "instanceNumber": 0
+            }
+        },
+        {
+            "relationType": 0,
+            "name": "contains",
+            "first": {
+                "instance": "ClassDiagram",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "UMLClassifier",
+                "instanceNumber": 1
+            }
+        },
+        {
+            "relationType": 3,
+            "name": "inherits",
+            "first": {
+                "instance": "ClassDiagram",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "Element",
+                "instanceNumber": 0
+            }
+        },
+        {
+            "relationType": 0,
+            "name": "contains",
+            "first": {
+                "instance": "UMLAttribute",
+                "instanceNumber": 3
+            },
+            "second": {
+                "instance": "UMLClassifier",
+                "instanceNumber": 0
+            }
+        },
+        {
+            "relationType": 3,
+            "name": "inherits",
+            "first": {
+                "instance": "UMLCLass",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "UMLClassifier",
+                "instanceNumber": 0
+            }
+        },
+        {
+            "relationType": 2,
+            "name": "contains",
+            "first": {
+                "instance": "UMLCLass",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "UMLAttribute",
+                "instanceNumber": 1
+            }
+        }
+    ]
+}

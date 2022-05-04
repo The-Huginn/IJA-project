@@ -97,6 +97,11 @@ public class ClassInterfaceTableController implements Initializable {
             }
         }
 
+        if (selected == null) {
+            addRelation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            return;
+        }
+
         ClassRelation relation = new ClassRelation(relationName.getText(),
                                                     App.getClassDiagram(),
                                                     (UMLObject)App.getSelected().getElement(),

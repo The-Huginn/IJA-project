@@ -20,7 +20,7 @@ import javafx.util.Pair;
 
 public class ClassRelation extends Relation{
     private ClassRelEnum type = ClassRelEnum.ASSOCIATION;
-    private static String[] cardinalities = {"0..1", "0..n", "1..n"};
+    private static String[] cardinalities = {"1", "0..1", "0..n", "1..n"};
 
     public enum ClassRelEnum {
         ASSOCIATION,

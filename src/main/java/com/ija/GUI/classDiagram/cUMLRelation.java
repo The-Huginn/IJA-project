@@ -8,6 +8,7 @@ import com.ija.GUI.GraphicInterface;
 import com.ija.GUI.UMLElement;
 import com.ija.backend.diagram.ClassRelation;
 import com.ija.backend.diagram.Relation;
+import com.ija.backend.diagram.ClassRelation.ClassRelEnum;
 import com.ija.backend.diagramObject.Element;
 
 import javafx.event.EventHandler;
@@ -138,8 +139,13 @@ public class cUMLRelation implements GraphicInterface {
         start.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         end.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         name.setText(element.getName());
-        start.setText(ClassRelation.getCardinality(element.getFirst().getValue()));
-        end.setText(ClassRelation.getCardinality(element.getSecond().getValue()));
+        if (((ClassRelation)getElement()).getType() == ClassRelEnum.GENERALIZATION) {
+            start.setText("");
+            end.setText("");
+        } else {
+            start.setText(ClassRelation.getCardinality(element.getFirst().getValue()));
+            end.setText(ClassRelation.getCardinality(element.getSecond().getValue()));
+        }
     }
 
     @Override

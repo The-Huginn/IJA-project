@@ -122,17 +122,6 @@ public class diagramHandler {
             }
         }
 
-        /**
-         * @note updates all relations to randomized positions
-         */
-        for (Node node : classDiagram.getKey().getChildren()) {
-            if (!(node instanceof UMLEntity))
-            continue;
-            
-            UMLEntity entity = (UMLEntity)node;
-            entity.updateRelations();
-        }
-
         for (int i = 0; i < diagram.getDiagrams().size(); i++) {
             SeqDiagram seqDiagram = diagram.getDiagrams().get(i);
             Pane newPane = createPane();
