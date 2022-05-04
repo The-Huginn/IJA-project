@@ -78,7 +78,7 @@
               </Menu>
               <Menu mnemonicParsing="false" text="Help">
                 <items>
-                  <MenuItem mnemonicParsing="false" text="About This App" />
+                  <MenuItem mnemonicParsing="false" onAction="#updateAll" text="Repaint content" />
                 </items>
               </Menu>
             </menus>

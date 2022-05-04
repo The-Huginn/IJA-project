@@ -223,6 +223,15 @@ public class cUMLDiagram extends UMLElement {
         App.addClearUndo();
     }
 
+    public void updateAll() {
+        for (Node node : App.getCurrentPane().getChildren()) {
+            if (!(node instanceof UMLEntity))
+                continue;
+
+            ((UMLEntity)node).updateRelations();
+        }
+    }
+
     @Override
     public void select() {
         name.setStyle(null);

@@ -204,6 +204,12 @@ public class sUMLDiagram extends UMLElement {
         App.addClearUndo();
     }
 
+    public void updateAll() {
+        for (sUMLRelation rel : relations) {
+            rel.updateContent();
+        }
+    }
+
     @Override
     public void select() {
         name.setStyle(null);

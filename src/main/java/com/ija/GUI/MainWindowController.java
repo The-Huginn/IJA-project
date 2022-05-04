@@ -13,6 +13,7 @@ import java.util.TreeSet;
 
 import com.ija.Application.App;
 import com.ija.GUI.classDiagram.cUMLDiagram;
+import com.ija.GUI.seqDiagram.sUMLDiagram;
 import com.ija.backend.diagram.ClassDiagram;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagramObject.Type;
@@ -290,6 +291,15 @@ public class MainWindowController implements Initializable {
             alert.setContentText("The diagram has inconsistencies. All are marked with red color.");
 
             alert.show();
+        }
+    }
+
+    @FXML
+    protected void updateAll(Event event) {
+        if (App.getCurrentDiagram() instanceof cUMLDiagram) {
+            ((cUMLDiagram)App.getCurrentDiagram()).updateAll();
+        } else if (App.getCurrentDiagram() instanceof sUMLDiagram) {
+            ((sUMLDiagram)App.getCurrentDiagram()).updateAll();
         }
     }
 
