@@ -39,7 +39,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin></Button>
             <Separator prefWidth="200.0" />
-            <Label text="Switch Diagram">
+            <Label text="Switch Sequence Diagram">
                <VBox.margin>
                   <Insets bottom="10.0" top="20.0" />
                </VBox.margin>

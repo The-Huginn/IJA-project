@@ -103,7 +103,7 @@ public class App extends Application {
 
     /**
      * @brief Switches to new diagram and makes it selected
-     * @param newDiagram
+     * @param newCurrent
      */
     public static void setCurrentDiagram(UMLElement newCurrent) {
         currentDiagram = newCurrent;
@@ -132,7 +132,6 @@ public class App extends Application {
 
     /**
      * @brief to allow for call of addOthersUndo
-     * @param methodName
      * @return
      */
     public static GraphicInterface getSelected() {

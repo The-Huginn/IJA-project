@@ -141,7 +141,7 @@ public class sUMLDiagram extends UMLElement {
     /**
      * @brief This function should be called upon adding existing instance
      * @param instance
-     * @param name
+     * @param number
      * @return
      */
     public boolean addInstance(UMLClass instance, int number) {
