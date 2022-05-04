@@ -60,10 +60,21 @@ public class diagramHandler {
         return newPane;
     }
 
+    /**
+     * @brief Should be called upon creating new diagram
+     * @param diagram
+     * @param name
+     */
     public diagramHandler(ClassDiagram diagram, Label name) {
         classDiagram = new Pair<cUMLDiagram,Pane>(new cUMLDiagram(diagram, name), createPane());
     }
     
+    /**
+     * Should be called upon loading an existing diagram
+     * @param diagram
+     * @param name
+     * @param path File path of the diagram
+     */
     public diagramHandler(ClassDiagram diagram, Label name, String path) {
         classDiagram = new Pair<cUMLDiagram,Pane>(new cUMLDiagram(diagram, name), createPane());
 
@@ -152,25 +163,40 @@ public class diagramHandler {
         }
     }
 
+    /**
+     * Adds new sequence diagram to the application
+     * @param diagram
+     * @param name
+     */
     public void addSequence(SeqDiagram diagram, Label name) {
         Pane newPane = createPane();
         seqDiagrams.add(new Pair<sUMLDiagram,Pane>(new sUMLDiagram(diagram, classDiagram.getKey(), name, newPane), newPane));
     }
 
+    /**
+     * Removes sequence diagram from the application
+     * @param diagram Name of the diagram
+     */
     public void removeSeqDiagram(SeqDiagram diagram) {
         seqDiagrams.removeIf(pair -> pair.getKey().getElement().equals(diagram));
     }
 
+    /**
+     * @return
+     */
     public Pane getClassPane() {
         return classDiagram.getValue();
     }
 
+    /**
+     * @return
+     */
     public UMLElement getClassEntity() {
         return classDiagram.getKey();
     }
 
     /**
-     * @brief Finds Seq diagram with name
+     * @brief Finds Seq diagram by name
      * @param name
      * @return
      */
@@ -184,6 +210,11 @@ public class diagramHandler {
         return null;
     }
 
+    /**
+     * Finds sequence diagram GUI element by name
+     * @param name
+     * @return
+     */
     public sUMLDiagram getSeqEntity(String name) {
         for (Pair<sUMLDiagram, Pane> diagram : seqDiagrams) {
             if (diagram.getKey().getElement().getName().equals(name))
@@ -193,6 +224,11 @@ public class diagramHandler {
         return null;
     }
 
+    /**
+     * Saves coordinates of GUI elements into existing diagram, which is currently loaded
+     * @param path
+     * @return
+     */
     public boolean save(String path) {
         JSONObject json = App.getClassDiagram().getJSON();
 

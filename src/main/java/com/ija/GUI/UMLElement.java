@@ -1,7 +1,7 @@
 /**
  * @file UMLElement.java
  * @author Rastislav Budinsky (xbudin05)
- * @brief This file contains basic selectable element for GUI, which holds one corresponding backend Element.
+ * @brief This file contains basic selectable GUI element, which holds one corresponding backend Element.
  */
 package com.ija.GUI;
 

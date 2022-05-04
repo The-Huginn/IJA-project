@@ -1,3 +1,8 @@
+/**
+ * @file UMLAttribute.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains GUI representation of Attribute
+ */
 package com.ija.GUI.classDiagram;
 
 import java.util.ArrayDeque;

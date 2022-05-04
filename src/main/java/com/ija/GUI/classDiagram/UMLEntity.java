@@ -1,3 +1,8 @@
+/**
+ * @file UMLEntity.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains class for GUI representation of UMLObject
+ */
 package com.ija.GUI.classDiagram;
 
 import java.util.ArrayDeque;
@@ -149,6 +154,114 @@ public class UMLEntity extends UMLElement {
             }
         });
     }
+    
+    /**
+     * @brief Adds new Variable to the GUI if allowed
+     * @param name
+     * @return
+     */
+    public boolean addVariable(String name) {
+        UMLObject elem = (UMLObject) getElement();
+        if (!elem.addVariable(new Attribute(name, elem)))
+            return false;
+
+        UMLAttribute newAttribute = new UMLAttribute(elem.getVariables().get(elem.getVariables().size() - 1), this, ElementType.VARIABLE);
+
+        variables.getItems().add(newAttribute);
+
+        undo_stack.addFirst(UndoType.addVariable);
+        App.addClearUndo();
+
+        App.setSelected(newAttribute);
+
+        return true;
+    }
+
+    /**
+     * @brief Adds new Method to the GUI if allowed
+     * @param name
+     * @return
+     */
+    public boolean addMethod(String name) {
+        UMLObject elem = (UMLObject) getElement();
+        if (!elem.addMethod(new Method(name, elem)))
+            return false;
+
+        UMLAttribute newAttribute = new UMLAttribute(elem.getMethods().get(elem.getMethods().size() - 1), this, ElementType.METHOD);
+        methods.getItems().add(newAttribute);
+
+        undo_stack.addFirst(UndoType.addMethod);
+        App.addClearUndo();
+
+        App.setSelected(newAttribute);
+
+        return true;
+    }
+
+    /**
+     * @brief Removes Method by instance
+     * @param instance
+     */
+    public void removeVariable(UMLAttribute instance) {
+        UMLObject elem = (UMLObject) getElement();
+
+        undo_stack.addFirst(UndoType.removeVariable);
+        for (int index = 0; index < variables.getItems().size(); index++) {
+            if ((UMLAttribute) variables.getItems().get(index) == instance) {
+                elem.removeVariable(index);
+                undo_removes.addFirst(new Pair<Integer, UMLAttribute>(index, (UMLAttribute) variables.getItems().get(index)));
+                variables.getItems().remove(index);
+                break;
+            }
+        }
+        App.setSelected(this);
+        App.addClearUndo();
+    }
+
+    /**
+     * @brief Removes Variable by instance
+     * @param instance
+     */
+    public void removeMethod(UMLAttribute instance) {
+        UMLObject elem = (UMLObject) getElement();
+
+        undo_stack.addFirst(UndoType.removeMethod);
+        for (int index = 0; index < methods.getItems().size(); index++) {
+            if ((UMLAttribute) methods.getItems().get(index) == instance) {
+                undo_removes.addFirst(new Pair<Integer, UMLAttribute>(index, (UMLAttribute) methods.getItems().get(index)));
+                elem.removeMethod(index);
+                methods.getItems().remove(index);
+                break;
+            }
+        }
+        App.setSelected(this);
+        App.addClearUndo();
+    }
+
+    /**
+     * Updates positions of all relations
+     */
+    public void updateRelations() {
+
+        for (cUMLRelation relation : ((cUMLDiagram)App.getCurrentDiagram()).getRelations()) {
+            if (((Relation)relation.getElement()).getFirst().getKey() == getElement()) {
+                // relation.drawStart(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
+                Pair<Double, Double> pair = getNewAxes(relation.getLine().getEndY(), relation.getLine().getEndX());
+                relation.drawStart(pair.getKey(), pair.getValue());
+            }
+            
+            if (((Relation)relation.getElement()).getSecond().getKey() == getElement()) {
+                // relation.drawEnd(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
+                Pair<Double, Double> pair = getNewAxes(relation.getLine().getStartY(), relation.getLine().getStartX());
+                relation.drawEnd(pair.getKey(), pair.getValue());
+            }
+        }
+    }
+
+    public void updateRelation(cUMLRelation relation) {
+        Pair<Double, Double> pair = getNewAxes(relation.getLine().getStartY(), relation.getLine().getStartX());
+        relation.drawEnd(pair.getKey(), pair.getValue());
+    }
 
     @Override
     public boolean equals(Object other) {
@@ -184,89 +297,6 @@ public class UMLEntity extends UMLElement {
         else {
             name.setText(getElement().getName());
         }
-    }
-
-    /**
-     * @brief Adds new Variable to the GUI if allowed
-     * @param name
-     * @return
-     */
-    public boolean addVariable(String name) {
-        UMLObject elem = (UMLObject)getElement();
-        if (!elem.addVariable(new Attribute(name, elem)))
-            return false;
-
-        UMLAttribute newAttribute = new UMLAttribute(elem.getVariables().get(elem.getVariables().size() - 1), this, ElementType.VARIABLE);
-
-        variables.getItems().add(newAttribute);
-            
-        undo_stack.addFirst(UndoType.addVariable);
-        App.addClearUndo();
-
-        App.setSelected(newAttribute);
-
-        return true;
-    }
-
-    /**
-     * @brief Adds new Method to the GUI if allowed
-     * @param name
-     * @return
-     */
-    public boolean addMethod(String name) {
-        UMLObject elem = (UMLObject)getElement();
-        if (!elem.addMethod(new Method(name, elem)))
-            return false;
-
-        UMLAttribute newAttribute = new UMLAttribute(elem.getMethods().get(elem.getMethods().size() - 1), this, ElementType.METHOD);
-        methods.getItems().add(newAttribute);
-        
-        undo_stack.addFirst(UndoType.addMethod);
-        App.addClearUndo();
-
-        App.setSelected(newAttribute);
-
-        return true;
-    }
-
-    /**
-     * @brief Removes Method by instance
-     * @param instance
-     */
-    public void removeVariable(UMLAttribute instance) {
-        UMLObject elem = (UMLObject)getElement();
-        
-        undo_stack.addFirst(UndoType.removeVariable);
-        for (int index = 0; index < variables.getItems().size(); index++) {
-            if ((UMLAttribute)variables.getItems().get(index) == instance) {
-                elem.removeVariable(index);
-                undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)variables.getItems().get(index)));
-                variables.getItems().remove(index);
-                break;
-            }
-        }
-        App.setSelected(this);
-        App.addClearUndo();
-    }
-
-    /**
-     * @brief Removes Variable by instance
-     * @param instance
-     */
-    public void removeMethod(UMLAttribute instance) {
-        UMLObject elem = (UMLObject)getElement();
-
-        undo_stack.addFirst(UndoType.removeMethod);
-        for (int index = 0; index < methods.getItems().size(); index++) {
-            if ((UMLAttribute)methods.getItems().get(index) == instance) {
-                undo_removes.addFirst(new Pair<Integer,UMLAttribute>(index, (UMLAttribute)methods.getItems().get(index)));
-                elem.removeMethod(index);
-                methods.getItems().remove(index);
-                break;
-            }
-        }
-        App.setSelected(this);
-        App.addClearUndo();
     }
 
     @Override
@@ -315,6 +345,22 @@ public class UMLEntity extends UMLElement {
         }
     }
 
+    @Override
+    public void checkCorrect() {
+        if (((UMLObject) getElement()).checkCorrect())
+            return;
+
+        setStyle("-fx-border-color: #c3de49;; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: red;");
+    }
+
+    /**
+     * Calculates the closes edge and randomizes connection point of relation to
+     * this GUI element
+     * 
+     * @param relY
+     * @param relX
+     * @return
+     */
     private Pair<Double, Double> getNewAxes(double relY, double relX) {
         final Random rnd = new Random();
         
@@ -334,36 +380,6 @@ public class UMLEntity extends UMLElement {
                 return new Pair<Double,Double>(getLayoutY() + getHeight(), getLayoutX() + rnd.nextInt((int)getHeight()));
             }
         }
-    }
-
-    public void updateRelations() {
-
-        for (cUMLRelation relation : ((cUMLDiagram)App.getCurrentDiagram()).getRelations()) {
-            if (((Relation)relation.getElement()).getFirst().getKey() == getElement()) {
-                // relation.drawStart(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
-                Pair<Double, Double> pair = getNewAxes(relation.getLine().getEndY(), relation.getLine().getEndX());
-                relation.drawStart(pair.getKey(), pair.getValue());
-            }
-            
-            if (((Relation)relation.getElement()).getSecond().getKey() == getElement()) {
-                // relation.drawEnd(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
-                Pair<Double, Double> pair = getNewAxes(relation.getLine().getStartY(), relation.getLine().getStartX());
-                relation.drawEnd(pair.getKey(), pair.getValue());
-            }
-        }
-    }
-
-    public void updateRelation(cUMLRelation relation) {
-        Pair<Double, Double> pair = getNewAxes(relation.getLine().getStartY(), relation.getLine().getStartX());
-        relation.drawEnd(pair.getKey(), pair.getValue());
-    }
-
-    @Override
-    public void checkCorrect() {
-        if (((UMLObject)getElement()).checkCorrect())
-            return;
-
-            setStyle("-fx-border-color: #c3de49;; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: red;");
     }
 }
 

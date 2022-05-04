@@ -1,3 +1,8 @@
+/**
+ * @file cUMLRelation.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains class for GUI representation of class relation
+ */
 package com.ija.GUI.classDiagram;
 
 import java.util.ArrayDeque;
@@ -65,6 +70,10 @@ public class cUMLRelation implements GraphicInterface {
         updateContent();
     }
 
+    /**
+     * Sets listeners to select this element on click
+     * @param node
+     */
     private void setListener(Node node) {
         node.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -75,6 +84,11 @@ public class cUMLRelation implements GraphicInterface {
         });
     }
 
+    /**
+     * Redraws the end of the relation
+     * @param y
+     * @param x
+     */
     public void drawEnd(double y, double x) {
         line.setEndY(y);
         line.setEndX(x);
@@ -86,6 +100,11 @@ public class cUMLRelation implements GraphicInterface {
         end.setLayoutX(x);
     }
 
+    /**
+     * Redraws the start of the relation
+     * @param y
+     * @param x
+     */
     public void drawStart(double y, double x) {
         line.setStartY(y);
         line.setStartX(x);
@@ -94,13 +113,26 @@ public class cUMLRelation implements GraphicInterface {
         start.setLayoutX(x + RADIUS / 2);
         start.setLayoutY(y);
     }
-
+    
     /**
      * @brief Should be called only to get coordinates of start and end
      * @return
      */
     public Line getLine() {
         return line;
+    }
+    
+    /**
+     * Adds this GUI element to the Pane
+     * @param toPane
+     */
+    public void addToPane(Pane toPane) {
+        toPane.getChildren().addAll(line, circle, name, start, end);
+        line.toBack();
+        name.toBack();
+        circle.toFront();
+        start.toFront();
+        end.toFront();
     }
 
     @Override
@@ -163,15 +195,6 @@ public class cUMLRelation implements GraphicInterface {
 
         element.undo();
         updateContent();
-    }
-    
-    public void addToPane(Pane toPane) {
-        toPane.getChildren().addAll(line, circle, name, start, end);
-        line.toBack();
-        name.toBack();
-        circle.toFront();
-        start.toFront();
-        end.toFront();
     }
 
     @Override

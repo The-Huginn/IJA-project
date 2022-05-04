@@ -1,3 +1,8 @@
+/**
+ * @file GraphicInterface.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains interface any displayable element(s) )in the GUI
+ */
 package com.ija.GUI;
 
 import com.ija.backend.undoInterface;

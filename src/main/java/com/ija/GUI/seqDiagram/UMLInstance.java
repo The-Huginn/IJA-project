@@ -1,3 +1,8 @@
+/**
+ * @file UMLInstance.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains GUI element for representing Instance in sequence diagram
+ */
 package com.ija.GUI.seqDiagram;
 
 import com.ija.Application.App;
@@ -52,11 +57,38 @@ public class UMLInstance implements GraphicInterface {
             }
         });
     }
-
+    
+    /**
+     * @return
+     */
     public Integer getInstanceNumber() {
         return instanceNumber;
     }
 
+    /**
+     * Removes this GUI element from the header of sequence diagram
+     */
+    public void removeFromPane() {
+        parent.getHeader().getChildren().remove(label);
+        App.getCurrentPane().getChildren().remove(line);
+    }
+
+    /**
+     * Adds this GUI element to the header on index
+     * @param index
+     */
+    public void addToPane(int index) {
+        parent.getHeader().getChildren().add(index, label);
+        App.getCurrentPane().getChildren().add(line);
+    }
+
+    /**
+     * @return
+     */
+    public Label getLabel() {
+        return label;
+    }
+    
     @Override
     public void select() {
         label.setStyle("-fx-border-color: #c3de49;; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #7796c9;");
@@ -87,19 +119,6 @@ public class UMLInstance implements GraphicInterface {
         parent.removeInstance(this);
     }
 
-    public void removeFromPane() {
-        parent.getHeader().getChildren().remove(label);
-        App.getCurrentPane().getChildren().remove(line);
-    }
-
-    public void addToPane(int index) {
-        parent.getHeader().getChildren().add(index, label);
-        App.getCurrentPane().getChildren().add(line);
-    }
-
-    public Label getLabel() {
-        return label;
-    }
 
     @Override
     public Element getElement() {

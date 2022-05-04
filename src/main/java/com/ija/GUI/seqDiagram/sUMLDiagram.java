@@ -108,6 +108,10 @@ public class sUMLDiagram extends UMLElement {
         return true;
     }
 
+    /**
+     * Removes relation from the sequence diagram
+     * @param relation
+     */
     public void removeRelation(sUMLRelation relation) {
         SeqDiagram diagram = ((SeqDiagram)getElement());
         for (int i = 0; i < diagram.getRelations().size(); i++) {
@@ -127,6 +131,9 @@ public class sUMLDiagram extends UMLElement {
         App.addClearUndo();
     }
 
+    /**
+     * @return
+     */
     public List<sUMLRelation> getRelations() {
         return Collections.unmodifiableList(relations);
     }
@@ -145,9 +152,8 @@ public class sUMLDiagram extends UMLElement {
 
     /**
      * @brief This function should be called upon adding new instance in the editor
-     * @param name
-     * @param y
-     * @param x
+     * @param instance
+     * @param number
      * @return
      */
     public boolean addNewInstance(UMLClass instance, int number) {
@@ -179,6 +185,10 @@ public class sUMLDiagram extends UMLElement {
         updateRelations();
     }
 
+    /**
+     * Removes the entity and all relations connected to it
+     * @param entity
+     */
     private void removeEntityWithRels(UMLInstance entity) {
 
         List<sUMLRelation> remove_rels = new ArrayList<>();
@@ -204,6 +214,9 @@ public class sUMLDiagram extends UMLElement {
         App.addClearUndo();
     }
 
+    /**
+     * Updates all relations - to repaint them
+     */
     public void updateAll() {
         for (sUMLRelation rel : relations) {
             rel.updateContent();
@@ -288,6 +301,9 @@ public class sUMLDiagram extends UMLElement {
         }
     }
 
+    /**
+     * Updates positions of relations
+     */
     private void updateRelations() {
         for (sUMLRelation rel : relations) {
             rel.updatePosition();

@@ -1,3 +1,8 @@
+/**
+ * @file sUMLRelation.java
+ * @author Rastislav Budinsky (xbudin05)
+ * @brief This file contains GUI element for displaying sequence relation
+ */
 package com.ija.GUI.seqDiagram;
 
 import java.util.ArrayDeque;
@@ -63,6 +68,10 @@ public class sUMLRelation implements GraphicInterface {
         drawEnd(y);
     }
 
+    /**
+     * Sets listeners for dragging relation
+     * @param node
+     */
     private void setListeners(Node node) {
         // Inspired by https://stackoverflow.com/a/10689478
         final Valid valid = new Valid();
@@ -134,6 +143,10 @@ public class sUMLRelation implements GraphicInterface {
         updateContent();
     }
 
+    /**
+     * Moves relation to the desired y coordinate
+     * @param y
+     */
     public void drawEnd(double y) {
         line.setStartY(y);
         line.setEndY(y);
@@ -144,10 +157,34 @@ public class sUMLRelation implements GraphicInterface {
         note.setLayoutX((line.getEndX() + line.getStartX()) / 2 - note.getWidth() / 2);
     }
 
+    /**
+     * @return Current y coordinate
+     */
     public double getY() {
         return line.getStartY();
     }
-
+    
+    /**
+     * Removes this GUI element from Pane
+     * @param fromPane
+     */
+    public void removeFromPane(Pane fromPane) {
+        fromPane.getChildren().removeAll(Arrays.asList(line, name, note, ellipse));
+    }
+    
+    /**
+     * Adds this GUI element to the Pane
+     * @param toPane
+     */
+    public void addToPane(Pane toPane) {
+        toPane.getChildren().addAll(line, name, note, ellipse);
+        
+        line.toBack();
+        ellipse.toBack();
+        name.toBack();
+        note.toBack();
+    }
+    
     @Override
     public boolean equals(Object other) {
         if (this == other)
@@ -156,23 +193,10 @@ public class sUMLRelation implements GraphicInterface {
         if (!(other instanceof sUMLRelation))
             return false;
 
-        sUMLRelation otherThis = (sUMLRelation)other;
+        sUMLRelation otherThis = (sUMLRelation) other;
 
         return otherThis.line == this.line &&
-                otherThis.getElement() == this.getElement() ;
-    }
-
-    public void removeFromPane(Pane fromPane) {
-        fromPane.getChildren().removeAll(Arrays.asList(line, name, note, ellipse));
-    }
-
-    public void addToPane(Pane toPane) {
-        toPane.getChildren().addAll(line, name, note, ellipse);
-        
-        line.toBack();
-        ellipse.toBack();
-        name.toBack();
-        note.toBack();
+                otherThis.getElement() == this.getElement();
     }
 
     @Override

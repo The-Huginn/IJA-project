@@ -93,6 +93,10 @@ public class cUMLDiagram extends UMLElement {
         return true;
     }
 
+    /**
+     * Removes relation from the diagram
+     * @param relation
+     */
     public void removeRelation(cUMLRelation relation) {
         ClassDiagram diagram = ((ClassDiagram)getElement());
         for (int i = 0; i < diagram.getRelations().size(); i++) {
@@ -119,8 +123,6 @@ public class cUMLDiagram extends UMLElement {
     /**
      * @brief This function should be called upon adding new class in the editor
      * @param name
-     * @param y
-     * @param x
      * @return
      */
     public boolean addClass(String name) {
@@ -146,8 +148,6 @@ public class cUMLDiagram extends UMLElement {
     /**
      * @brief This function should be called upon adding new interface in the editor
      * @param name
-     * @param y
-     * @param x
      * @return
      */
     public boolean addInterface(String name) {
@@ -200,6 +200,10 @@ public class cUMLDiagram extends UMLElement {
         }
     }
 
+    /**
+     * Removes entity with all relations from the diagram
+     * @param entity
+     */
     private void removeEntityWithRels(UMLEntity entity) {
 
         List<cUMLRelation> remove_rels = new ArrayList<>();
