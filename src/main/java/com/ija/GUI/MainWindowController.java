@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.ija.Application.App;
+import com.ija.GUI.classDiagram.cUMLDiagram;
 import com.ija.backend.diagram.ClassDiagram;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.jsonHandler.Saver;
@@ -75,11 +76,28 @@ public class MainWindowController implements Initializable {
         App.setCurrentDiagram(entity);
         pane.setCenter(newPane);
         entity.updateContent();
+
+        if (entity instanceof cUMLDiagram) {
+            scrollPane.setHvalue(0.5);
+            scrollPane.setVvalue(0.5);
+        } else {
+            scrollPane.setHvalue(0.0);
+            scrollPane.setVvalue(0.0);
+        }
     }
 
-    private void loadDiagram(ClassDiagram diagram) {
+    /**
+     * @param diagram
+     * @param path if set to null then we do not load from the memory and create epmty Class Diagram
+     */
+    private void loadDiagram(ClassDiagram diagram, String path) {
         try {
-            handler = new diagramHandler(diagram, diagramName);
+            if (path == null) {
+                handler = new diagramHandler(diagram, diagramName);
+            }
+            else {
+                handler = new diagramHandler(diagram, diagramName, path);
+            }
             App.newClassDiagram(handler.getClassEntity());
             setPane(handler.getClassEntity(), handler.getClassPane());
 
@@ -131,7 +149,7 @@ public class MainWindowController implements Initializable {
 
             td.showAndWait();
 
-            loadDiagram(new ClassDiagram(td.getEditor().getText()));
+            loadDiagram(new ClassDiagram(td.getEditor().getText()), null);
 
         } else {
             Alert alert = new Alert(AlertType.WARNING);
@@ -168,7 +186,7 @@ public class MainWindowController implements Initializable {
 
             currentPath = selectedFile.toString();
 
-            loadDiagram(diagram);
+            loadDiagram(diagram, selectedFile.toString());
         }
     }
 
@@ -207,7 +225,13 @@ public class MainWindowController implements Initializable {
 
             alert.show();
         } else {
-            Saver.save(App.getClassDiagram(), currentPath);
+            if (!handler.save(currentPath)) {
+                Alert alert = new Alert(AlertType.ERROR);
+
+                alert.setContentText("Error saving current diagram.");
+
+                alert.show();
+            }
         }
     }
 
@@ -229,8 +253,14 @@ public class MainWindowController implements Initializable {
             if (selectedFile == null)
                 return;
 
-            Saver.save(App.getClassDiagram(), selectedFile.toString());
-            currentPath = selectedFile.toString();
+            if (!handler.save(selectedFile.toString())) {
+                Alert alert = new Alert(AlertType.ERROR);
+
+                alert.setContentText("Error saving current diagram.");
+
+                alert.show();
+                currentPath = selectedFile.toString();
+            }
         }
     }
 

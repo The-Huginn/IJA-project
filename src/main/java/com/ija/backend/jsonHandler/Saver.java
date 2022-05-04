@@ -20,10 +20,10 @@ import com.ija.Application.App;
 public class Saver {
     
     // most likely even GUI will be passed
-    public static void save(ClassDiagram diagram, String path) {
+    public static boolean save(ClassDiagram diagram, String path) {
 
         if (diagram == null)
-            return;
+            return false;
 
         JSONObject json = diagram.getJSON();
 
@@ -34,6 +34,7 @@ public class Saver {
             file.createNewFile();
         } catch(Exception e) {
             e.printStackTrace();
+            return false;
         }
         
         try (FileWriter file = new FileWriter(correct_path)) {
@@ -42,7 +43,10 @@ public class Saver {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+
+        return true;
     }
 
     /**

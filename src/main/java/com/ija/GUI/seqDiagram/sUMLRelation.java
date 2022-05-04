@@ -142,6 +142,10 @@ public class sUMLRelation implements GraphicInterface {
         note.setLayoutX((line.getEndX() + line.getStartX()) / 2 - note.getWidth() / 2);
     }
 
+    public double getY() {
+        return line.getStartY();
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other)
