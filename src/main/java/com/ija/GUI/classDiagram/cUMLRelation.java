@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 public class cUMLRelation implements GraphicInterface {
@@ -23,10 +24,13 @@ public class cUMLRelation implements GraphicInterface {
     private final cUMLDiagram parent;
 
     private Line line;
+    private Circle circle;
     private Label name;
     private Label start;
     private Label end;
+
     private static final String[] colors = {" blue;", " cyan;", " orange;", " black;", " pink;"};
+    private int RADIUS = 5;
 
     Deque<UndoType> undo_stack = new ArrayDeque<>();
     
@@ -43,11 +47,14 @@ public class cUMLRelation implements GraphicInterface {
         line.setStartX(x);
         line.setStartY(y);
 
+        circle = new Circle(line.getEndY(), line.getEndX(), RADIUS);
+
         name = new Label();
         start = new Label();
         end = new Label();
 
         setListener(line);
+        setListener(circle);
         setListener(name);
         setListener(start);
         setListener(end);
@@ -70,9 +77,11 @@ public class cUMLRelation implements GraphicInterface {
     public void drawEnd(double y, double x) {
         line.setEndY(y);
         line.setEndX(x);
+        circle.setLayoutY(y);
+        circle.setLayoutX(x);
         name.setLayoutY((line.getEndY() + line.getStartY()) / 2);
         name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
-        end.setLayoutY(y);
+        end.setLayoutY(y + RADIUS / 2);
         end.setLayoutX(x);
     }
 
@@ -81,7 +90,7 @@ public class cUMLRelation implements GraphicInterface {
         line.setStartX(x);
         name.setLayoutY((line.getEndY() + line.getStartY()) / 2);
         name.setLayoutX((line.getEndX() + line.getStartX()) / 2);
-        start.setLayoutX(x);
+        start.setLayoutX(x + RADIUS / 2);
         start.setLayoutY(y);
     }
 
@@ -110,6 +119,7 @@ public class cUMLRelation implements GraphicInterface {
     @Override
     public void select() {
         line.setStyle("-fx-stroke: #c3de49;");
+        circle.setStyle("-fx-stroke: #c3de49; -fx-fill: #c3de49;");
         name.setStyle("-fx-text-fill: #c3de49;");
         start.setStyle("-fx-text-fill: #c3de49;");
         end.setStyle("-fx-text-fill: #c3de49;");
@@ -123,6 +133,7 @@ public class cUMLRelation implements GraphicInterface {
     @Override
     public void updateContent() {
         line.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
+        line.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()] + " -fx-fill: " + colors[((ClassRelation)getElement()).getType().ordinal()]);
         name.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         start.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         end.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
@@ -149,9 +160,10 @@ public class cUMLRelation implements GraphicInterface {
     }
     
     public void addToPane(Pane toPane) {
-        toPane.getChildren().addAll(line, name, start, end);
+        toPane.getChildren().addAll(line, circle, name, start, end);
         line.toBack();
         name.toBack();
+        circle.toFront();
         start.toFront();
         end.toFront();
     }
@@ -168,7 +180,7 @@ public class cUMLRelation implements GraphicInterface {
     }
 
     public void removeFromPane(Pane fromPane) {
-        fromPane.getChildren().removeAll(line, name, start, end);
+        fromPane.getChildren().removeAll(line, circle, name, start, end);
     }
 
     @Override
@@ -187,6 +199,7 @@ public class cUMLRelation implements GraphicInterface {
             return;
 
         line.setStyle("-fx-stroke: red;");
+        circle.setStyle("-fx-stroke: red; -fx-fill: red;");
         name.setStyle("-fx-text-fill: red;");
         start.setStyle("-fx-text-fill: red;");
         end.setStyle("-fx-text-fill: red;");
