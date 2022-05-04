@@ -61,7 +61,7 @@ public abstract class Relation extends Element{
     /**
      * @return Checks, whether everything is ok
      */
-    abstract boolean checkCorrect();
+    public abstract boolean checkCorrect();
 
     /**
      * @return Start point of relation

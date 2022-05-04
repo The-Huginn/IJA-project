@@ -52,7 +52,7 @@ public abstract class Diagram extends Element{
     /**
      * @return If everything is ok
      */
-    abstract boolean checkCorrect();
+    public abstract boolean checkCorrect();
 
     /**
      * @return
