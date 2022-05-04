@@ -59,7 +59,7 @@ public class UMLInstance implements GraphicInterface {
 
     @Override
     public void select() {
-        label.setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #7796c9;");
+        label.setStyle("-fx-border-color: #c3de49;; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #7796c9;");
     }
 
     @Override

@@ -8,12 +8,9 @@ import com.ija.backend.diagramObject.Attribute;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class UMLAttribute extends UMLElement {
     private Label label;
-    private Paint defaultPaint;
     
     private Deque<UndoType> undo_stack = new ArrayDeque<>();
 
@@ -27,7 +24,6 @@ public class UMLAttribute extends UMLElement {
         label = new Label();
         label.setWrapText(true);
         label.setPrefHeight(30);
-        defaultPaint = label.getTextFill();
 
         getChildren().add(label);
 
@@ -36,12 +32,12 @@ public class UMLAttribute extends UMLElement {
 
     @Override
     public void select() {
-        label.setTextFill(Color.YELLOW);
+        label.setStyle("-fx-text-fill: #c3de49;");;
     }
 
     @Override
     public void unselect() {
-        label.setTextFill(defaultPaint);
+        label.setStyle(null);;
     }
 
     @Override

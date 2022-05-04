@@ -168,7 +168,7 @@ public class UMLEntity extends UMLElement {
 
     @Override
     public void select() {
-        setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #7796c9;");
+        setStyle("-fx-border-color: #c3de49;; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: #7796c9;");
     }
 
     @Override
@@ -353,12 +353,17 @@ public class UMLEntity extends UMLElement {
         }
     }
 
+    public void updateRelation(cUMLRelation relation) {
+        Pair<Double, Double> pair = getNewAxes(relation.getLine().getStartY(), relation.getLine().getStartX());
+        relation.drawEnd(pair.getKey(), pair.getValue());
+    }
+
     @Override
     public void checkCorrect() {
         if (((UMLObject)getElement()).checkCorrect())
             return;
 
-            setStyle("-fx-border-color: yellow; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: red;");
+            setStyle("-fx-border-color: #c3de49;; -fx-border-insets: 10; -fx-border-width: 2; -fx-border-style: dashed; -fx-background-color: red;");
     }
 }
 

@@ -133,7 +133,7 @@ public class cUMLRelation implements GraphicInterface {
     @Override
     public void updateContent() {
         line.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
-        line.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()] + " -fx-fill: " + colors[((ClassRelation)getElement()).getType().ordinal()]);
+        circle.setStyle("-fx-stroke:" + colors[((ClassRelation)getElement()).getType().ordinal()] + " -fx-fill: " + colors[((ClassRelation)getElement()).getType().ordinal()]);
         name.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         start.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);
         end.setStyle("-fx-text-fill:" + colors[((ClassRelation)getElement()).getType().ordinal()]);

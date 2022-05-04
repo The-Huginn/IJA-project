@@ -105,7 +105,7 @@ public class ClassInterfaceTableController implements Initializable {
                                                     end,
                                                     type);
 
-        if (!((cUMLDiagram)App.getCurrentPane()).addNewRelation(relation)) {
+        if (!((cUMLDiagram)App.getCurrentDiagram()).addNewRelation(relation)) {
             addRelation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         } else {
             addRelation.setStyle(null);

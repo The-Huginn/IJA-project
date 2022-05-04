@@ -84,8 +84,8 @@ public class cUMLDiagram extends UMLElement {
                 continue;
 
             UMLEntity entity = (UMLEntity) node;
-            if (relation.getFirst().getKey() == entity.getElement()) {
-                entity.updateRelations();
+            if (relation.getSecond().getKey() == entity.getElement()) {
+                entity.updateRelation(newRelation);
             }
         }
         starting.updateRelations();
