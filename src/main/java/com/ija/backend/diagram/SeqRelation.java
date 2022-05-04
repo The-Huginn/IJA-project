@@ -109,7 +109,8 @@ public class SeqRelation extends Relation{
                             (UMLClass) this.getSecond().getKey(),
                             this.getSecond().getValue(),
                             methodName,
-                            methodParams);
+                            methodParams,
+                            getType());
     }
 
     /**
@@ -219,7 +220,8 @@ public class SeqRelation extends Relation{
                             (UMLClass)this.getSecond().getKey(),
                             this.getSecond().getValue(),
                             this.methodName,
-                            this.methodParams))
+                            this.methodParams,
+                            getType()))
             return false;
 
         undo_stack.addFirst(UndoType.setSecond2);
@@ -267,7 +269,8 @@ public class SeqRelation extends Relation{
                 (UMLClass) this.getSecond().getKey(),
                 this.getSecond().getValue(),
                 auxMethodName,
-                auxParams))
+                auxParams,
+                getType()))
             return false;
 
         undo_stack.addFirst(UndoType.setMethod);
@@ -349,7 +352,8 @@ public class SeqRelation extends Relation{
                                             UMLClass secondInstance,
                                             Integer secondInstanceNumber,
                                             String methodName,
-                                            String methodParams) {
+                                            String methodParams,
+                                            SeqRelEnum type) {
 
         ClassDiagram grandParent = null;
 
@@ -384,7 +388,11 @@ public class SeqRelation extends Relation{
 
         int paramCount = parameters.length == 1 && parameters[0].length() == 0 ? 0 : parameters.length;
         
-        return findMethod(grandParent, firstInstance, methodName, paramCount);
+        if (type == SeqRelEnum.ASYNCHRONOUS || type == SeqRelEnum.SYNCHROUNOUS) {
+            return findMethod(grandParent, firstInstance, methodName, paramCount);
+        }
+
+        return true;
     }
 
     /**
