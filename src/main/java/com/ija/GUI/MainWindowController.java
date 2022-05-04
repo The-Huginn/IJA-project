@@ -8,12 +8,15 @@ package com.ija.GUI;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.TreeSet;
 
 import com.ija.Application.App;
 import com.ija.GUI.classDiagram.cUMLDiagram;
 import com.ija.backend.diagram.ClassDiagram;
 import com.ija.backend.diagram.SeqDiagram;
+import com.ija.backend.diagramObject.Type;
 import com.ija.backend.jsonHandler.Saver;
 
 import javafx.application.Platform;
@@ -93,6 +96,10 @@ public class MainWindowController implements Initializable {
     private void loadDiagram(ClassDiagram diagram, String path) {
         try {
             if (path == null) {
+                // Default Types
+                TreeSet<String> set = new TreeSet<String> ();
+                set.addAll(Arrays.asList("int", "boolean", "float", "string", "long", "byte", "short", "char", "void"));
+                Type.initTypes(set.toArray(new String[set.size()]), diagram);
                 handler = new diagramHandler(diagram, diagramName);
             }
             else {
@@ -168,6 +175,9 @@ public class MainWindowController implements Initializable {
         Stage stage = (Stage)myMenuBar.getScene().getWindow();
 
         File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile == null)
+            return;
 
         ClassDiagram diagram = Saver.load(selectedFile.toString());
 
@@ -259,6 +269,8 @@ public class MainWindowController implements Initializable {
                 alert.setContentText("Error saving current diagram.");
 
                 alert.show();
+
+            } else {
                 currentPath = selectedFile.toString();
             }
         }
