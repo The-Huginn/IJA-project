@@ -20,6 +20,7 @@ import com.ija.backend.diagram.Diagram;
 import com.ija.backend.diagramObject.UMLClass;
 import com.ija.backend.diagramObject.UMLInterface;
 
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
@@ -57,19 +58,50 @@ public class cUMLDiagram extends UMLElement {
      * Should be called upon adding new relation in the editor
      * @param relation
      */
-    public void addNewRelation(cUMLRelation relation) {
-        relations.add(relation);
+    public boolean addNewRelation(ClassRelation relation) {
+        if (!App.getClassDiagram().addRelation(relation))
+            return false;
+
+        UMLEntity starting = ((UMLEntity) App.getSelected());
+
+        double y = starting.getLayoutY() + ((UMLEntity) App.getSelected()).getHeight() / 2;
+        double x = starting.getLayoutX() + ((UMLEntity) App.getSelected()).getWidth() / 2;
+
+        cUMLRelation newRelation = new cUMLRelation(relation, App.getCurrentPane(), this, y, x);
+
+        relations.add(newRelation);
         undo_stack.addFirst(UndoType.addRelation);
         List<cUMLRelation> list = new ArrayList<>();
-        list.add(relation);
+        list.add(newRelation);
         undo_relations.addFirst(list);
 
         App.setSelected(this);
         App.addClearUndo();
-        App.setSelected(relation);
+        App.setSelected(newRelation);
+
+        for (Node node : App.getCurrentPane().getChildren()) {
+            if (!(node instanceof UMLEntity))
+                continue;
+
+            UMLEntity entity = (UMLEntity) node;
+            if (relation.getFirst().getKey() == entity.getElement()) {
+                entity.updateRelations();
+            }
+        }
+        starting.updateRelations();
+
+        return true;
     }
 
     public void removeRelation(cUMLRelation relation) {
+        ClassDiagram diagram = ((ClassDiagram)getElement());
+        for (int i = 0; i < diagram.getRelations().size(); i++) {
+            if (diagram.getRelations().get(i) == relation.getElement()) {
+                diagram.removeRelation(i);
+                break;
+            }
+        }
+
         relations.remove(relation);
         undo_stack.addFirst(UndoType.removeRelation);
         List<cUMLRelation> list = new ArrayList<>();
@@ -253,5 +285,9 @@ public class cUMLDiagram extends UMLElement {
             return;
 
         name.setStyle("-fx-text-fill: red;");
+
+        for (cUMLRelation rel : relations) {
+            rel.checkCorrect();
+        }
     }
 }

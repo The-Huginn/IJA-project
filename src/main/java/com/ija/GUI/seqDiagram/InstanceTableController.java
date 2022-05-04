@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import com.ija.Application.App;
-import com.ija.backend.diagram.Diagram;
 import com.ija.backend.diagram.SeqDiagram;
 import com.ija.backend.diagram.SeqRelation;
 import com.ija.backend.diagram.SeqRelation.SeqRelEnum;
@@ -59,19 +58,17 @@ public class InstanceTableController implements Initializable {
         int end = instanceNumber.getValue();
 
         SeqRelation relation = new SeqRelation(relationName.getText(),
-                                                    (Diagram)App.getCurrentDiagram().getElement(),
+                                                    diagram,
                                                     (UMLClass)App.getSelected().getElement(),
                                                     start,
                                                     selected,
                                                     end,
                                                     type);
 
-        if (!diagram.addRelation(relation)) {
+        if (!((sUMLDiagram)App.getCurrentDiagram()).addNewRelation(relation)) {
             addRelation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         } else {
-            sUMLRelation newRelation = new sUMLRelation(relation, App.getCurrentPane(), (sUMLDiagram)App.getCurrentDiagram(), 100);
-            
-            ((sUMLDiagram)App.getCurrentDiagram()).addNewRelation(newRelation);
+            addRelation.setStyle(null);
         }
     }
 

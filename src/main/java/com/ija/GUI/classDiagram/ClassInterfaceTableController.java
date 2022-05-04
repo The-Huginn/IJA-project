@@ -22,7 +22,6 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -85,6 +84,7 @@ public class ClassInterfaceTableController implements Initializable {
         int end = ClassRelation.getCardinality(endComboBox.getValue());
         ClassRelEnum type = ClassRelEnum.valueOf(typeComboBox.getValue());
         UMLObject selected = null;
+
         if (newRelation.getSelectedToggle().getUserData().equals("Class")) {
             for (UMLClass var : App.getClassDiagram().getClasses()) {
                 if (var.getName().equals(relationComboBox.getValue()))
@@ -105,28 +105,10 @@ public class ClassInterfaceTableController implements Initializable {
                                                     end,
                                                     type);
 
-        if (!App.getClassDiagram().addRelation(relation)) {
+        if (!((cUMLDiagram)App.getCurrentPane()).addNewRelation(relation)) {
             addRelation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         } else {
-            UMLEntity starting = ((UMLEntity)App.getSelected());
-
-            double y = starting.getLayoutY() + ((UMLEntity)App.getSelected()).getHeight() / 2;
-            double x = starting.getLayoutX() + ((UMLEntity)App.getSelected()).getWidth() / 2;
-            
-            cUMLRelation newRelation = new cUMLRelation(relation, App.getCurrentPane(), (cUMLDiagram)App.getCurrentDiagram(), y, x);
-            ((cUMLDiagram)App.getCurrentDiagram()).addNewRelation(newRelation);
-            
-            for (Node node : App.getCurrentPane().getChildren()) {
-                if (!(node instanceof UMLEntity))
-                continue;
-                
-                UMLEntity entity = (UMLEntity)node;
-                if (selected == entity.getElement()) {
-                    entity.updateRelations();
-                    // newRelation.drawEnd(entity.getLayoutY() + entity.getHeight() / 2, entity.getLayoutX() + entity.getWidth() / 2);
-                }
-            }
-            starting.updateRelations();
+            addRelation.setStyle(null);
         }
     }
 

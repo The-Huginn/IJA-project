@@ -82,19 +82,35 @@ public class sUMLDiagram extends UMLElement {
      * Should be called upon adding new relation in the editor
      * @param relation
      */
-    public void addNewRelation(sUMLRelation relation) {
-        relations.add(relation);
+    public boolean addNewRelation(SeqRelation relation) {
+
+        if (!((SeqDiagram)getElement()).addRelation(relation))
+            return false;
+
+        sUMLRelation newRelation = new sUMLRelation(relation, App.getCurrentPane(), this, 100);
+
+        relations.add(newRelation);
         undo_stack.addFirst(UndoType.addRelation);
         List<sUMLRelation> list = new ArrayList<>();
-        list.add(relation);
+        list.add(newRelation);
         undo_relations.addFirst(list);
 
         App.setSelected(this);
         App.addClearUndo();
-        App.setSelected(relation);
+        App.setSelected(newRelation);
+
+        return true;
     }
 
     public void removeRelation(sUMLRelation relation) {
+        SeqDiagram diagram = ((SeqDiagram)getElement());
+        for (int i = 0; i < diagram.getRelations().size(); i++) {
+            if (diagram.getRelations().get(i) == relation.getElement()) {
+                diagram.removeRelation(i);
+                break;
+            }
+        }
+
         relations.remove(relation);
         undo_stack.addFirst(UndoType.removeRelation);
         List<sUMLRelation> list = new ArrayList<>();
@@ -254,6 +270,10 @@ public class sUMLDiagram extends UMLElement {
             return;
 
         name.setStyle("-fx-text-fill: red;");
+
+        for (sUMLRelation rel : relations) {
+            rel.checkCorrect();
+        }
     }
 
     private void updateRelations() {
