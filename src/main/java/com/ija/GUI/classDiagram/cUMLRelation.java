@@ -84,6 +84,14 @@ public class cUMLRelation implements GraphicInterface {
         start.setLayoutY(y);
     }
 
+    /**
+     * @brief Should be called only to get coordinates of start and end
+     * @return
+     */
+    public Line getLine() {
+        return line;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other)

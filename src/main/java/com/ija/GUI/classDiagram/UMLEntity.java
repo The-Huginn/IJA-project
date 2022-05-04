@@ -315,18 +315,40 @@ public class UMLEntity extends UMLElement {
         }
     }
 
-    private void updateRelations() {
+    private Pair<Double, Double> getNewAxes(double relY, double relX) {
         final Random rnd = new Random();
+        
+        double distX = relX - (getLayoutX() + getHeight() / 2);
+        double distY = relY - (getLayoutY() + getWidth() / 2);
+
+        if (Math.abs(distX) > Math.abs(distY)) {
+            if (distX < 0) {
+                return new Pair<Double,Double>(getLayoutY() + rnd.nextInt((int)getHeight()), getLayoutX());
+            } else {
+                return new Pair<Double,Double>(getLayoutY() + rnd.nextInt((int)getHeight()), getLayoutX() + getWidth());
+            }
+        } else {
+            if (distY < 0) {
+                return new Pair<Double,Double>(getLayoutY(), getLayoutX() + rnd.nextInt((int)getWidth()));
+            } else {
+                return new Pair<Double,Double>(getLayoutY() + getHeight(), getLayoutX() + rnd.nextInt((int)getHeight()));
+            }
+        }
+    }
+
+    public void updateRelations() {
 
         for (cUMLRelation relation : ((cUMLDiagram)App.getCurrentDiagram()).getRelations()) {
             if (((Relation)relation.getElement()).getFirst().getKey() == getElement()) {
                 // relation.drawStart(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
-                relation.drawStart(getLayoutY() + rnd.nextInt((int)getHeight()), getLayoutX() + rnd.nextInt((int)getWidth()));
+                Pair<Double, Double> pair = getNewAxes(relation.getLine().getEndY(), relation.getLine().getEndX());
+                relation.drawStart(pair.getKey(), pair.getValue());
             }
             
             if (((Relation)relation.getElement()).getSecond().getKey() == getElement()) {
                 // relation.drawEnd(getLayoutY() + getHeight() / 2, getLayoutX() + getWidth() / 2);
-                relation.drawEnd(getLayoutY() + rnd.nextInt((int)getHeight()), getLayoutX() + rnd.nextInt((int)getWidth()));
+                Pair<Double, Double> pair = getNewAxes(relation.getLine().getStartY(), relation.getLine().getStartX());
+                relation.drawEnd(pair.getKey(), pair.getValue());
             }
         }
     }

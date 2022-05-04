@@ -108,20 +108,25 @@ public class ClassInterfaceTableController implements Initializable {
         if (!App.getClassDiagram().addRelation(relation)) {
             addRelation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         } else {
-            double y = ((UMLEntity)App.getSelected()).getLayoutY() + ((UMLEntity)App.getSelected()).getHeight() / 2;
-            double x = ((UMLEntity)App.getSelected()).getLayoutX() + ((UMLEntity)App.getSelected()).getWidth() / 2;
+            UMLEntity starting = ((UMLEntity)App.getSelected());
+
+            double y = starting.getLayoutY() + ((UMLEntity)App.getSelected()).getHeight() / 2;
+            double x = starting.getLayoutX() + ((UMLEntity)App.getSelected()).getWidth() / 2;
             
             cUMLRelation newRelation = new cUMLRelation(relation, App.getCurrentPane(), (cUMLDiagram)App.getCurrentDiagram(), y, x);
             ((cUMLDiagram)App.getCurrentDiagram()).addNewRelation(newRelation);
-
+            
             for (Node node : App.getCurrentPane().getChildren()) {
                 if (!(node instanceof UMLEntity))
-                    continue;
-
+                continue;
+                
                 UMLEntity entity = (UMLEntity)node;
-                if (selected == entity.getElement())
-                    newRelation.drawEnd(entity.getLayoutY() + entity.getHeight() / 2, entity.getLayoutX() + entity.getWidth() / 2);
+                if (selected == entity.getElement()) {
+                    entity.updateRelations();
+                    // newRelation.drawEnd(entity.getLayoutY() + entity.getHeight() / 2, entity.getLayoutX() + entity.getWidth() / 2);
+                }
             }
+            starting.updateRelations();
         }
     }
 
