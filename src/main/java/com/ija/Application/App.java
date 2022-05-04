@@ -26,12 +26,17 @@ import com.ija.backend.diagramObject.Element;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Pair;
 
 public class App extends Application {
@@ -52,6 +57,24 @@ public class App extends Application {
         Parent root = loader.load();
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+
+                if (!isSaved()) {
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+
+                    alert.setContentText("Are you sure you do not want to save your work?");
+
+                    alert.showAndWait().ifPresent(present -> {
+                        if (present != ButtonType.OK) {
+                            event.consume();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     /**
@@ -134,8 +157,10 @@ public class App extends Application {
      */
     public static void undo() {
 
-        if (undoStack.isEmpty())
+        if (undoStack.isEmpty()) {
+            isSaved = true;
             return;
+        }
 
         isSaved = false;
         undoStack.pop().undo();
