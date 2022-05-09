@@ -1,3 +1,15 @@
 lib/
-.vscode
+.vscode/
 bin/
+
+## IntelliJ
+.idea/
+IJA-project.iml
+project.iml
+Project.iml
+
+## Maven
+build/
+maven/
+doc/
+dest/

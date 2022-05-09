@@ -1,0 +1,77 @@
+{
+    "seqDiagrams": [],
+    "interfaces": [
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 0"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 2"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 3"
+        }
+    ],
+    "types": [
+        {
+            "name": "boolean",
+            "isUserDefined": false
+        },
+        {
+            "name": "byte",
+            "isUserDefined": false
+        },
+        {
+            "name": "char",
+            "isUserDefined": false
+        },
+        {
+            "name": "float",
+            "isUserDefined": false
+        },
+        {
+            "name": "int",
+            "isUserDefined": false
+        },
+        {
+            "name": "long",
+            "isUserDefined": false
+        },
+        {
+            "name": "short",
+            "isUserDefined": false
+        },
+        {
+            "name": "string",
+            "isUserDefined": false
+        },
+        {
+            "name": "void",
+            "isUserDefined": false
+        }
+    ],
+    "classes": [
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 0"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 1"
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 3"
+        }
+    ],
+    "name": "name",
+    "relations": []
+}

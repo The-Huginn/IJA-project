@@ -1,0 +1,186 @@
+{
+    "seqDiagrams": [{
+        "instances": [
+            {
+                "instance": "class 2",
+                "instanceNumber": 0
+            },
+            {
+                "instance": "class 3",
+                "instanceNumber": 0
+            }
+        ],
+        "name": "name",
+        "coordinates": [221],
+        "relations": [{
+            "relationType": 0,
+            "note": "Missing note",
+            "methodParams": "10",
+            "name": "first relation",
+            "methodName": "method",
+            "first": {
+                "instance": "class 2",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "class 3",
+                "instanceNumber": 0
+            }
+        }]
+    }],
+    "interfaces": [
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 0",
+            "coordinates": {
+                "x": 5035,
+                "y": 4498
+            }
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 1",
+            "coordinates": {
+                "x": 4644,
+                "y": 4287
+            }
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 2",
+            "coordinates": {
+                "x": 4286,
+                "y": 4495
+            }
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "interface 3",
+            "coordinates": {
+                "x": 4076,
+                "y": 4908
+            }
+        }
+    ],
+    "types": [
+        {
+            "name": "boolean",
+            "isUserDefined": false
+        },
+        {
+            "name": "byte",
+            "isUserDefined": false
+        },
+        {
+            "name": "char",
+            "isUserDefined": false
+        },
+        {
+            "name": "float",
+            "isUserDefined": false
+        },
+        {
+            "name": "int",
+            "isUserDefined": false
+        },
+        {
+            "name": "long",
+            "isUserDefined": false
+        },
+        {
+            "name": "random",
+            "isUserDefined": true
+        },
+        {
+            "name": "random2",
+            "isUserDefined": true
+        },
+        {
+            "name": "short",
+            "isUserDefined": false
+        },
+        {
+            "name": "string",
+            "isUserDefined": false
+        },
+        {
+            "name": "void",
+            "isUserDefined": false
+        }
+    ],
+    "classes": [
+        {
+            "variables": [],
+            "methods": [{
+                "visibility": 1,
+                "isVisibilityChangable": true,
+                "name": "method",
+                "type": "int",
+                "parameters": ["int"]
+            }],
+            "name": "class 0",
+            "coordinates": {
+                "x": 5023,
+                "y": 5196
+            }
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 1",
+            "coordinates": {
+                "x": 5405,
+                "y": 4893
+            }
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 2",
+            "coordinates": {
+                "x": 4501,
+                "y": 4818
+            }
+        },
+        {
+            "variables": [],
+            "methods": [],
+            "name": "class 3",
+            "coordinates": {
+                "x": 4454,
+                "y": 5180
+            }
+        }
+    ],
+    "name": "name",
+    "relations": [
+        {
+            "relationType": 3,
+            "name": "inheritance",
+            "first": {
+                "instance": "class 1",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "class 0",
+                "instanceNumber": 0
+            }
+        },
+        {
+            "relationType": 3,
+            "name": "inheritance",
+            "first": {
+                "instance": "class 2",
+                "instanceNumber": 0
+            },
+            "second": {
+                "instance": "class 1",
+                "instanceNumber": 0
+            }
+        }
+    ]
+}
